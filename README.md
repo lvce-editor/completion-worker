@@ -1,3 +1,3 @@
 # completion-worker
 
-Find Widget Worker
+Completion Worker
