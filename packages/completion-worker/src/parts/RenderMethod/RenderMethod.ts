@@ -1,0 +1,5 @@
+export const SetBounds = 'Viewlet.setBounds'
+export const SetCss = 'Viewlet.setCss'
+export const SetDom2 = 'Viewlet.setDom2'
+export const SetUid = 'Viewlet.setUid'
+export const SetEventListeners = 'Viewlet.registerEventListeners'
