@@ -1,1 +1,1 @@
-export const commandIds = ['handleSliderPointerDown', 'handleSliderPointerMove']
+export const commandIds = ['handleSliderPointerDown', 'handleSliderPointerMove', 'initialize']
