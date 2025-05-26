@@ -14,5 +14,5 @@ export const commandMap = {
   'Completions.loadContent': WrapCommand.wrapCommand(LoadContent.loadContent),
   'Completions.render2': Render2.render2,
   'Completions.terminate': Terminate.terminate,
-  'Completions.intialize': Initialize.initialize,
+  'Completions.initialize': Initialize.initialize,
 }
