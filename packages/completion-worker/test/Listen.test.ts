@@ -8,10 +8,15 @@ const MessagePortRpcParent = {
   create: jest.fn(),
 }
 
+const PlainMessagePortRpcParent = {
+  create: jest.fn(),
+}
+
 jest.unstable_mockModule('@lvce-editor/rpc', () => {
   return {
     WebWorkerRpcClient,
     MessagePortRpcParent,
+    PlainMessagePortRpcParent,
   }
 })
 
