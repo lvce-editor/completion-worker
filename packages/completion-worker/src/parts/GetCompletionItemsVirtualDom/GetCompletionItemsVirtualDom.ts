@@ -4,7 +4,7 @@ import * as GetCompletionItemVirtualDom from '../GetCompletionItemVirtualDom/Get
 import * as VirtualDomElements from '../VirtualDomElements/VirtualDomElements.ts'
 import { text } from '../VirtualDomHelpers/VirtualDomHelpers.ts'
 
-export const getCompletionItemsVirtualDom = (visibleItems: any[]): readonly VirtualDomNode[] => {
+export const getCompletionItemsVirtualDom = (visibleItems: readonly any[]): readonly VirtualDomNode[] => {
   if (visibleItems.length === 0) {
     return [
       {
