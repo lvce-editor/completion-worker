@@ -5,6 +5,7 @@ import * as FocusFirst from '../EditorCompletionFocusFirst/EditorCompletionFocus
 import * as FocusIndex from '../EditorCompletionFocusIndex/EditorCompletionFocusIndex.ts'
 import * as EditorCompletionFocusNext from '../EditorCompletionFocusNext/EditorCompletionFocusNext.ts'
 import * as EditorCompletionFocusPrevious from '../EditorCompletionFocusPrevious/EditorCompletionFocusPrevious.ts'
+import * as EditorCompletionOpenDetails from '../EditorCompletionOpenDetails/EditorCompletionOpenDetails.ts'
 import * as SelectCurrent from '../EditorCompletionSelectCurrent/EditorCompletionSelectCurrent.ts'
 import * as SelectIndex from '../EditorCompletionSelectIndex/EditorCompletionSelectIndex.ts'
 import * as GetCommandIds from '../GetCommandIds/GetCommandIds.ts'
@@ -35,4 +36,5 @@ export const commandMap = {
   'Completions.selectCurrent': WrapCommand.wrapCommand(SelectCurrent.selectCurrent),
   'Completions.selectIndex': WrapCommand.wrapCommand(SelectIndex.selectIndex),
   'Completions.terminate': Terminate.terminate,
+  'Completions.openDetails': WrapCommand.wrapCommand(EditorCompletionOpenDetails.openDetails),
 }
