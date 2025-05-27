@@ -9,6 +9,7 @@ import * as GetCommandIds from '../GetCommandIds/GetCommandIds.ts'
 import * as HandleEditorDeleteLeft from '../HandleEditorDeleteLeft/HandleEditorDeleteLeft.ts'
 import * as HandleEditorType from '../HandleEditorType/HandleEditorType.ts'
 import * as HandleWheel from '../HandleWheel/HandleWheel.ts'
+import * as GetKeyBindings from '../GetKeyBindings/GetKeyBindings.ts'
 import * as Initialize from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
 import * as Render2 from '../Render2/Render2.ts'
@@ -22,10 +23,11 @@ export const commandMap = {
   'Completions.focusNext': WrapCommand.wrapCommand(EditorCompletionFocusNext.focusNext),
   'Completions.focusPrevious': WrapCommand.wrapCommand(EditorCompletionFocusPrevious.focusPrevious),
   'Completions.getCommandIds': GetCommandIds.getCommandIds,
+  'Completions.getKeyBindings': GetKeyBindings.getKeyBindings,
+  'Completions.handleEditorDeleteLeft': WrapCommand.wrapCommand(HandleEditorDeleteLeft.handleEditorDeleteLeft),
   'Completions.handleEditorType': HandleEditorType.handleEditorType,
   'Completions.handleWheel': WrapCommand.wrapCommand(HandleWheel.handleWheel),
   'Completions.initialize': Initialize.initialize,
-  'Completions.handleEditorDeleteLeft': WrapCommand.wrapCommand(HandleEditorDeleteLeft.handleEditorDeleteLeft),
   'Completions.loadContent': WrapCommand.wrapCommand(LoadContent.loadContent),
   'Completions.render2': Render2.render2,
   'Completions.terminate': Terminate.terminate,
