@@ -6,6 +6,7 @@ import * as FocusIndex from '../EditorCompletionFocusIndex/EditorCompletionFocus
 import * as EditorCompletionFocusNext from '../EditorCompletionFocusNext/EditorCompletionFocusNext.ts'
 import * as EditorCompletionFocusPrevious from '../EditorCompletionFocusPrevious/EditorCompletionFocusPrevious.ts'
 import * as GetCommandIds from '../GetCommandIds/GetCommandIds.ts'
+import * as HandleEditorDeleteLeft from '../HandleEditorDeleteLeft/HandleEditorDeleteLeft.ts'
 import * as HandleEditorType from '../HandleEditorType/HandleEditorType.ts'
 import * as HandleWheel from '../HandleWheel/HandleWheel.ts'
 import * as Initialize from '../Initialize/Initialize.ts'
@@ -24,6 +25,7 @@ export const commandMap = {
   'Completions.handleEditorType': HandleEditorType.handleEditorType,
   'Completions.handleWheel': WrapCommand.wrapCommand(HandleWheel.handleWheel),
   'Completions.initialize': Initialize.initialize,
+  'Completions.handleEditorDeleteLeft': WrapCommand.get(HandleEditorDeleteLeft.handleEditorDeleteLeft),
   'Completions.loadContent': WrapCommand.wrapCommand(LoadContent.loadContent),
   'Completions.render2': Render2.render2,
   'Completions.terminate': Terminate.terminate,
