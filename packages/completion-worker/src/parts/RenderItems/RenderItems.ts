@@ -1,5 +1,6 @@
 import type { CompletionState } from '../CompletionState/CompletionState.ts'
 import * as GetCompletionItemsVirtualDom from '../GetCompletionItemsVirtualDom/GetCompletionItemsVirtualDom.ts'
+import * as GetCompletionVirtualDom from '../GetCompletionVirtualDom/GetCompletionVirtualDom.ts'
 import * as GetVisibleCompletionItems from '../GetVisibleCompletionItems/GetVisibleCompletionItems.ts'
 import * as RenderMethod from '../RenderMethod/RenderMethod.ts'
 
@@ -13,6 +14,6 @@ export const renderItems = (oldState: CompletionState, newState: CompletionState
     newState.maxLineY,
     newState.focusedIndex,
   )
-  const dom = GetCompletionItemsVirtualDom.getCompletionItemsVirtualDom(visibleItems)
+  const dom = GetCompletionVirtualDom.getCompletionVirtualDom(visibleItems)
   return [RenderMethod.SetDom2, uid, dom]
 }
