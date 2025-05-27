@@ -33,5 +33,6 @@ export const loadContent = async (state: CompletionState): Promise<CompletionSta
     rowIndex,
     columnIndex,
     width: 200,
+    version: 1,
   }
 }
