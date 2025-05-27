@@ -1,5 +1,4 @@
 import type { CompletionState } from '../CompletionState/CompletionState.ts'
-import * as GetCompletionItemsVirtualDom from '../GetCompletionItemsVirtualDom/GetCompletionItemsVirtualDom.ts'
 import * as GetCompletionVirtualDom from '../GetCompletionVirtualDom/GetCompletionVirtualDom.ts'
 import * as GetVisibleCompletionItems from '../GetVisibleCompletionItems/GetVisibleCompletionItems.ts'
 import * as RenderMethod from '../RenderMethod/RenderMethod.ts'
