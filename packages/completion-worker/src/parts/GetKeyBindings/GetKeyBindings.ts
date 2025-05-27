@@ -3,43 +3,43 @@ import * as KeyModifier from '../KeyModifier/KeyModifier.ts'
 import * as WhenExpression from '../WhenExpression/WhenExpression.ts'
 import * as WidgetId from '../WidgetId/WidgetId.ts'
 
-const getCommand = (shortId: string, uid: number): any => {
+const getCommand = (shortId: string): any => {
   return {
     command: 'Editor.executeWidgetCommand',
-    args: ['Completion', `EditorCompletion.${shortId}`, uid, WidgetId.Completion],
+    args: ['Completions', `Completions.${shortId}`, 0, WidgetId.Completion],
   }
 }
 
-export const getKeyBindings = (uid: number): readonly any[] => {
+export const getKeyBindings = (): readonly any[] => {
   return [
     {
       key: KeyCode.DownArrow,
-      ...getCommand('focusNext', uid),
+      ...getCommand('focusNext'),
       when: WhenExpression.FocusEditorCompletions,
     },
     {
       key: KeyCode.UpArrow,
-      ...getCommand('focusPrevious', uid),
+      ...getCommand('focusPrevious'),
       when: WhenExpression.FocusEditorCompletions,
     },
     {
       key: KeyCode.Enter,
-      ...getCommand('selectCurrent', uid),
+      ...getCommand('selectCurrent'),
       when: WhenExpression.FocusEditorCompletions,
     },
     {
       key: KeyCode.End,
-      ...getCommand('focusLast', uid),
+      ...getCommand('focusLast'),
       when: WhenExpression.FocusEditorCompletions,
     },
     {
       key: KeyCode.Home,
-      ...getCommand('focusFirst', uid),
+      ...getCommand('focusFirst'),
       when: WhenExpression.FocusEditorCompletions,
     },
     {
       key: KeyModifier.CtrlCmd | KeyCode.Space,
-      ...getCommand('toggleDetails', uid),
+      ...getCommand('toggleDetails'),
       when: WhenExpression.FocusEditorCompletions,
     },
   ]
