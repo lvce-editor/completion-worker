@@ -10,4 +10,5 @@ export interface CompletionState extends VirtualListState<any> {
   readonly version: number
   readonly editorUid: number
   readonly editorLanguageId: string
+  readonly disposed?: boolean
 }
