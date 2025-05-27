@@ -1,7 +1,7 @@
 import type { CompletionState } from '../CompletionState/CompletionState.ts'
 import * as FindWidgetStates from '../CompletionStates/CompletionStates.ts'
 
-export const create = (uid: number, x: number, y: number, width: number, height: number, parentUid: number): void => {
+export const create = (uid: number, x: number, y: number, width: number, height: number, editorUid: number, editorLanguageId: string): void => {
   const state: CompletionState = {
     uid,
     items: [],
@@ -21,6 +21,8 @@ export const create = (uid: number, x: number, y: number, width: number, height:
     leadingWord: '',
     unfilteredItems: [],
     version: 0,
+    editorUid,
+    editorLanguageId,
   }
   FindWidgetStates.set(uid, state, state)
 }

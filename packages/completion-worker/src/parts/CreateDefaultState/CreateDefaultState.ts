@@ -20,5 +20,7 @@ export const createDefaultState = (): CompletionState => {
     leadingWord: '',
     unfilteredItems: [],
     version: 0,
+    editorUid: 0,
+    editorLanguageId: '',
   }
 }

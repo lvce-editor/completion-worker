@@ -8,4 +8,6 @@ export interface CompletionState extends VirtualListState<any> {
   readonly unfilteredItems: readonly any[]
   readonly leadingWord: string
   readonly version: number
+  readonly editorUid: number
+  readonly editorLanguageId: string
 }
