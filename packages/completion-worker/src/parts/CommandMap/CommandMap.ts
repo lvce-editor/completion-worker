@@ -7,6 +7,7 @@ import * as EditorCompletionFocusNext from '../EditorCompletionFocusNext/EditorC
 import * as EditorCompletionFocusPrevious from '../EditorCompletionFocusPrevious/EditorCompletionFocusPrevious.ts'
 import * as GetCommandIds from '../GetCommandIds/GetCommandIds.ts'
 import * as HandleEditorType from '../HandleEditorType/HandleEditorType.ts'
+import * as HandleWheel from '../HandleWheel/HandleWheel.ts'
 import * as Initialize from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
 import * as Render2 from '../Render2/Render2.ts'
@@ -15,14 +16,15 @@ import * as Terminate from '../Terminate/Terminate.ts'
 export const commandMap = {
   'Completions.create': Create.create,
   'Completions.diff2': Diff2.diff2,
+  'Completions.focusFirst': WrapCommand.wrapCommand(FocusFirst.focusFirst),
+  'Completions.focusIndex': WrapCommand.wrapCommand(FocusIndex.focusIndex),
+  'Completions.focusNext': WrapCommand.wrapCommand(EditorCompletionFocusNext.focusNext),
+  'Completions.focusPrevious': WrapCommand.wrapCommand(EditorCompletionFocusPrevious.focusPrevious),
   'Completions.getCommandIds': GetCommandIds.getCommandIds,
+  'Completions.handleEditorType': HandleEditorType.handleEditorType,
+  'Completions.handleWheel': WrapCommand.wrapCommand(HandleWheel.handleWheel),
+  'Completions.initialize': Initialize.initialize,
   'Completions.loadContent': WrapCommand.wrapCommand(LoadContent.loadContent),
   'Completions.render2': Render2.render2,
   'Completions.terminate': Terminate.terminate,
-  'Completions.initialize': Initialize.initialize,
-  'Completions.handleEditorType': HandleEditorType.handleEditorType,
-  'Completions.focusIndex': WrapCommand.wrapCommand(FocusIndex.focusIndex),
-  'Completions.focusFirst': WrapCommand.wrapCommand(FocusFirst.focusFirst),
-  'Completions.focusNext': WrapCommand.wrapCommand(EditorCompletionFocusNext.focusNext),
-  'Completions.focusPrevious': WrapCommand.wrapCommand(EditorCompletionFocusPrevious.focusPrevious),
 }
