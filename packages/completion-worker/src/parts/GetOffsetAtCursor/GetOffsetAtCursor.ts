@@ -1,4 +1,4 @@
-export const getOffsetAtCursor = (editor: any): number => {
-  // TODO
+export const getOffsetAtCursor = (editorUid: any): number => {
+  // TODO ask editor worker
   return 0
 }

@@ -6,9 +6,10 @@ const combineResults = (results: any) => {
   return results[0] ?? []
 }
 
-export const executeCompletionProvider = async (editor: any, offset: number) => {
+export const executeCompletionProvider = async (editorUid: number, editorLanguageId: string, offset: number) => {
   return ExtensionHostEditor.execute({
-    editor,
+    editorUid,
+    editorLanguageId,
     event: ExtensionHostActivationEvent.OnCompletion,
     method: ExtensionHostCommandType.CompletionExecute,
     args: [offset],

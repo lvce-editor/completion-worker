@@ -7,15 +7,12 @@ import * as GetPositionAtCursor from '../GetPositionAtCursor/GetPositionAtCursor
 import * as GetWordAtOffset from '../GetWordAtOffset/GetWordAtOffset.ts'
 
 export const loadContent = async (state: CompletionState): Promise<CompletionState> => {
-  const editor = {} as any // TODO
-  const { itemHeight, maxHeight } = state
-  const unfilteredItems = await Completions.getCompletions(editor)
-  const wordAtOffset = GetWordAtOffset.getWordAtOffset(editor)
+  const { itemHeight, maxHeight, editorUid, editorLanguageId } = state
+  const unfilteredItems = await Completions.getCompletions(editorUid, editorLanguageId)
+  const wordAtOffset = await GetWordAtOffset.getWordAtOffset(editorUid)
   const items = FilterCompletionItems.filterCompletionItems(unfilteredItems, wordAtOffset)
-  const { rowIndex, columnIndex, x, y } = await GetPositionAtCursor.getPositionAtCursor(editor)
+  const { rowIndex, columnIndex, x, y } = await GetPositionAtCursor.getPositionAtCursor(editorUid)
   const newMaxLineY = Math.min(items.length, 8)
-  editor.widgets = editor.widgets || []
-  // editor.widgets.push(ViewletModuleId.EditorCompletion)
   const itemsLength = items.length
   const newFocusedIndex = itemsLength === 0 ? -1 : 0
   const total = items.length
@@ -35,7 +32,6 @@ export const loadContent = async (state: CompletionState): Promise<CompletionSta
     // @ts-ignore
     rowIndex,
     columnIndex,
-    // editorUid,
     width: 200,
   }
 }
