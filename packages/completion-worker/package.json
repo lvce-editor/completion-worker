@@ -47,7 +47,7 @@
     "@lvce-editor/fuzzy-search": "^1.0.0",
     "@lvce-editor/i18n": "^1.1.0",
     "@lvce-editor/rpc": "^3.4.0",
-    "@lvce-editor/rpc-registry": "^2.19.0",
+    "@lvce-editor/rpc-registry": "^2.20.0",
     "@lvce-editor/viewlet-registry": "^1.1.0",
     "@lvce-editor/virtual-dom-worker": "^1.43.0",
     "jest": "^29.7.0",
