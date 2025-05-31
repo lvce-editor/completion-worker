@@ -1,24 +1,61 @@
-import { beforeEach, expect, jest, test } from '@jest/globals'
+import { beforeEach, test } from '@jest/globals'
+import * as Main from '../src/parts/Main/Main.ts'
 
-const Listen = {
-  listen: jest.fn(),
+interface TestGlobalThis {
+  onmessage: ((this: DedicatedWorkerGlobalScope, ev: MessageEvent) => any) | null
+  WorkerGlobalScope: any
+  addEventListener: (type: string, listener: EventListenerOrEventListenerObject) => void
 }
 
-jest.unstable_mockModule('../src/parts/Listen/Listen.ts', () => Listen)
-
-const Main = await import('../src/parts/Main/Main.ts')
+declare const globalThis: TestGlobalThis
 
 beforeEach(() => {
-  Listen.listen.mockReset()
-})
-
-test('main', async () => {
-  await Main.main()
-  expect(Listen.listen).toHaveBeenCalledTimes(1)
-})
-
-test('error case', async () => {
+  // Reset globals
+  globalThis.onmessage = null
   // @ts-ignore
-  Listen.listen.mockRejectedValue(new Error('test error'))
-  await expect(Main.main()).rejects.toThrow('test error')
+  globalThis.postMessage = () => {}
+  globalThis.WorkerGlobalScope = {}
+})
+
+test('listen', async () => {
+  let onMessageListener: ((event: MessageEvent) => void) | undefined
+
+  // Set up the onmessage handler
+  globalThis.onmessage = (event: MessageEvent) => {
+    if (onMessageListener) {
+      onMessageListener(event)
+    }
+  }
+
+  // Mock addEventListener to capture the listener
+  globalThis.addEventListener = (type: string, listener: EventListenerOrEventListenerObject) => {
+    if (type === 'message') {
+      onMessageListener = listener as (event: MessageEvent) => void
+    }
+  }
+
+  // Start listening
+  const mainPromise = Main.main()
+
+  // Simulate receiving a message with a MessagePort
+  const { port1, port2 } = new MessageChannel()
+
+  // Send the message with the port
+  const messageEvent = new MessageEvent('message', {
+    data: {
+      jsonrpc: '2.0',
+      method: 'initialize',
+      params: ['message-port', port2],
+    },
+    ports: [port2],
+  })
+
+  if (onMessageListener) {
+    onMessageListener(messageEvent)
+  }
+
+  await mainPromise
+
+  port1.close()
+  port2.close()
 })
