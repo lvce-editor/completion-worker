@@ -75,9 +75,9 @@ test('getEdits - returns changes with resolved snippet', async () => {
   expect(result).toHaveLength(1)
   expect(result[0]).toEqual({
     start: { rowIndex: 0, columnIndex: 2 },
-    end: { rowIndex: 0, columnIndex: 3 },
+    end: { rowIndex: 0, columnIndex: 5 },
     inserted: ['hello'],
-    deleted: ['hel'],
+    deleted: ['nst'],
     origin: '',
   })
 })
