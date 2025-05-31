@@ -1,13 +1,15 @@
+import type { CompletionItem } from '../CompletionItem/CompletionItem.ts'
+import type { VisibleCompletionItem } from '../VisibleCompletionItem/VisibleCompletionItem.ts'
 import * as GetVisibleCompletionItem from '../GetVisibleCompletionItem/GetVisibleCompletionItem.ts'
 
 export const getVisibleItems = (
-  filteredItems: readonly any[],
+  filteredItems: readonly CompletionItem[],
   itemHeight: number,
   leadingWord: any,
   minLineY: number,
   maxLineY: number,
   focusedIndex: number,
-): readonly any[] => {
+): readonly VisibleCompletionItem[] => {
   const visibleItems = []
   for (let i = minLineY; i < maxLineY; i++) {
     const filteredItem = filteredItems[i]

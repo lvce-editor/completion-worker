@@ -5,7 +5,7 @@ import * as VirtualDomElements from '../VirtualDomElements/VirtualDomElements.ts
 import { text } from '../VirtualDomHelpers/VirtualDomHelpers.ts'
 
 export const getCompletionDetailVirtualDom = (content: string): readonly VirtualDomNode[] => {
-  const dom: any[] = [
+  const dom: readonly VirtualDomNode[] = [
     {
       type: VirtualDomElements.Div,
       className: 'Viewlet EditorCompletionDetails',
