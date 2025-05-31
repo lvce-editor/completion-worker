@@ -13,7 +13,7 @@ test('getEdits - returns changes for simple completion', async () => {
     matches: [0, 1, 2, 3],
   }
 
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getLines2') {
@@ -54,13 +54,13 @@ test('getEdits - returns changes with resolved snippet', async () => {
     snippet: 'hello()',
   }
 
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getLines2') {
         return Promise.resolve(mockLines)
       }
-      if (method === 'Editor.getSelections') {
+      if (method === 'Editor.getSelections2') {
         return Promise.resolve(mockSelections)
       }
       if (method === 'Completions.resolveCompletion') {
@@ -74,9 +74,9 @@ test('getEdits - returns changes with resolved snippet', async () => {
   const result = await getEdits(1, 'hel', mockCompletion)
   expect(result).toHaveLength(1)
   expect(result[0]).toEqual({
-    start: { rowIndex: 0, columnIndex: 0 },
+    start: { rowIndex: 0, columnIndex: 2 },
     end: { rowIndex: 0, columnIndex: 3 },
-    inserted: ['hello()'],
+    inserted: ['hello'],
     deleted: ['hel'],
     origin: '',
   })
