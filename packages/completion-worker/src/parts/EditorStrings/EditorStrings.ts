@@ -4,3 +4,7 @@ import * as UiStrings from '../UiStrings/UiStrings.ts'
 export const noResults = (): string => {
   return I18nString.i18nString(UiStrings.NoResults)
 }
+
+export const noSuggestions = (): string => {
+  return I18nString.i18nString(UiStrings.NoSuggestions)
+}
