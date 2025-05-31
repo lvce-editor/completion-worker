@@ -1,9 +1,10 @@
+import type { Change, Range } from '../Change/Change.ts'
 import * as GetSelectionPairs from '../GetSelectionPairs/GetSelectionPairs.ts'
 import * as GetSelectionText from '../GetSelectionText/GetSelectionText.ts'
 
 // TODO add more exact types
-export const replaceRange = (lines: readonly string[], ranges: any, replacement: any, origin: any) => {
-  const changes: any[] = []
+export const replaceRange = (lines: readonly string[], ranges: Uint32Array, replacement: readonly string[], origin: string): readonly Change[] => {
+  const changes: Change[] = []
   const rangesLength = ranges.length
   for (let i = 0; i < rangesLength; i += 4) {
     const [selectionStartRow, selectionStartColumn, selectionEndRow, selectionEndColumn] = GetSelectionPairs.getSelectionPairs(ranges, i)
@@ -11,7 +12,7 @@ export const replaceRange = (lines: readonly string[], ranges: any, replacement:
       rowIndex: selectionStartRow,
       columnIndex: selectionStartColumn,
     }
-    const end = {
+    const end: Range = {
       rowIndex: selectionEndRow,
       columnIndex: selectionEndColumn,
     }

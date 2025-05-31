@@ -1,4 +1,6 @@
-export const getSelectionText = (lines: readonly string[], range: any): readonly string[] => {
+import type { Selection } from '../Change/Change.ts'
+
+export const getSelectionText = (lines: readonly string[], range: Selection): readonly string[] => {
   const startRowIndex = range.start.rowIndex
   const startColumnIndex = range.start.columnIndex
   const endRowIndex = Math.min(range.end.rowIndex, lines.length - 1)
