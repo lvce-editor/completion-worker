@@ -7,8 +7,5 @@ export const select = async (state: CompletionState, completionItem: any): Promi
   const { editorUid, leadingWord } = state
   const changes = await getEdits(editorUid, leadingWord, completionItem)
   await ApplyEdit.applyEdit(editorUid, changes)
-  await Close.close(editorUid)
-  return {
-    ...state,
-  }
+  return Close.close(state)
 }

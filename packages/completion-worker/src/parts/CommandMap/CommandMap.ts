@@ -1,3 +1,4 @@
+import * as Close from '../Close/Close.ts'
 import * as WrapCommand from '../CompletionStates/CompletionStates.ts'
 import * as Create from '../Create/Create.ts'
 import * as Diff2 from '../Diff2/Diff2.ts'
@@ -20,6 +21,7 @@ import * as Render2 from '../Render2/Render2.ts'
 import * as Terminate from '../Terminate/Terminate.ts'
 
 export const commandMap = {
+  'Completions.close': WrapCommand.wrapCommand(Close.close),
   'Completions.create': Create.create,
   'Completions.diff2': Diff2.diff2,
   'Completions.dispose': Dispose.dispose,
@@ -34,9 +36,9 @@ export const commandMap = {
   'Completions.handleWheel': WrapCommand.wrapCommand(HandleWheel.handleWheel),
   'Completions.initialize': Initialize.initialize,
   'Completions.loadContent': WrapCommand.wrapCommand(LoadContent.loadContent),
+  'Completions.openDetails': WrapCommand.wrapCommand(EditorCompletionOpenDetails.openDetails),
   'Completions.render2': Render2.render2,
   'Completions.selectCurrent': WrapCommand.wrapCommand(SelectCurrent.selectCurrent),
   'Completions.selectIndex': WrapCommand.wrapCommand(SelectIndex.selectIndex),
   'Completions.terminate': Terminate.terminate,
-  'Completions.openDetails': WrapCommand.wrapCommand(EditorCompletionOpenDetails.openDetails),
 }

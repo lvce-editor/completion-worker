@@ -42,5 +42,10 @@ export const getKeyBindings = (): readonly any[] => {
       ...getCommand('toggleDetails'),
       when: WhenExpression.FocusEditorCompletions,
     },
+    {
+      key: KeyCode.Escape,
+      ...getCommand('close'),
+      when: WhenExpression.FocusEditorCompletions,
+    },
   ]
 }
