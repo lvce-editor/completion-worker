@@ -9,8 +9,7 @@ test('isEqual - same items and focusedIndex', () => {
     focusedIndex: 1,
   }
   const newState = {
-    ...createDefaultState(),
-    items: ['item1', 'item2'],
+    ...oldState,
     focusedIndex: 1,
   }
 
