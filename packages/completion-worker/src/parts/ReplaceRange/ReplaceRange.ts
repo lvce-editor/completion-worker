@@ -2,7 +2,7 @@ import * as GetSelectionPairs from '../GetSelectionPairs/GetSelectionPairs.ts'
 import * as GetSelectionText from '../GetSelectionText/GetSelectionText.ts'
 
 // TODO add more exact types
-export const replaceRange = (lines: readonly string[], ranges: readonly any[], replacement: string, origin: number) => {
+export const replaceRange = (lines: readonly string[], ranges: any, replacement: string, origin: number) => {
   const changes: any[] = []
   const rangesLength = ranges.length
   for (let i = 0; i < rangesLength; i += 4) {
