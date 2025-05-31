@@ -23,6 +23,7 @@ export const create = (uid: number, x: number, y: number, width: number, height:
     version: 0,
     editorUid,
     editorLanguageId,
+    maxItems: 8,
   }
   FindWidgetStates.set(uid, state, state)
 }
