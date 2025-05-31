@@ -1,6 +1,6 @@
 import * as Completions from '../Completions/Completions.ts'
-import * as ReplaceRange from '../ReplaceRange/ReplaceRange.ts'
 import * as EditorWorker from '../EditorWorker/EditorWorker.ts'
+import * as ReplaceRange from '../ReplaceRange/ReplaceRange.ts'
 
 export const getEdits = async (editorUid: number, leadingWord: string, completionItem: any): Promise<readonly any[]> => {
   const word = completionItem.label
