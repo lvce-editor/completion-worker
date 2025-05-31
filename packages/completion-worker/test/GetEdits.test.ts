@@ -19,7 +19,7 @@ test('getEdits - returns changes for simple completion', async () => {
       if (method === 'Editor.getLines2') {
         return Promise.resolve(mockLines)
       }
-      if (method === 'Editor.getSelections') {
+      if (method === 'Editor.getSelections2') {
         return Promise.resolve(mockSelections)
       }
       if (method === 'Completions.resolveCompletion') {
@@ -34,9 +34,9 @@ test('getEdits - returns changes for simple completion', async () => {
   expect(result).toHaveLength(1)
   expect(result[0]).toEqual({
     start: { rowIndex: 0, columnIndex: 0 },
-    end: { rowIndex: 0, columnIndex: 3 },
+    end: { rowIndex: 0, columnIndex: 5 },
     inserted: ['hello'],
-    deleted: ['hel'],
+    deleted: ['nst'],
     origin: '',
   })
 })
