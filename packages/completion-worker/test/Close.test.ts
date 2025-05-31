@@ -20,5 +20,6 @@ test('close - calls closeWidget2 with correct parameters', async () => {
   }
   const result = await close(state)
   expect(result).toBe(state)
+  expect(invoke).toHaveBeenCalledTimes(1)
   expect(invoke).toHaveBeenCalledWith('Editor.closeWidget2', 1, WidgetId.Completion, 'Completions', WhenExpression.FocusEditorCompletions)
 })
