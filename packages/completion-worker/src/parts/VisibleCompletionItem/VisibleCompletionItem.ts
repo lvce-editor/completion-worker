@@ -4,6 +4,6 @@ export interface VisibleCompletionItem {
   readonly top: number
   readonly highlights: readonly number[]
   readonly focused: boolean
-  readonly deprecated: number
+  readonly deprecated: number | boolean
   readonly fileIcon: string
 }
