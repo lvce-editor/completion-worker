@@ -15,8 +15,7 @@ export const resolveCompletion = async (editorUid: number, name: string, complet
     Assert.string(name)
     Assert.object(completionItem)
     const offset = GetOffsetAtCursor.getOffsetAtCursor(editorUid)
-    // @ts-ignore
-    const resolvedCompletionItem = await ExtensionHostCompletion.executeResolveCompletionItem(editor, offset, name, completionItem)
+    const resolvedCompletionItem = await ExtensionHostCompletion.executeResolveCompletionItem(editorUid, offset, name, completionItem)
     return resolvedCompletionItem
   } catch {
     return undefined

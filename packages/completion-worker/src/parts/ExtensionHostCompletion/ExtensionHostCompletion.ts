@@ -23,9 +23,9 @@ const combineResultsResolve = (items: any) => {
   return items[0] ?? undefined
 }
 
-export const executeResolveCompletionItem = async (editor: any, offset: any, name: any, completionItem: any) => {
+export const executeResolveCompletionItem = async (editorUid: any, offset: any, name: any, completionItem: any) => {
   return ExtensionHostEditor.execute({
-    editor,
+    editorUid,
     event: ExtensionHostActivationEvent.OnCompletion,
     method: ExtensionHostCommandType.CompletionResolveExecute,
     args: [offset, name, completionItem],
