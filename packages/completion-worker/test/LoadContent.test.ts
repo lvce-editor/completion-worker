@@ -1,11 +1,12 @@
 import { expect, test } from '@jest/globals'
 import { MockRpc } from '@lvce-editor/rpc'
-import * as RpcRegistry from '@lvce-editor/rpc-registry'
-import { RpcId } from '@lvce-editor/rpc-registry'
+import type { CompletionState } from '../src/parts/CompletionState/CompletionState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+import * as EditorWorker from '../src/parts/EditorWorker/EditorWorker.ts'
+import * as ExtensionHostWorker from '../src/parts/ExtensionHostWorker/ExtensionHostWorker.ts'
 import { loadContent } from '../src/parts/LoadContent/LoadContent.ts'
 
-test.skip('loadContent', async () => {
+test('loadContent', async () => {
   const mockEditorRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
@@ -20,7 +21,67 @@ test.skip('loadContent', async () => {
       if (method === 'Editor.getWordAtOffset' || method === 'Editor.getWordAtOffset2') {
         return Promise.resolve('test')
       }
-      if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
+      if (method === 'ActivateByEvent.activateByEvent') {
+        return Promise.resolve(undefined)
+      }
+      throw new Error(`unexpected method ${method}`)
+    },
+  })
+  const mockExtensionHostRpc = MockRpc.create({
+    commandMap: {},
+    invoke: (method: string) => {
+      if (method === 'ExtensionHostCompletion.execute') {
+        return Promise.resolve([
+          {
+            label: 'test1',
+            kind: 1,
+            flags: 0,
+            matches: [0, 4],
+          },
+          {
+            label: 'test2',
+            kind: 1,
+            flags: 0,
+            matches: [0, 4],
+          },
+        ])
+      }
+      throw new Error(`unexpected method ${method}`)
+    },
+  })
+  EditorWorker.set(mockEditorRpc)
+  ExtensionHostWorker.set(mockExtensionHostRpc)
+
+  const state: CompletionState = createDefaultState()
+  const newState = await loadContent(state)
+
+  expect(newState.items).toHaveLength(2)
+  expect(newState.unfilteredItems).toHaveLength(2)
+  expect(newState.leadingWord).toBe('test')
+  expect(newState.x).toBe(100)
+  expect(newState.y).toBe(200)
+  expect(newState.focusedIndex).toBe(0)
+  expect(newState.maxLineY).toBe(2)
+  expect(newState.version).toBe(1)
+  expect(newState.width).toBe(200)
+})
+
+test('loadContent with completions', async () => {
+  const mockEditorRpc = MockRpc.create({
+    commandMap: {},
+    invoke: (method: string) => {
+      if (method === 'Editor.getPositionAtCursor') {
+        return Promise.resolve({
+          rowIndex: 1,
+          columnIndex: 2,
+          x: 100,
+          y: 200,
+        })
+      }
+      if (method === 'Editor.getWordAtOffset' || method === 'Editor.getWordAtOffset2') {
+        return Promise.resolve('test')
+      }
+      if (method === 'ExtensionHostCompletion.execute') {
         return Promise.resolve([
           {
             label: 'test1',
@@ -45,7 +106,7 @@ test.skip('loadContent', async () => {
   const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
-      if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
+      if (method === 'ExtensionHostCompletion.execute') {
         return Promise.resolve([
           {
             label: 'test1',
@@ -61,10 +122,10 @@ test.skip('loadContent', async () => {
           },
         ])
       }
-      return Promise.resolve(undefined)
+      throw new Error(`unexpected method ${method}`)
     },
     invokeAndTransfer: (method: string) => {
-      if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
+      if (method === 'ExtensionHostCompletion.execute') {
         return Promise.resolve([
           {
             label: 'test1',
@@ -80,11 +141,11 @@ test.skip('loadContent', async () => {
           },
         ])
       }
-      return Promise.resolve(undefined)
+      throw new Error(`unexpected method ${method}`)
     },
   })
-  RpcRegistry.set(RpcId.EditorWorker, mockEditorRpc)
-  RpcRegistry.set(RpcId.ExtensionHostWorker, mockExtensionHostRpc)
+  EditorWorker.set(mockEditorRpc)
+  ExtensionHostWorker.set(mockExtensionHostRpc)
 
   const state = createDefaultState()
   const newState = await loadContent(state)
@@ -100,7 +161,7 @@ test.skip('loadContent', async () => {
   expect(newState.width).toBe(200)
 })
 
-test.skip('loadContent with completions', async () => {
+test('loadContent with no completions', async () => {
   const mockEditorRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
@@ -115,102 +176,7 @@ test.skip('loadContent with completions', async () => {
       if (method === 'Editor.getWordAtOffset' || method === 'Editor.getWordAtOffset2') {
         return Promise.resolve('test')
       }
-      if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
-        return Promise.resolve([
-          {
-            label: 'test1',
-            kind: 1,
-            flags: 0,
-            matches: [0, 4],
-          },
-          {
-            label: 'test2',
-            kind: 1,
-            flags: 0,
-            matches: [0, 4],
-          },
-        ])
-      }
-      if (method === 'ActivateByEvent.activateByEvent') {
-        return Promise.resolve(undefined)
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
-  })
-  const mockExtensionHostRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
-        return Promise.resolve([
-          {
-            label: 'test1',
-            kind: 1,
-            flags: 0,
-            matches: [0, 4],
-          },
-          {
-            label: 'test2',
-            kind: 1,
-            flags: 0,
-            matches: [0, 4],
-          },
-        ])
-      }
-      return Promise.resolve(undefined)
-    },
-    invokeAndTransfer: (method: string) => {
-      if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
-        return Promise.resolve([
-          {
-            label: 'test1',
-            kind: 1,
-            flags: 0,
-            matches: [0, 4],
-          },
-          {
-            label: 'test2',
-            kind: 1,
-            flags: 0,
-            matches: [0, 4],
-          },
-        ])
-      }
-      return Promise.resolve(undefined)
-    },
-  })
-  RpcRegistry.set(RpcId.EditorWorker, mockEditorRpc)
-  RpcRegistry.set(RpcId.ExtensionHostWorker, mockExtensionHostRpc)
-
-  const state = createDefaultState()
-  const newState = await loadContent(state)
-
-  expect(newState.items).toHaveLength(2)
-  expect(newState.unfilteredItems).toHaveLength(2)
-  expect(newState.leadingWord).toBe('test')
-  expect(newState.x).toBe(100)
-  expect(newState.y).toBe(200)
-  expect(newState.focusedIndex).toBe(0)
-  expect(newState.maxLineY).toBe(2)
-  expect(newState.version).toBe(1)
-  expect(newState.width).toBe(200)
-})
-
-test.skip('loadContent with no completions', async () => {
-  const mockEditorRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'Editor.getPositionAtCursor') {
-        return Promise.resolve({
-          rowIndex: 1,
-          columnIndex: 2,
-          x: 100,
-          y: 200,
-        })
-      }
-      if (method === 'Editor.getWordAtOffset' || method === 'Editor.getWordAtOffset2') {
-        return Promise.resolve('test')
-      }
-      if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
+      if (method === 'ExtensionHostCompletion.execute') {
         return Promise.resolve([])
       }
       if (method === 'ActivateByEvent.activateByEvent') {
@@ -222,20 +188,20 @@ test.skip('loadContent with no completions', async () => {
   const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
-      if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
+      if (method === 'ExtensionHostCompletion.execute') {
         return Promise.resolve([])
       }
-      return Promise.resolve(undefined)
+      throw new Error(`unexpected method ${method}`)
     },
     invokeAndTransfer: (method: string) => {
-      if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
+      if (method === 'ExtensionHostCompletion.execute') {
         return Promise.resolve([])
       }
-      return Promise.resolve(undefined)
+      throw new Error(`unexpected method ${method}`)
     },
   })
-  RpcRegistry.set(RpcId.EditorWorker, mockEditorRpc)
-  RpcRegistry.set(RpcId.ExtensionHostWorker, mockExtensionHostRpc)
+  EditorWorker.set(mockEditorRpc)
+  ExtensionHostWorker.set(mockExtensionHostRpc)
 
   const state = createDefaultState()
   const newState = await loadContent(state)
@@ -247,7 +213,7 @@ test.skip('loadContent with no completions', async () => {
   expect(newState.maxLineY).toBe(0)
 })
 
-test.skip('loadContent with error in getPositionAtCursor', async () => {
+test('loadContent with error in getPositionAtCursor', async () => {
   const mockEditorRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
@@ -257,7 +223,7 @@ test.skip('loadContent with error in getPositionAtCursor', async () => {
       if (method === 'Editor.getWordAtOffset' || method === 'Editor.getWordAtOffset2') {
         return Promise.resolve('test')
       }
-      if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
+      if (method === 'ExtensionHostCompletion.execute') {
         return Promise.resolve([])
       }
       if (method === 'ActivateByEvent.activateByEvent') {
@@ -269,21 +235,20 @@ test.skip('loadContent with error in getPositionAtCursor', async () => {
   const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
-      if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
+      if (method === 'ExtensionHostCompletion.execute') {
         return Promise.resolve([])
       }
-      return Promise.resolve(undefined)
+      throw new Error(`unexpected method ${method}`)
     },
     invokeAndTransfer: (method: string) => {
-      if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
+      if (method === 'ExtensionHostCompletion.execute') {
         return Promise.resolve([])
       }
-      return Promise.resolve(undefined)
+      throw new Error(`unexpected method ${method}`)
     },
   })
-  RpcRegistry.set(RpcId.EditorWorker, mockEditorRpc)
-  RpcRegistry.set(RpcId.ExtensionHostWorker, mockExtensionHostRpc)
-
+  EditorWorker.set(mockEditorRpc)
+  ExtensionHostWorker.set(mockExtensionHostRpc)
   const state = createDefaultState()
   await expect(loadContent(state)).rejects.toThrow('Failed to get position')
 })
