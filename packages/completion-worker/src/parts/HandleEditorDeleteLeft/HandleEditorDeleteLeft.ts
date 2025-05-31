@@ -1,13 +1,12 @@
 import type { CompletionState } from '../CompletionState/CompletionState.ts'
 import * as FilterCompletionItems from '../FilterCompletionItems/FilterCompletionItems.ts'
 import * as GetListHeight from '../GetListHeight/GetListHeight.ts'
+import * as GetPositionAtCursor from '../GetPositionAtCursor/GetPositionAtCursor.ts'
 import * as GetWordAtOffset from '../GetWordAtOffset/GetWordAtOffset.ts'
 
 export const handleEditorDeleteLeft = async (state: CompletionState): Promise<CompletionState> => {
   const { unfilteredItems, itemHeight, maxHeight, editorUid } = state
-  const x = 0 // TODO
-  // @ts-ignore
-  const y = 0 // TODP
+  const { x, y } = await GetPositionAtCursor.getPositionAtCursor(editorUid)
   const wordAtOffset = await GetWordAtOffset.getWordAtOffset(editorUid)
   if (!wordAtOffset) {
     return {
