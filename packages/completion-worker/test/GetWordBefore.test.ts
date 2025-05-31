@@ -4,7 +4,7 @@ import { set } from '../src/parts/EditorWorker/EditorWorker.ts'
 import { getWordBefore } from '../src/parts/GetWordBefore/GetWordBefore.ts'
 
 test('getWordBefore - returns word before cursor', async () => {
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getWordBefore2') {
@@ -20,7 +20,7 @@ test('getWordBefore - returns word before cursor', async () => {
 })
 
 test('getWordBefore - returns empty string when no word before', async () => {
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getWordBefore2') {

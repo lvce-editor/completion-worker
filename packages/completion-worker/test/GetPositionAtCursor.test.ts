@@ -11,7 +11,7 @@ test('getPositionAtCursor - returns position at cursor', async () => {
     columnIndex: 10,
   }
 
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getPositionAtCursor') {
@@ -34,7 +34,7 @@ test('getPositionAtCursor - returns position at start of document', async () => 
     columnIndex: 0,
   }
 
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getPositionAtCursor') {

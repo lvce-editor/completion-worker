@@ -6,7 +6,7 @@ import { getLines } from '../src/parts/GetLines/GetLines.ts'
 test('getLines - returns document lines', async () => {
   const mockLines = ['line 1', 'line 2', 'line 3']
 
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getLines2') {
@@ -24,7 +24,7 @@ test('getLines - returns document lines', async () => {
 test('getLines - returns empty document', async () => {
   const mockLines: string[] = []
 
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getLines2') {
