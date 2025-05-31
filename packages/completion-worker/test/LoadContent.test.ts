@@ -6,7 +6,7 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import { loadContent } from '../src/parts/LoadContent/LoadContent.ts'
 
 test.skip('loadContent', async () => {
-  const mockEditorRpc = await MockRpc.create({
+  const mockEditorRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getPositionAtCursor') {
@@ -42,7 +42,7 @@ test.skip('loadContent', async () => {
       throw new Error(`unexpected method ${method}`)
     },
   })
-  const mockExtensionHostRpc = await MockRpc.create({
+  const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
@@ -101,7 +101,7 @@ test.skip('loadContent', async () => {
 })
 
 test.skip('loadContent with completions', async () => {
-  const mockEditorRpc = await MockRpc.create({
+  const mockEditorRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getPositionAtCursor') {
@@ -137,7 +137,7 @@ test.skip('loadContent with completions', async () => {
       throw new Error(`unexpected method ${method}`)
     },
   })
-  const mockExtensionHostRpc = await MockRpc.create({
+  const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
@@ -196,7 +196,7 @@ test.skip('loadContent with completions', async () => {
 })
 
 test.skip('loadContent with no completions', async () => {
-  const mockEditorRpc = await MockRpc.create({
+  const mockEditorRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getPositionAtCursor') {
@@ -219,7 +219,7 @@ test.skip('loadContent with no completions', async () => {
       throw new Error(`unexpected method ${method}`)
     },
   })
-  const mockExtensionHostRpc = await MockRpc.create({
+  const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
@@ -248,7 +248,7 @@ test.skip('loadContent with no completions', async () => {
 })
 
 test.skip('loadContent with error in getPositionAtCursor', async () => {
-  const mockEditorRpc = await MockRpc.create({
+  const mockEditorRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getPositionAtCursor') {
@@ -266,7 +266,7 @@ test.skip('loadContent with error in getPositionAtCursor', async () => {
       throw new Error(`unexpected method ${method}`)
     },
   })
-  const mockExtensionHostRpc = await MockRpc.create({
+  const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
