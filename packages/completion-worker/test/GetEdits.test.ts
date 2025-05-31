@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals'
-import { getEdits } from '../src/parts/GetEdits/GetEdits.ts'
 import { MockRpc } from '@lvce-editor/rpc'
 import { set } from '../src/parts/EditorWorker/EditorWorker.ts'
+import { getEdits } from '../src/parts/GetEdits/GetEdits.ts'
 
 test('getEdits - returns changes for simple completion', async () => {
   const mockLines = ['const hel']
