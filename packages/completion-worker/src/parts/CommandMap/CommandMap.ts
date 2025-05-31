@@ -32,7 +32,7 @@ export const commandMap = {
   'Completions.getCommandIds': GetCommandIds.getCommandIds,
   'Completions.getKeyBindings': GetKeyBindings.getKeyBindings,
   'Completions.handleEditorDeleteLeft': WrapCommand.wrapCommand(HandleEditorDeleteLeft.handleEditorDeleteLeft),
-  'Completions.handleEditorType': HandleEditorType.handleEditorType,
+  'Completions.handleEditorType': WrapCommand.wrapCommand(HandleEditorType.handleEditorType),
   'Completions.handleWheel': WrapCommand.wrapCommand(HandleWheel.handleWheel),
   'Completions.initialize': Initialize.initialize,
   'Completions.loadContent': WrapCommand.wrapCommand(LoadContent.loadContent),
