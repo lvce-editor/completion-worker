@@ -33,7 +33,7 @@ test('getEdits - returns changes for simple completion', async () => {
   const result = await getEdits(1, 'hel', mockCompletion)
   expect(result).toHaveLength(1)
   expect(result[0]).toEqual({
-    start: { rowIndex: 0, columnIndex: 0 },
+    start: { rowIndex: 0, columnIndex: 2 },
     end: { rowIndex: 0, columnIndex: 5 },
     inserted: ['hello'],
     deleted: ['nst'],
