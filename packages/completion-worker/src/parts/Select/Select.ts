@@ -1,17 +1,11 @@
 import type { CompletionState } from '../CompletionState/CompletionState.ts'
-import * as EditorWorker from '../EditorWorker/EditorWorker.ts'
+import * as ApplyEdit from '../ApplyEdit/ApplyEdit.ts'
+import * as Close from '../Close/Close.ts'
 import { getEdits } from '../GetEdits/GetEdits.ts'
-import * as WidgetId from '../WidgetId/WidgetId.ts'
 
 export const select = async (state: CompletionState, completionItem: any): Promise<CompletionState> => {
   const { editorUid, leadingWord } = state
   const changes = await getEdits(editorUid, leadingWord, completionItem)
-  // @ts-ignore
-  await EditorWorker.invoke('Editor.applyEdit2', editorUid, changes)
-  // @ts-ignore
-  await EditorWorker.invoke('Editor.closeWidget2', editorUid, WidgetId.Completion, 'Completions')
-  // TODO remove completion widget from editor
-  return {
-    ...state,
-  }
+  await ApplyEdit.applyEdit(editorUid, changes)
+  return Close.close(state)
 }
