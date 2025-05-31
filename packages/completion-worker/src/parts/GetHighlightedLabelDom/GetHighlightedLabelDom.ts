@@ -15,7 +15,7 @@ const completionHighlight: VirtualDomNode = {
   childCount: 1,
 }
 
-export const getHighlightedLabelDom = (label: any, highlights: any[]): readonly VirtualDomNode[] => {
+export const getHighlightedLabelDom = (label: string, highlights: readonly number[]): readonly VirtualDomNode[] => {
   if (highlights.length === 0) {
     return [label1, text(label)]
   }

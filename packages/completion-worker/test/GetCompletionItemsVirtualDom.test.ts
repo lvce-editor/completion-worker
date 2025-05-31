@@ -1,8 +1,9 @@
 import { expect, test } from '@jest/globals'
+import type { VisibleCompletionItem } from '../src/parts/VisibleCompletionItem/VisibleCompletionItem.ts'
 import * as GetCompletionItemsVirtualDom from '../src/parts/GetCompletionItemsVirtualDom/GetCompletionItemsVirtualDom.ts'
 
 test('getCompletionItemsVirtualDom - empty', () => {
-  const visibleItems: any[] = []
+  const visibleItems: VisibleCompletionItem[] = []
   expect(GetCompletionItemsVirtualDom.getCompletionItemsVirtualDom(visibleItems)).toEqual([
     {
       childCount: 1,
@@ -17,7 +18,7 @@ test('getCompletionItemsVirtualDom - empty', () => {
 })
 
 test('getCompletionItemsVirtualDom', () => {
-  const visibleItems: any[] = [
+  const visibleItems: VisibleCompletionItem[] = [
     {
       top: 0,
       label: 'test',
