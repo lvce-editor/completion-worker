@@ -1,9 +1,10 @@
+import type { CompletionItem } from '../CompletionItem/CompletionItem.ts'
 import * as Assert from '../Assert/Assert.ts'
 import * as ExtensionHostCompletion from '../ExtensionHostCompletion/ExtensionHostCompletion.ts'
 import * as GetOffsetAtCursor from '../GetOffsetAtCursor/GetOffsetAtCursor.ts'
 
 // TODO possible to do this with events/state machine instead of promises -> enables canceling operations / concurrent calls
-export const getCompletions = async (editorUid: number, editorLanguageId: string): Promise<readonly any[]> => {
+export const getCompletions = async (editorUid: number, editorLanguageId: string): Promise<readonly CompletionItem[]> => {
   const offset = GetOffsetAtCursor.getOffsetAtCursor(editorUid)
   const completions = await ExtensionHostCompletion.executeCompletionProvider(editorUid, editorLanguageId, offset)
   return completions
