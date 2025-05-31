@@ -22,5 +22,6 @@ export const createDefaultState = (): CompletionState => {
     version: 0,
     editorUid: 0,
     editorLanguageId: '',
+    maxItems: 8,
   }
 }
