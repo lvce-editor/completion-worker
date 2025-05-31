@@ -1,3 +1,4 @@
+import type { CompletionItem } from '../CompletionItem/CompletionItem.ts'
 import type { VirtualListState } from '../VirtualListState/VirtualListState.ts'
 
 export interface CompletionState extends VirtualListState<any> {
@@ -5,7 +6,7 @@ export interface CompletionState extends VirtualListState<any> {
   readonly uid: number
   readonly focusedIndex: number
   readonly focused: boolean
-  readonly unfilteredItems: readonly any[]
+  readonly unfilteredItems: readonly CompletionItem[]
   readonly leadingWord: string
   readonly version: number
   readonly editorUid: number
