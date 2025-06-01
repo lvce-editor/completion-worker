@@ -35,6 +35,7 @@ export const NoDefinitionFound = 'No definition found'
 export const NoDefinitionFoundFor = "No definition found for '{PH1}'"
 export const NoResults = 'No Results'
 export const NoSuggestions = 'No Suggestions'
+export const Suggest = 'Suggest'
 export const NoTypeDefinitionFound = 'No type definition found'
 export const NoTypeDefinitionFoundFor = "No type definition found for '{PH1}'"
 export const OrganizeImports = 'Organize Imports'
