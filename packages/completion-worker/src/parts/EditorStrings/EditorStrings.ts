@@ -8,3 +8,7 @@ export const noResults = (): string => {
 export const noSuggestions = (): string => {
   return I18nString.i18nString(UiStrings.NoSuggestions)
 }
+
+export const suggest = (): string => {
+  return I18nString.i18nString(UiStrings.Suggest)
+}
