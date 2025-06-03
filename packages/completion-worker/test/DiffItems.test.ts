@@ -1,14 +1,15 @@
 import { expect, test } from '@jest/globals'
+import type { CompletionState } from '../src/parts/CompletionState/CompletionState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { isEqual } from '../src/parts/DiffItems/DiffItems.ts'
 
 test('isEqual - same items and focusedIndex', () => {
-  const oldState = {
+  const oldState: CompletionState = {
     ...createDefaultState(),
-    items: ['item1', 'item2'],
+    items: ['item1', 'item2'] as any[],
     focusedIndex: 1,
   }
-  const newState = {
+  const newState: CompletionState = {
     ...oldState,
     focusedIndex: 1,
   }
@@ -19,14 +20,14 @@ test('isEqual - same items and focusedIndex', () => {
 })
 
 test('isEqual - different items', () => {
-  const oldState = {
+  const oldState: CompletionState = {
     ...createDefaultState(),
-    items: ['item1', 'item2'],
+    items: ['item1', 'item2'] as any,
     focusedIndex: 1,
   }
-  const newState = {
+  const newState: CompletionState = {
     ...createDefaultState(),
-    items: ['item1', 'item3'],
+    items: ['item1', 'item3'] as any,
     focusedIndex: 1,
   }
 
@@ -36,14 +37,14 @@ test('isEqual - different items', () => {
 })
 
 test('isEqual - different focusedIndex', () => {
-  const oldState = {
+  const oldState: CompletionState = {
     ...createDefaultState(),
-    items: ['item1', 'item2'],
+    items: ['item1', 'item2'] as any,
     focusedIndex: 1,
   }
-  const newState = {
+  const newState: CompletionState = {
     ...createDefaultState(),
-    items: ['item1', 'item2'],
+    items: ['item1', 'item2'] as any,
     focusedIndex: 0,
   }
 
