@@ -4,7 +4,7 @@ import { getCompletionVirtualDom } from '../src/parts/GetCompletionVirtualDom/Ge
 import * as VirtualDomElements from '../src/parts/VirtualDomElements/VirtualDomElements.ts'
 
 test.skip('getCompletionVirtualDom creates correct structure with empty items', () => {
-  const result = getCompletionVirtualDom([])
+  const result = getCompletionVirtualDom([], 0, 0)
   expect(result).toHaveLength(3)
   expect(result[0]).toEqual({
     type: VirtualDomElements.Div,
@@ -26,7 +26,7 @@ test.skip('getCompletionVirtualDom creates correct structure with items', () => 
     { label: 'item1', kind: 'function' },
     { label: 'item2', kind: 'variable' },
   ] as any
-  const result = getCompletionVirtualDom(mockItems)
+  const result = getCompletionVirtualDom(mockItems, 0, 0)
   expect(result).toHaveLength(4) // 2 container divs + 1 root div + items
   expect(result[0]).toEqual({
     type: VirtualDomElements.Div,
