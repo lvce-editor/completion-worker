@@ -27,7 +27,7 @@ test('getVisibleItems transforms completion items correctly', () => {
   const maxLineY = 2
   const focusedIndex = 0
 
-  const result = getVisibleItems(filteredItems, itemHeight, leadingWord, minLineY, maxLineY, focusedIndex)
+  const result = getVisibleItems(filteredItems, itemHeight, leadingWord, minLineY, maxLineY, focusedIndex, 0)
 
   expect(result).toHaveLength(2)
   expect(result[0]).toEqual({
@@ -51,7 +51,7 @@ test('getVisibleItems transforms completion items correctly', () => {
 })
 
 test('getVisibleItems handles empty array', () => {
-  const result = getVisibleItems([], 20, 'test', 0, 0, 0)
+  const result = getVisibleItems([], 20, 'test', 0, 0, 0, 0)
 
   expect(result).toHaveLength(0)
 })
@@ -72,7 +72,7 @@ test('getVisibleItems handles different focused index', () => {
     },
   ]
 
-  const result = getVisibleItems(filteredItems, 20, 'test', 0, 2, 1)
+  const result = getVisibleItems(filteredItems, 20, 'test', 0, 2, 1, 0)
 
   expect(result[0].focused).toBe(false)
   expect(result[1].focused).toBe(true)
