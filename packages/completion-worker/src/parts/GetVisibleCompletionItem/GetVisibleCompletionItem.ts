@@ -5,11 +5,7 @@ import * as EditorCompletionMap from '../EditorCompletionMap/EditorCompletionMap
 import * as GetCompletionFileIcon from '../GetCompletionFileIcon/GetCompletionFileIcon.ts'
 import * as GetCompletionItemHighlights from '../GetCompletionItemHighlights/GetCompletionItemHighlights.ts'
 import { getLabel } from '../GetLabel/GetLabel.ts'
-
-const getTop = (i: number, minLineY: number, itemHeight: number): number => {
-  const relative = 0
-  return (i - minLineY) * itemHeight - relative
-}
+import { getTop } from '../GetTop/GetTop.ts'
 
 export const getVisibleIem = (
   item: CompletionItem,
@@ -18,11 +14,12 @@ export const getVisibleIem = (
   i: number,
   minLineY: number,
   focusedIndex: number,
+  relative: number,
 ): VisibleCompletionItem => {
   return {
     label: getLabel(item),
     symbolName: EditorCompletionMap.getSymbolName(item.kind),
-    top: getTop(i, minLineY, itemHeight),
+    top: getTop(i, minLineY, itemHeight, relative),
     highlights: GetCompletionItemHighlights.getHighlights(item),
     focused: i === focusedIndex,
     deprecated: item.flags & CompletionItemFlags.Deprecated,

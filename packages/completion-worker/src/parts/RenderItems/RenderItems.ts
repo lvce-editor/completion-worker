@@ -12,6 +12,7 @@ export const renderItems = (oldState: CompletionState, newState: CompletionState
     newState.minLineY,
     newState.maxLineY,
     newState.focusedIndex,
+    newState.deltaY,
   )
   const dom = GetCompletionVirtualDom.getCompletionVirtualDom(visibleItems)
   return [RenderMethod.SetDom2, uid, dom]
