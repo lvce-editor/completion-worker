@@ -13,7 +13,7 @@ export const getVisibleItems = (
   const visibleItems = []
   for (let i = minLineY; i < maxLineY; i++) {
     const filteredItem = filteredItems[i]
-    visibleItems.push(GetVisibleCompletionItem.getVisibleIem(filteredItem, itemHeight, leadingWord, i, focusedIndex))
+    visibleItems.push(GetVisibleCompletionItem.getVisibleIem(filteredItem, itemHeight, leadingWord, i, minLineY, focusedIndex))
   }
   return visibleItems
 }
