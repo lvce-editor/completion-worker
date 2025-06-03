@@ -25,7 +25,7 @@ test.skip('getCompletionVirtualDom creates correct structure with items', () => 
   const mockItems = [
     { label: 'item1', kind: 'function' },
     { label: 'item2', kind: 'variable' },
-  ]
+  ] as any
   const result = getCompletionVirtualDom(mockItems)
   expect(result).toHaveLength(4) // 2 container divs + 1 root div + items
   expect(result[0]).toEqual({
