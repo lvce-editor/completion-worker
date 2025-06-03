@@ -1,7 +1,7 @@
 import type { CompletionItem } from '../CompletionItem/CompletionItem.ts'
 import type { VirtualListState } from '../VirtualListState/VirtualListState.ts'
 
-export interface CompletionState extends VirtualListState<any> {
+export interface CompletionState extends VirtualListState<CompletionItem> {
   readonly maxHeight: number
   readonly uid: number
   readonly focusedIndex: number
