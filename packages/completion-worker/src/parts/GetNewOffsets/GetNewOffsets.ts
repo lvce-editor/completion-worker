@@ -9,6 +9,7 @@ export const getNewOffsets = (
   height: number,
   headerHeight: number,
   value: number,
+  itemCount: number,
 ): OffsetsResult => {
   const listHeight = height - headerHeight
   const newDeltaY = Clamp.clamp(value, 0, finalDeltaY)
@@ -20,9 +21,9 @@ export const getNewOffsets = (
       newMaxLineY: 0,
     }
   }
-  // TODO when it only moves by one px, extensions don't need to be rerendered, only negative margin
+  // TODO when it only moves by one px, items don't need to be rerendered, only negative margin
   const minLineY = Math.floor(newDeltaY / itemHeight)
-  const maxLineY = minLineY + GetNumberOfVisibleItems.getNumberOfVisibleItems(listHeight, itemHeight)
+  const maxLineY = Math.min(minLineY + GetNumberOfVisibleItems.getNumberOfVisibleItems(listHeight, itemHeight), itemCount - 1)
   return {
     newDeltaY: newDeltaY,
     newMinLineY: minLineY,
