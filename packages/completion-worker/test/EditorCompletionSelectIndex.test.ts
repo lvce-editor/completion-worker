@@ -1,9 +1,9 @@
 import { expect, test } from '@jest/globals'
 import { MockRpc } from '@lvce-editor/rpc'
 import { EditorWorker } from '@lvce-editor/rpc-registry'
+import type { CompletionState } from '../src/parts/CompletionState/CompletionState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.js'
 import { selectIndex } from '../src/parts/EditorCompletionSelectIndex/EditorCompletionSelectIndex.js'
-import { CompletionState } from '../src/parts/CompletionState/CompletionState.ts'
 
 test('selectIndex - returns same state when index is -1', async () => {
   const state = createDefaultState()

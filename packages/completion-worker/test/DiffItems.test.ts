@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals'
+import type { CompletionState } from '../src/parts/CompletionState/CompletionState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { isEqual } from '../src/parts/DiffItems/DiffItems.ts'
-import { CompletionState } from '../src/parts/CompletionState/CompletionState.ts'
 
 test('isEqual - same items and focusedIndex', () => {
   const oldState: CompletionState = {
