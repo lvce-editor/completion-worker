@@ -6,7 +6,7 @@ import * as GetVisibleCompletionItems from '../GetVisibleCompletionItems/GetVisi
 import * as RenderMethod from '../RenderMethod/RenderMethod.ts'
 
 export const renderItems = (oldState: CompletionState, newState: CompletionState): readonly any[] => {
-  const { uid, height, headerHeight, deltaY } = newState
+  const { uid, height, deltaY } = newState
   const visibleItems = GetVisibleCompletionItems.getVisibleItems(
     newState.items,
     newState.itemHeight,
