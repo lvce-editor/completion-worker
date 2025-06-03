@@ -1,5 +1,11 @@
 import type { DomEventListener } from '../DomEventListener/DomEventListener.ts'
+import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 
-export const getEventListeners = (uid: number): readonly DomEventListener[] => {
-  return []
+export const getEventListeners = (): readonly DomEventListener[] => {
+  return [
+    {
+      name: DomEventListenerFunctions.HandleWheel,
+      params: ['EditorCompletion.handleWheel', 'event.deltaMode', 'event.deltaY'],
+    },
+  ]
 }
