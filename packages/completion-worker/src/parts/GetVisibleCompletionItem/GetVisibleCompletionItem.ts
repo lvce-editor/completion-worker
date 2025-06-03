@@ -4,10 +4,7 @@ import * as CompletionItemFlags from '../CompletionItemFlags/CompletionItemFlags
 import * as EditorCompletionMap from '../EditorCompletionMap/EditorCompletionMap.ts'
 import * as GetCompletionFileIcon from '../GetCompletionFileIcon/GetCompletionFileIcon.ts'
 import * as GetCompletionItemHighlights from '../GetCompletionItemHighlights/GetCompletionItemHighlights.ts'
-
-const getLabel = (item: CompletionItem): string => {
-  return item.label
-}
+import { getLabel } from '../GetLabel/GetLabel.ts'
 
 export const getVisibleIem = (
   item: CompletionItem,
