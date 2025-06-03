@@ -9,11 +9,13 @@ export const getVisibleItems = (
   minLineY: number,
   maxLineY: number,
   focusedIndex: number,
+  deltaY: number,
 ): readonly VisibleCompletionItem[] => {
   const visibleItems = []
+  const relative = deltaY % itemHeight
   for (let i = minLineY; i < maxLineY; i++) {
     const filteredItem = filteredItems[i]
-    visibleItems.push(GetVisibleCompletionItem.getVisibleIem(filteredItem, itemHeight, leadingWord, i, minLineY, focusedIndex))
+    visibleItems.push(GetVisibleCompletionItem.getVisibleIem(filteredItem, itemHeight, leadingWord, i, minLineY, focusedIndex, relative))
   }
   return visibleItems
 }
