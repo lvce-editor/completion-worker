@@ -3,6 +3,7 @@ import { MockRpc } from '@lvce-editor/rpc'
 import { EditorWorker } from '@lvce-editor/rpc-registry'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.js'
 import { selectIndex } from '../src/parts/EditorCompletionSelectIndex/EditorCompletionSelectIndex.js'
+import { CompletionState } from '../src/parts/CompletionState/CompletionState.ts'
 
 test('selectIndex - returns same state when index is -1', async () => {
   const state = createDefaultState()
@@ -39,9 +40,9 @@ test('selectIndex - selects item at given index', async () => {
   })
   EditorWorker.set(mockRpc)
 
-  const state = {
+  const state: CompletionState = {
     ...createDefaultState(),
-    items: [{ label: 'item1' }, { label: 'item2' }],
+    items: [{ label: 'item1' }, { label: 'item2' }] as any,
     editorUid: 1,
     leadingWord: '',
   }
