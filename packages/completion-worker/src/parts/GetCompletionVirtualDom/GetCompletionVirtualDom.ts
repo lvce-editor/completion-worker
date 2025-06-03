@@ -16,12 +16,13 @@ export const getCompletionVirtualDom = (
   scrollBarTop: number,
 ): readonly VirtualDomNode[] => {
   const scrollBarDom = GetScrollBarVirtualDom.getScrollBarVirtualDom(scrollBarHeight, scrollBarTop)
+  const childCount = scrollBarDom.length === 0 ? 1 : 2
   return [
     {
       type: VirtualDomElements.Div,
       className: MergeClassNames.mergeClassNames(ClassNames.Viewlet, ClassNames.EditorCompletion),
       id: Ids.Completions,
-      childCount: 2,
+      childCount: childCount,
     },
     {
       type: VirtualDomElements.Div,
