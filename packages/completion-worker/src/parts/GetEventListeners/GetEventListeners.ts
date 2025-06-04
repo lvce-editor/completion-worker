@@ -6,6 +6,7 @@ export const getEventListeners = (): readonly DomEventListener[] => {
     {
       name: DomEventListenerFunctions.HandleWheel,
       params: ['EditorCompletion.handleWheel', 'event.deltaMode', 'event.deltaY'],
+      passive: true,
     },
   ]
 }
