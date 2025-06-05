@@ -1,0 +1,13 @@
+{
+  "id": "test.completion-type-error",
+  "name": "Completion Type Error",
+  "description": "",
+  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
+  "browser": "main.js",
+  "languages": [
+    {
+      "id": "xyz",
+      "extensions": [".xyz"]
+    }
+  ]
+}
