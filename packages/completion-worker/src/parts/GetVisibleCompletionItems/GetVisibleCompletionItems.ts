@@ -11,7 +11,7 @@ export const getVisibleItems = (
   focusedIndex: number,
   deltaY: number,
 ): readonly VisibleCompletionItem[] => {
-  const visibleItems = []
+  const visibleItems: VisibleCompletionItem[] = []
   const relative = deltaY % itemHeight
   for (let i = minLineY; i < maxLineY; i++) {
     const filteredItem = filteredItems[i]
