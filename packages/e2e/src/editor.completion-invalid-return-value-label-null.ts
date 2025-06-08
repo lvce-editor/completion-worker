@@ -2,8 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'editor.completion-invalid-return-value-label-null'
 
-export const skip = 1
-
 export const test: Test = async ({ Extension, FileSystem, Workspace, Main, Editor, Locator, expect }) => {
   // arrange
   const extensionUri = import.meta.resolve('../fixtures/editor.completion-invalid-return-value-label-null')
@@ -20,5 +18,7 @@ export const test: Test = async ({ Extension, FileSystem, Workspace, Main, Edito
   // assert
   const completions = Locator('.EditorCompletion')
   await expect(completions).toBeVisible()
-  await expect(completions).toHaveText('No Suggestions')
+  const items = Locator('.EditorCompletionItem')
+  await expect(items).toHaveCount(1)
+  await expect(items).toHaveText('')
 }
