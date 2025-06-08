@@ -1,13 +1,13 @@
 import type { Change } from '../Change/Change.ts'
 import type { CompletionItem } from '../CompletionItem/CompletionItem.ts'
-import * as Completions from '../Completions/Completions.ts'
 import * as GetLines from '../GetLines/GetLines.ts'
 import * as GetSelections from '../GetSelections/GetSelections.ts'
 import * as ReplaceRange from '../ReplaceRange/ReplaceRange.ts'
+import { resolveCompletion } from '../ResolveCompletion/ResolveCompletion.ts'
 
 export const getEdits = async (editorUid: number, leadingWord: string, completionItem: CompletionItem): Promise<readonly Change[]> => {
   const word = completionItem.label
-  const resolvedItem = await Completions.resolveCompletion(editorUid, word, completionItem)
+  const resolvedItem = await resolveCompletion(editorUid, word, completionItem)
   const inserted = resolvedItem ? resolvedItem.snippet : word
   const lines = await GetLines.getLines(editorUid)
   const selections = await GetSelections.getSelections(editorUid)
