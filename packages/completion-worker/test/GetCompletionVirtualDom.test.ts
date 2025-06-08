@@ -1,44 +1,67 @@
-import { test, expect } from '@jest/globals'
+import { expect, test } from '@jest/globals'
+import type { VisibleCompletionItem } from '../src/parts/VisibleCompletionItem/VisibleCompletionItem.ts'
+import * as AriaRoles from '../src/parts/AriaRoles/AriaRoles.ts'
 import * as ClassNames from '../src/parts/ClassNames/ClassNames.ts'
+import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
+import * as EditorStrings from '../src/parts/EditorStrings/EditorStrings.ts'
 import { getCompletionVirtualDom } from '../src/parts/GetCompletionVirtualDom/GetCompletionVirtualDom.ts'
+import * as Ids from '../src/parts/Ids/Ids.ts'
 import * as VirtualDomElements from '../src/parts/VirtualDomElements/VirtualDomElements.ts'
 
-test.skip('getCompletionVirtualDom creates correct structure with empty items', () => {
-  const result = getCompletionVirtualDom([], 0, 0)
-  expect(result).toHaveLength(3)
+test('getCompletionVirtualDom returns correct structure with scrollbar', () => {
+  const visibleItems: readonly VisibleCompletionItem[] = [
+    {
+      label: 'test',
+      symbolName: 'test',
+      top: 0,
+      highlights: [0, 2, 2, 4], // [start1, end1, start2, end2]
+      focused: false,
+      deprecated: false,
+      fileIcon: '',
+    },
+  ]
+  const result = getCompletionVirtualDom(visibleItems, 100, 0)
   expect(result[0]).toEqual({
     type: VirtualDomElements.Div,
-    className: expect.stringContaining(ClassNames.Viewlet),
-    id: 'Completions',
-    childCount: 1,
+    className: expect.any(String),
+    id: Ids.Completions,
+    childCount: 2,
   })
   expect(result[1]).toEqual({
     type: VirtualDomElements.Div,
-    className: 'ListItems',
-    role: 'listbox',
-    ariaLabel: 'Suggest',
+    className: ClassNames.ListItems,
+    role: AriaRoles.ListBox,
+    ariaLabel: EditorStrings.suggest(),
     childCount: 1,
+    onWheel: DomEventListenerFunctions.HandleWheel,
   })
 })
 
-test.skip('getCompletionVirtualDom creates correct structure with items', () => {
-  const mockItems = [
-    { label: 'item1', kind: 'function' },
-    { label: 'item2', kind: 'variable' },
-  ] as any
-  const result = getCompletionVirtualDom(mockItems, 0, 0)
-  expect(result).toHaveLength(4) // 2 container divs + 1 root div + items
+test('getCompletionVirtualDom returns correct structure without scrollbar', () => {
+  const visibleItems: readonly VisibleCompletionItem[] = [
+    {
+      label: 'test',
+      symbolName: 'test',
+      top: 0,
+      highlights: [0, 2, 2, 4], // [start1, end1, start2, end2]
+      focused: false,
+      deprecated: false,
+      fileIcon: '',
+    },
+  ]
+  const result = getCompletionVirtualDom(visibleItems, 0, 0)
   expect(result[0]).toEqual({
     type: VirtualDomElements.Div,
-    className: expect.stringContaining(ClassNames.Viewlet),
-    id: 'Completions',
+    className: expect.any(String),
+    id: Ids.Completions,
     childCount: 1,
   })
   expect(result[1]).toEqual({
     type: VirtualDomElements.Div,
-    className: 'ListItems',
-    role: 'listbox',
-    ariaLabel: 'Suggest',
+    className: ClassNames.ListItems,
+    role: AriaRoles.ListBox,
+    ariaLabel: EditorStrings.suggest(),
     childCount: 1,
+    onWheel: DomEventListenerFunctions.HandleWheel,
   })
 })
