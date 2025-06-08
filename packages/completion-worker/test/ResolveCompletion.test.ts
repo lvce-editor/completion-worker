@@ -13,7 +13,7 @@ const createCompletionItem = (label: string): CompletionItem => ({
 })
 
 test.skip('resolveCompletion returns resolved completion item', async () => {
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getOffsetAtCursor') {
@@ -33,7 +33,7 @@ test.skip('resolveCompletion returns resolved completion item', async () => {
 })
 
 test('resolveCompletion returns undefined when extension host fails', async () => {
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getOffsetAtCursor') {
@@ -53,7 +53,7 @@ test('resolveCompletion returns undefined when extension host fails', async () =
 })
 
 test('resolveCompletion returns undefined when getOffsetAtCursor fails', async () => {
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getOffsetAtCursor') {
@@ -69,7 +69,7 @@ test('resolveCompletion returns undefined when getOffsetAtCursor fails', async (
 })
 
 test('resolveCompletion returns undefined when name is not a string', async () => {
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       throw new Error(`unexpected method ${method}`)
@@ -82,7 +82,7 @@ test('resolveCompletion returns undefined when name is not a string', async () =
 })
 
 test('resolveCompletion returns undefined when completionItem is not an object', async () => {
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       throw new Error(`unexpected method ${method}`)
