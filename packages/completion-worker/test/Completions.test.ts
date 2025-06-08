@@ -2,8 +2,7 @@ import { expect, jest, test } from '@jest/globals'
 import { MockRpc } from '@lvce-editor/rpc'
 import { getCompletions } from '../src/parts/Completions/Completions.ts'
 import * as ExtensionHostWorker from '../src/parts/ExtensionHostWorker/ExtensionHostWorker.ts'
-import * as RpcRegistry from '@lvce-editor/rpc-registry'
-import { RpcId } from '@lvce-editor/rpc-registry'
+import * as EditorWorker from '../src/parts/EditorWorker/EditorWorker.ts'
 
 test('getCompletions returns completions successfully', async () => {
   const mockCompletions = [
@@ -14,7 +13,6 @@ test('getCompletions returns completions successfully', async () => {
       matches: [0, 1, 2, 3],
     },
   ]
-
   const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
@@ -38,15 +36,13 @@ test('getCompletions returns completions successfully', async () => {
       throw new Error(`unexpected method ${method}`)
     },
   })
-  RpcRegistry.set(RpcId.EditorWorker, mockEditorRpc)
-
+  EditorWorker.set(mockEditorRpc)
   const result = await getCompletions(1, 'typescript')
   expect(result).toEqual(mockCompletions)
 })
 
 test('getCompletions returns empty array on error', async () => {
   const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
-
   const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
@@ -70,12 +66,10 @@ test('getCompletions returns empty array on error', async () => {
       throw new Error(`unexpected method ${method}`)
     },
   })
-  RpcRegistry.set(RpcId.EditorWorker, mockEditorRpc)
-
+  EditorWorker.set(mockEditorRpc)
   const result = await getCompletions(1, 'typescript')
   expect(result).toEqual([])
   expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to get completions:')
   expect(consoleErrorSpy).toHaveBeenCalledWith(new Error('test error'))
-
   consoleErrorSpy.mockRestore()
 })
