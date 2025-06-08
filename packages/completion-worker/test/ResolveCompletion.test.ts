@@ -17,10 +17,10 @@ test.skip('resolveCompletion returns resolved completion item', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getOffsetAtCursor') {
-        return Promise.resolve(10)
+        return 10
       }
       if (method === 'ExtensionHostEditor.execute') {
-        return Promise.resolve([{ resolved: true }])
+        return [{ resolved: true }]
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -37,7 +37,7 @@ test('resolveCompletion returns undefined when extension host fails', async () =
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getOffsetAtCursor') {
-        return Promise.resolve(10)
+        return 10
       }
       if (method === 'ExtensionHostEditor.execute') {
         throw new Error('extension host error')
