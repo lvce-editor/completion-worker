@@ -1,9 +1,9 @@
 import { expect, test } from '@jest/globals'
+import { MockRpc } from '@lvce-editor/rpc'
+import * as RpcRegistry from '@lvce-editor/rpc-registry'
 import type { CompletionState } from '../src/parts/CompletionState/CompletionState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { renderItems } from '../src/parts/RenderItems/RenderItems.ts'
-import { MockRpc } from '@lvce-editor/rpc'
-import * as RpcRegistry from '@lvce-editor/rpc-registry'
 import { RendererWorker } from '../src/parts/RpcId/RpcId.ts'
 
 test('renderItems returns correct render method and dom', async () => {
