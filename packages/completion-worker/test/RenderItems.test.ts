@@ -31,7 +31,7 @@ test('renderItems returns correct render method and dom', async () => {
     itemHeight: 20,
     leadingWord: '',
     minLineY: 0,
-    maxLineY: 200,
+    maxLineY: 1,
     focusedIndex: 0,
     maxHeight: 200,
     focused: false,
@@ -48,7 +48,7 @@ test('renderItems returns correct render method and dom', async () => {
   }
 
   const result = renderItems(oldState, newState)
-  expect(result[0]).toBe('SetDom2')
+  expect(result[0]).toBe('Viewlet.setDom2')
   expect(result[1]).toBe(1)
   expect(result[2]).toBeDefined()
 })
