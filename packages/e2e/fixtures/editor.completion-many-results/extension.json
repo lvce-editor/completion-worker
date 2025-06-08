@@ -1,0 +1,13 @@
+{
+  "id": "test.completion-many-results",
+  "name": "Completion Many Results",
+  "description": "",
+  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
+  "browser": "main.js",
+  "languages": [
+    {
+      "id": "xyz",
+      "extensions": [".xyz"]
+    }
+  ]
+}
