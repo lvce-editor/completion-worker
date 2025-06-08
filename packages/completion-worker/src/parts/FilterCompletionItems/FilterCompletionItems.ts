@@ -15,8 +15,8 @@ export const filterCompletionItems = (completionItems: readonly CompletionItem[]
   if (word === Character.EmptyString) {
     return completionItems.map(addEmptyMatch)
   }
-  const filteredCompletions = []
-  const deprecated = []
+  const filteredCompletions: CompletionItem[] = []
+  const deprecated: CompletionItem[] = []
   for (const completionItem of completionItems) {
     const { label, flags } = completionItem
     const result = FuzzySearch.fuzzySearch(word, label)
