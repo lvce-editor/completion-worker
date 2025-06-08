@@ -6,16 +6,8 @@ import * as GetVisibleCompletionItems from '../GetVisibleCompletionItems/GetVisi
 import * as RenderMethod from '../RenderMethod/RenderMethod.ts'
 
 export const renderItems = (oldState: CompletionState, newState: CompletionState): readonly any[] => {
-  const { uid, height, deltaY } = newState
-  const visibleItems = GetVisibleCompletionItems.getVisibleItems(
-    newState.items,
-    newState.itemHeight,
-    newState.leadingWord,
-    newState.minLineY,
-    newState.maxLineY,
-    newState.focusedIndex,
-    newState.deltaY,
-  )
+  const { uid, height, deltaY, items, itemHeight, leadingWord, minLineY, maxLineY, focusedIndex } = newState
+  const visibleItems = GetVisibleCompletionItems.getVisibleItems(items, itemHeight, leadingWord, minLineY, maxLineY, focusedIndex, deltaY)
   const contentHeight = newState.items.length * newState.itemHeight
   const scrollBarHeight = GetScrollBarSize.getScrollBarSize(height, contentHeight, 20)
   const scrollBarTop = getScrollBarTop(height, contentHeight, deltaY)
