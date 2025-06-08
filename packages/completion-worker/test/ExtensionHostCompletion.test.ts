@@ -5,7 +5,7 @@ import { RpcId } from '@lvce-editor/rpc-registry'
 import { executeCompletionProvider, executeResolveCompletionItem } from '../src/parts/ExtensionHostCompletion/ExtensionHostCompletion.ts'
 
 test.skip('executeCompletionProvider returns empty array when no provider found', async () => {
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ExtensionHostEditor.execute') {
@@ -21,7 +21,7 @@ test.skip('executeCompletionProvider returns empty array when no provider found'
 })
 
 test.skip('executeCompletionProvider returns first result when provider found', async () => {
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ExtensionHostEditor.execute') {
@@ -37,7 +37,7 @@ test.skip('executeCompletionProvider returns first result when provider found', 
 })
 
 test.skip('executeResolveCompletionItem returns undefined when no provider found', async () => {
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ExtensionHostEditor.execute') {
@@ -53,7 +53,7 @@ test.skip('executeResolveCompletionItem returns undefined when no provider found
 })
 
 test.skip('executeResolveCompletionItem returns first result when provider found', async () => {
-  const mockRpc = await MockRpc.create({
+  const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ExtensionHostEditor.execute') {
