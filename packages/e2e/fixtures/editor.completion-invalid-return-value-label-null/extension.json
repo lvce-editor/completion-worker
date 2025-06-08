@@ -1,0 +1,13 @@
+{
+  "id": "test.completion-invalid-return-value-label-null",
+  "name": "Completion Invalid Return Value label null",
+  "description": "",
+  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
+  "browser": "main.js",
+  "languages": [
+    {
+      "id": "xyz",
+      "extensions": [".xyz"]
+    }
+  ]
+}
