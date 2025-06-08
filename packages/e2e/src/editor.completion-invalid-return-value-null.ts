@@ -2,9 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'editor.completion-invalid-return-value-null'
 
-export const skip = 1
-
-export const test: Test = async ({ Extension, FileSystem, Workspace, Main, Editor }) => {
+export const test: Test = async ({ Extension, FileSystem, Workspace, Main, Editor, Locator, expect }) => {
   // arrange
   const extensionUri = import.meta.resolve('../fixtures/editor.completion-invalid-return-value-null')
   await Extension.addWebExtension(extensionUri)
@@ -17,5 +15,8 @@ export const test: Test = async ({ Extension, FileSystem, Workspace, Main, Edito
   // act
   await Editor.openCompletion()
 
-  // TODO check that error message is displayed
+  // assert
+  const completions = Locator('.EditorCompletion')
+  await expect(completions).toBeVisible()
+  await expect(completions).toHaveText('No Suggestions')
 }
