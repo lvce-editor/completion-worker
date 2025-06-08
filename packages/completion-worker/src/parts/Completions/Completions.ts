@@ -10,7 +10,8 @@ export const getCompletions = async (editorUid: number, editorLanguageId: string
     const completions = await ExtensionHostCompletion.executeCompletionProvider(editorUid, editorLanguageId, offset)
     return completions
   } catch (error) {
-    Logger.error(`Failed to get completions: ${error}`)
+    Logger.error(`Failed to get completions:`)
+    Logger.error(error)
     return []
   }
 }
