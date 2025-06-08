@@ -2,8 +2,10 @@ import { expect, jest, test } from '@jest/globals'
 import { MockRpc } from '@lvce-editor/rpc'
 import { getCompletions } from '../src/parts/Completions/Completions.ts'
 import * as ExtensionHostWorker from '../src/parts/ExtensionHostWorker/ExtensionHostWorker.ts'
+import * as RpcRegistry from '@lvce-editor/rpc-registry'
+import { RpcId } from '@lvce-editor/rpc-registry'
 
-test.skip('getCompletions returns completions successfully', async () => {
+test('getCompletions returns completions successfully', async () => {
   const mockCompletions = [
     {
       label: 'test',
@@ -13,40 +15,62 @@ test.skip('getCompletions returns completions successfully', async () => {
     },
   ]
 
-  const mockRpc = MockRpc.create({
+  const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'GetOffsetAtCursor.getOffsetAtCursor') {
         return 10
       }
-      if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
+      if (method === 'ExtensionHostCompletion.execute') {
         return mockCompletions
       }
       throw new Error(`unexpected method ${method}`)
     },
   })
-  ExtensionHostWorker.set(mockRpc)
+  ExtensionHostWorker.set(mockExtensionHostRpc)
+
+  const mockEditorRpc = MockRpc.create({
+    commandMap: {},
+    invoke: (method: string) => {
+      if (method === 'ActivateByEvent.activateByEvent') {
+        return
+      }
+      throw new Error(`unexpected method ${method}`)
+    },
+  })
+  RpcRegistry.set(RpcId.EditorWorker, mockEditorRpc)
 
   const result = await getCompletions(1, 'typescript')
   expect(result).toEqual(mockCompletions)
 })
 
-test.skip('getCompletions returns empty array on error', async () => {
+test('getCompletions returns empty array on error', async () => {
   const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
 
-  const mockRpc = MockRpc.create({
+  const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'GetOffsetAtCursor.getOffsetAtCursor') {
         return 10
       }
-      if (method === 'ExtensionHostCompletion.executeCompletionProvider') {
+      if (method === 'ExtensionHostCompletion.execute') {
         throw new Error('test error')
       }
       throw new Error(`unexpected method ${method}`)
     },
   })
-  ExtensionHostWorker.set(mockRpc)
+  ExtensionHostWorker.set(mockExtensionHostRpc)
+
+  const mockEditorRpc = MockRpc.create({
+    commandMap: {},
+    invoke: (method: string) => {
+      if (method === 'ActivateByEvent.activateByEvent') {
+        return
+      }
+      throw new Error(`unexpected method ${method}`)
+    },
+  })
+  RpcRegistry.set(RpcId.EditorWorker, mockEditorRpc)
 
   const result = await getCompletions(1, 'typescript')
   expect(result).toEqual([])
