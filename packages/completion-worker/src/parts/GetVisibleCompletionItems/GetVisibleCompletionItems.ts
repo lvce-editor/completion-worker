@@ -5,7 +5,7 @@ import * as GetVisibleCompletionItem from '../GetVisibleCompletionItem/GetVisibl
 export const getVisibleItems = (
   filteredItems: readonly CompletionItem[],
   itemHeight: number,
-  leadingWord: any,
+  leadingWord: string,
   minLineY: number,
   maxLineY: number,
   focusedIndex: number,
