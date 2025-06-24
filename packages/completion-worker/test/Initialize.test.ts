@@ -9,12 +9,12 @@ test('initialize sets extension host worker rpc', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'FileSystem.readDirWithFileTypes') {
-        return Promise.resolve([])
+        return []
       }
       throw new Error(`unexpected method ${method}`)
     },
     invokeAndTransfer: async () => {
-      return;
+      return
     },
   })
   EditorWorker.set(mockRpc)

@@ -11,18 +11,18 @@ test('loadContent', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getPositionAtCursor') {
-        return Promise.resolve({
+        return {
           rowIndex: 1,
           columnIndex: 2,
           x: 100,
           y: 200,
-        })
+        }
       }
       if (method === 'Editor.getWordAtOffset' || method === 'Editor.getWordAtOffset2') {
-        return Promise.resolve('test')
+        return 'test'
       }
       if (method === 'ActivateByEvent.activateByEvent') {
-        return Promise.resolve(undefined)
+        return undefined
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -31,7 +31,7 @@ test('loadContent', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ExtensionHostCompletion.execute') {
-        return Promise.resolve([
+        return [
           {
             label: 'test1',
             kind: 1,
@@ -44,7 +44,7 @@ test('loadContent', async () => {
             flags: 0,
             matches: [0, 4],
           },
-        ])
+        ]
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -71,18 +71,18 @@ test('loadContent with completions', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getPositionAtCursor') {
-        return Promise.resolve({
+        return {
           rowIndex: 1,
           columnIndex: 2,
           x: 100,
           y: 200,
-        })
+        }
       }
       if (method === 'Editor.getWordAtOffset' || method === 'Editor.getWordAtOffset2') {
-        return Promise.resolve('test')
+        return 'test'
       }
       if (method === 'ExtensionHostCompletion.execute') {
-        return Promise.resolve([
+        return [
           {
             label: 'test1',
             kind: 1,
@@ -95,10 +95,10 @@ test('loadContent with completions', async () => {
             flags: 0,
             matches: [0, 4],
           },
-        ])
+        ]
       }
       if (method === 'ActivateByEvent.activateByEvent') {
-        return Promise.resolve(undefined)
+        return undefined
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -107,7 +107,7 @@ test('loadContent with completions', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ExtensionHostCompletion.execute') {
-        return Promise.resolve([
+        return [
           {
             label: 'test1',
             kind: 1,
@@ -120,13 +120,13 @@ test('loadContent with completions', async () => {
             flags: 0,
             matches: [0, 4],
           },
-        ])
+        ]
       }
       throw new Error(`unexpected method ${method}`)
     },
     invokeAndTransfer: (method: string) => {
       if (method === 'ExtensionHostCompletion.execute') {
-        return Promise.resolve([
+        return [
           {
             label: 'test1',
             kind: 1,
@@ -139,7 +139,7 @@ test('loadContent with completions', async () => {
             flags: 0,
             matches: [0, 4],
           },
-        ])
+        ]
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -166,21 +166,21 @@ test('loadContent with no completions', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getPositionAtCursor') {
-        return Promise.resolve({
+        return {
           rowIndex: 1,
           columnIndex: 2,
           x: 100,
           y: 200,
-        })
+        }
       }
       if (method === 'Editor.getWordAtOffset' || method === 'Editor.getWordAtOffset2') {
-        return Promise.resolve('test')
+        return 'test'
       }
       if (method === 'ExtensionHostCompletion.execute') {
-        return Promise.resolve([])
+        return []
       }
       if (method === 'ActivateByEvent.activateByEvent') {
-        return Promise.resolve(undefined)
+        return undefined
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -189,13 +189,13 @@ test('loadContent with no completions', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ExtensionHostCompletion.execute') {
-        return Promise.resolve([])
+        return []
       }
       throw new Error(`unexpected method ${method}`)
     },
     invokeAndTransfer: (method: string) => {
       if (method === 'ExtensionHostCompletion.execute') {
-        return Promise.resolve([])
+        return []
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -221,13 +221,13 @@ test('loadContent with error in getPositionAtCursor', async () => {
         throw new Error('Failed to get position')
       }
       if (method === 'Editor.getWordAtOffset' || method === 'Editor.getWordAtOffset2') {
-        return Promise.resolve('test')
+        return 'test'
       }
       if (method === 'ExtensionHostCompletion.execute') {
-        return Promise.resolve([])
+        return []
       }
       if (method === 'ActivateByEvent.activateByEvent') {
-        return Promise.resolve(undefined)
+        return undefined
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -236,13 +236,13 @@ test('loadContent with error in getPositionAtCursor', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ExtensionHostCompletion.execute') {
-        return Promise.resolve([])
+        return []
       }
       throw new Error(`unexpected method ${method}`)
     },
     invokeAndTransfer: (method: string) => {
       if (method === 'ExtensionHostCompletion.execute') {
-        return Promise.resolve([])
+        return []
       }
       throw new Error(`unexpected method ${method}`)
     },

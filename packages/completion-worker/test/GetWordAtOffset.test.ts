@@ -8,7 +8,7 @@ test('getWordAtOffset - returns word at cursor', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getWordAtOffset2') {
-        return Promise.resolve('hello')
+        return 'hello'
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -24,7 +24,7 @@ test('getWordAtOffset - returns empty string when no word at cursor', async () =
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getWordAtOffset2') {
-        return Promise.resolve('')
+        return ''
       }
       throw new Error(`unexpected method ${method}`)
     },

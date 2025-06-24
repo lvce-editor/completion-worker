@@ -10,7 +10,7 @@ test('getLines - returns document lines', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getLines2') {
-        return Promise.resolve(mockLines)
+        return mockLines
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -28,7 +28,7 @@ test('getLines - returns empty document', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getLines2') {
-        return Promise.resolve(mockLines)
+        return mockLines
       }
       throw new Error(`unexpected method ${method}`)
     },

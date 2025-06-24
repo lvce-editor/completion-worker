@@ -17,10 +17,10 @@ test('handleEditorDeleteLeft returns state with updated items when focused item 
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getPositionAtCursor') {
-        return Promise.resolve({ x: 100, y: 200 })
+        return { x: 100, y: 200 }
       }
       if (method === 'Editor.getWordAtOffset2') {
-        return Promise.resolve('test')
+        return 'test'
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -42,10 +42,10 @@ test('handleEditorDeleteLeft returns state with updated items when focused item 
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getPositionAtCursor') {
-        return Promise.resolve({ x: 100, y: 200 })
+        return { x: 100, y: 200 }
       }
       if (method === 'Editor.getWordAtOffset2') {
-        return Promise.resolve('test')
+        return 'test'
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -67,10 +67,10 @@ test('handleEditorDeleteLeft returns state unchanged when focusedIndex is -1', a
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getPositionAtCursor') {
-        return Promise.resolve({ x: 100, y: 200 })
+        return { x: 100, y: 200 }
       }
       if (method === 'Editor.getWordAtOffset2') {
-        return Promise.resolve('test')
+        return 'test'
       }
       throw new Error(`unexpected method ${method}`)
     },

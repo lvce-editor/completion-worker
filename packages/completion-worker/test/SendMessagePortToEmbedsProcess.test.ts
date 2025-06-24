@@ -8,13 +8,13 @@ test('sendMessagePortToEmbedsProcess sends port to embeds process', async () => 
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'SendMessagePortToExtensionHostWorker.sendMessagePortToSharedProcess') {
-        return Promise.resolve()
+        return
       }
       throw new Error(`unexpected method ${method}`)
     },
     invokeAndTransfer: (method: string) => {
       if (method === 'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker') {
-        return Promise.resolve()
+        return
       }
       throw new Error(`unexpected method ${method}`)
     },

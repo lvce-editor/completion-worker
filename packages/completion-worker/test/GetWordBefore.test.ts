@@ -8,7 +8,7 @@ test('getWordBefore - returns word before cursor', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getWordBefore2') {
-        return Promise.resolve('hello')
+        return 'hello'
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -24,7 +24,7 @@ test('getWordBefore - returns empty string when no word before', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getWordBefore2') {
-        return Promise.resolve('')
+        return ''
       }
       throw new Error(`unexpected method ${method}`)
     },

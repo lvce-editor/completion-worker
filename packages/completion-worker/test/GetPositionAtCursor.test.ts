@@ -15,7 +15,7 @@ test('getPositionAtCursor - returns position at cursor', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getPositionAtCursor') {
-        return Promise.resolve(mockPosition)
+        return mockPosition
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -38,7 +38,7 @@ test('getPositionAtCursor - returns position at start of document', async () => 
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getPositionAtCursor') {
-        return Promise.resolve(mockPosition)
+        return mockPosition
       }
       throw new Error(`unexpected method ${method}`)
     },

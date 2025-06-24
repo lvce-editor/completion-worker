@@ -21,19 +21,19 @@ test('selectIndex - selects item at given index', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getEdits') {
-        return Promise.resolve([])
+        return []
       }
       if (method === 'Editor.getLines2') {
-        return Promise.resolve([''])
+        return ['']
       }
       if (method === 'Editor.getSelections2') {
-        return Promise.resolve([0, 0, 0, 0])
+        return [0, 0, 0, 0]
       }
       if (method === 'Editor.applyEdit2') {
-        return Promise.resolve()
+        return
       }
       if (method === 'Editor.closeWidget2') {
-        return Promise.resolve()
+        return
       }
       throw new Error(`unexpected method ${method}`)
     },
