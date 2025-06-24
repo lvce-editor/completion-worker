@@ -17,13 +17,13 @@ test('handleEditorType - basic functionality', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'FileSystem.readDirWithFileTypes') {
-        return Promise.resolve([])
+        return []
       }
       if (method === 'Editor.getPositionAtCursor') {
-        return Promise.resolve(mockPosition)
+        return mockPosition
       }
       if (method === 'Editor.getWordBefore2') {
-        return Promise.resolve(mockWord)
+        return mockWord
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -57,10 +57,10 @@ test('handleEditorType - with position and word', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getPositionAtCursor') {
-        return Promise.resolve(mockPosition)
+        return mockPosition
       }
       if (method === 'Editor.getWordBefore2') {
-        return Promise.resolve(mockWord)
+        return mockWord
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -93,10 +93,10 @@ test('handleEditorType - with filtered items', async () => {
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'Editor.getPositionAtCursor') {
-        return Promise.resolve(mockPosition)
+        return mockPosition
       }
       if (method === 'Editor.getWordBefore2') {
-        return Promise.resolve(mockWord)
+        return mockWord
       }
       throw new Error(`unexpected method ${method}`)
     },
