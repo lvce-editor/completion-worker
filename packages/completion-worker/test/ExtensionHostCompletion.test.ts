@@ -1,4 +1,4 @@
-import { test, expect, jest } from '@jest/globals'
+import { test, expect } from '@jest/globals'
 import { MockRpc } from '@lvce-editor/rpc'
 import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.ts'
 import * as EditorWorker from '../src/parts/EditorWorker/EditorWorker.ts'
