@@ -1,8 +1,8 @@
 import { expect, test } from '@jest/globals'
 import { MockRpc } from '@lvce-editor/rpc'
-import * as RpcRegistry from '@lvce-editor/rpc-registry'
-import { RpcId } from '@lvce-editor/rpc-registry'
 import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.ts'
+import * as EditorWorker from '../src/parts/EditorWorker/EditorWorker.ts'
+import * as ExtensionHostWorker from '../src/parts/ExtensionHostWorker/ExtensionHostWorker.ts'
 import { resolveCompletion } from '../src/parts/ResolveCompletion/ResolveCompletion.ts'
 
 const createCompletionItem = (label: string): CompletionItem => ({
@@ -19,14 +19,14 @@ test.skip('resolveCompletion returns resolved completion item', async () => {
       if (method === 'Editor.getOffsetAtCursor') {
         return 10
       }
-      if (method === 'ExtensionHostEditor.execute') {
-        return [{ resolved: true }]
+      if (method === 'ExtensionHostCompletion.executeResolve') {
+        return { resolved: true }
       }
       throw new Error(`unexpected method ${method}`)
     },
   })
-  RpcRegistry.set(RpcId.EditorWorker, mockRpc)
-  RpcRegistry.set(RpcId.ExtensionHostWorker, mockRpc)
+  EditorWorker.set(mockRpc)
+  ExtensionHostWorker.set(mockRpc)
 
   const result = await resolveCompletion(1, 'test', createCompletionItem('test'))
   expect(result).toEqual({ resolved: true })
@@ -45,8 +45,8 @@ test('resolveCompletion returns undefined when extension host fails', async () =
       throw new Error(`unexpected method ${method}`)
     },
   })
-  RpcRegistry.set(RpcId.EditorWorker, mockRpc)
-  RpcRegistry.set(RpcId.ExtensionHostWorker, mockRpc)
+  EditorWorker.set(mockRpc)
+  ExtensionHostWorker.set(mockRpc)
 
   const result = await resolveCompletion(1, 'test', createCompletionItem('test'))
   expect(result).toBeUndefined()
@@ -62,7 +62,7 @@ test('resolveCompletion returns undefined when getOffsetAtCursor fails', async (
       throw new Error(`unexpected method ${method}`)
     },
   })
-  RpcRegistry.set(RpcId.EditorWorker, mockRpc)
+  EditorWorker.set(mockRpc)
 
   const result = await resolveCompletion(1, 'test', createCompletionItem('test'))
   expect(result).toBeUndefined()
@@ -75,7 +75,7 @@ test('resolveCompletion returns undefined when name is not a string', async () =
       throw new Error(`unexpected method ${method}`)
     },
   })
-  RpcRegistry.set(RpcId.EditorWorker, mockRpc)
+  EditorWorker.set(mockRpc)
 
   const result = await resolveCompletion(1, 123 as any, createCompletionItem('test'))
   expect(result).toBeUndefined()
@@ -88,7 +88,7 @@ test('resolveCompletion returns undefined when completionItem is not an object',
       throw new Error(`unexpected method ${method}`)
     },
   })
-  RpcRegistry.set(RpcId.EditorWorker, mockRpc)
+  EditorWorker.set(mockRpc)
 
   const result = await resolveCompletion(1, 'test', 'not an object' as any)
   expect(result).toBeUndefined()
