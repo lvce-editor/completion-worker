@@ -2,7 +2,6 @@ import type { Change, Range } from '../Change/Change.ts'
 import * as GetSelectionPairs from '../GetSelectionPairs/GetSelectionPairs.ts'
 import * as GetSelectionText from '../GetSelectionText/GetSelectionText.ts'
 
-// TODO add more exact types
 export const replaceRange = (lines: readonly string[], ranges: Uint32Array, replacement: readonly string[], origin: string): readonly Change[] => {
   const changes: Change[] = []
   const rangesLength = ranges.length
