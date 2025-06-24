@@ -1,4 +1,4 @@
-import { test, expect } from '@jest/globals'
+import { test } from '@jest/globals'
 import { MockRpc } from '@lvce-editor/rpc'
 import * as EditorWorker from '../src/parts/EditorWorker/EditorWorker.ts'
 import * as ExtensionHostWorker from '../src/parts/ExtensionHostWorker/ExtensionHostWorker.ts'
@@ -21,5 +21,6 @@ test('initialize sets extension host worker rpc', async () => {
   ExtensionHostWorker.set(mockRpc)
 
   await initialize()
-  expect(ExtensionHostWorker.invoke).toBeDefined()
+  await ExtensionHostWorker.dispose()
+  await EditorWorker.dispose()
 })

@@ -23,6 +23,8 @@ test('createExtensionHostRpc creates rpc successfully', async () => {
 
   const result = await createExtensionHostRpc()
   expect(result).toBeDefined()
+
+  await result.dispose()
 })
 
 test('createExtensionHostRpc throws VError when port creation fails', async () => {
