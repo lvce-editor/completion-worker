@@ -14,7 +14,7 @@ test('initialize sets extension host worker rpc', async () => {
       throw new Error(`unexpected method ${method}`)
     },
     invokeAndTransfer: async () => {
-      return Promise.resolve()
+      return;
     },
   })
   EditorWorker.set(mockRpc)
