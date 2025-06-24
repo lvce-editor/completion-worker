@@ -10,7 +10,10 @@ test('executeCompletionProvider returns empty array when no completions', async 
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ActivateByEvent.activateByEvent') {
-        return Promise.resolve()
+        return
+      }
+      if (method === 'ExtensionHostCompletion.execute') {
+        return []
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -19,7 +22,7 @@ test('executeCompletionProvider returns empty array when no completions', async 
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ExtensionHostCompletion.execute') {
-        return Promise.resolve([])
+        return []
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -40,7 +43,7 @@ test('executeCompletionProvider returns completion items when available', async 
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ActivateByEvent.activateByEvent') {
-        return Promise.resolve()
+        return
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -49,7 +52,7 @@ test('executeCompletionProvider returns completion items when available', async 
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ExtensionHostCompletion.execute') {
-        return Promise.resolve(mockCompletions)
+        return mockCompletions
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -66,7 +69,7 @@ test('executeCompletionProvider handles error from extension host', async () => 
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ActivateByEvent.activateByEvent') {
-        return Promise.resolve()
+        return
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -92,7 +95,10 @@ test('executeResolveCompletionItem returns resolved completion item', async () =
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ActivateByEvent.activateByEvent') {
-        return Promise.resolve()
+        return
+      }
+      if (method === 'ExtensionHostCompletion.executeResolve') {
+        return mockResolvedItem
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -101,7 +107,7 @@ test('executeResolveCompletionItem returns resolved completion item', async () =
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ExtensionHostCompletion.executeResolve') {
-        return Promise.resolve(mockResolvedItem)
+        return mockResolvedItem
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -119,7 +125,10 @@ test('executeResolveCompletionItem returns undefined when no provider found', as
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ActivateByEvent.activateByEvent') {
-        return Promise.resolve()
+        return
+      }
+      if (method === 'ExtensionHostCompletion.executeResolve') {
+        return undefined
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -128,7 +137,7 @@ test('executeResolveCompletionItem returns undefined when no provider found', as
     commandMap: {},
     invoke: (method: string) => {
       if (method === 'ExtensionHostCompletion.executeResolve') {
-        return Promise.resolve(undefined)
+        return undefined
       }
       throw new Error(`unexpected method ${method}`)
     },
