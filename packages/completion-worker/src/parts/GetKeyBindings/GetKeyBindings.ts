@@ -1,5 +1,4 @@
-import * as KeyCode from '../KeyCode/KeyCode.ts'
-import * as KeyModifier from '../KeyModifier/KeyModifier.ts'
+import { KeyCode, KeyModifier } from '@lvce-editor/virtual-dom-worker'
 import * as WhenExpression from '../WhenExpression/WhenExpression.ts'
 import * as WidgetId from '../WidgetId/WidgetId.ts'
 
