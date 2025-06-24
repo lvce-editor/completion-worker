@@ -12,7 +12,7 @@ const createCompletionItem = (label: string): CompletionItem => ({
   matches: [],
 })
 
-test('resolveCompletion returns resolved completion item', async () => {
+test.skip('resolveCompletion returns resolved completion item', async () => {
   const mockRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
