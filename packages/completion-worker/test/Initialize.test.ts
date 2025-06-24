@@ -22,5 +22,4 @@ test('initialize sets extension host worker rpc', async () => {
 
   await initialize()
   await ExtensionHostWorker.dispose()
-  await EditorWorker.dispose()
 })
