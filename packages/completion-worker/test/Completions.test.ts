@@ -42,6 +42,7 @@ test('getCompletions returns completions successfully', async () => {
 })
 
 test('getCompletions returns empty array on error', async () => {
+  // @ts-ignore
   const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
   const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
