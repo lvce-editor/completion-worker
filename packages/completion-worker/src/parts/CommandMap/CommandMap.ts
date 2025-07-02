@@ -1,3 +1,4 @@
+import { terminate } from '@lvce-editor/viewlet-registry'
 import * as Close from '../Close/Close.ts'
 import * as WrapCommand from '../CompletionStates/CompletionStates.ts'
 import * as Create from '../Create/Create.ts'
@@ -18,7 +19,6 @@ import * as HandleWheel from '../HandleWheel/HandleWheel.ts'
 import * as Initialize from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
 import * as Render2 from '../Render2/Render2.ts'
-import * as Terminate from '../Terminate/Terminate.ts'
 
 export const commandMap = {
   'Completions.close': WrapCommand.wrapCommand(Close.close),
@@ -40,5 +40,5 @@ export const commandMap = {
   'Completions.render2': Render2.render2,
   'Completions.selectCurrent': WrapCommand.wrapCommand(SelectCurrent.selectCurrent),
   'Completions.selectIndex': WrapCommand.wrapCommand(SelectIndex.selectIndex),
-  'Completions.terminate': Terminate.terminate,
+  'Completions.terminate': terminate,
 }
