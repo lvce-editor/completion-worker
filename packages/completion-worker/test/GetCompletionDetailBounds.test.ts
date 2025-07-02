@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import type { Bounds } from '../src/parts/GetCompletionDetailBounds/GetCompletionDetailBounds.ts';
+import type { Bounds } from '../src/parts/GetCompletionDetailBounds/GetCompletionDetailBounds.ts'
 import { getCompletionDetailBounds } from '../src/parts/GetCompletionDetailBounds/GetCompletionDetailBounds.ts'
 
 test('getCompletionDetailBounds', () => {

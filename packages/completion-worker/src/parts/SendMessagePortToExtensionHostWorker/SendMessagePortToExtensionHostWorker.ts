@@ -1,3 +1,3 @@
 import * as EditorWorker from '../EditorWorker/EditorWorker.ts'
 
-export const sendMessagePortToExtensionHostWorker = EditorWorker.sendMessagePortToExtensionHostWorker
+export const { sendMessagePortToExtensionHostWorker } = EditorWorker
