@@ -1,3 +1,3 @@
 import { EditorWorker } from '@lvce-editor/rpc-registry'
 
-export const { invoke, set, invokeAndTransfer, dispose } = EditorWorker
+export const { invoke, set, dispose, sendMessagePortToExtensionHostWorker } = EditorWorker
