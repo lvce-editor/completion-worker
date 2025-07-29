@@ -30,7 +30,7 @@ test('getCompletions returns completions successfully', async () => {
   const mockEditorRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
-      if (method === 'ActivateByEvent.activateByEvent') {
+      if (method === 'ExtensionHostManagement.activateByEvent') {
         return
       }
       throw new Error(`unexpected method ${method}`)
@@ -61,7 +61,7 @@ test('getCompletions returns empty array on error', async () => {
   const mockEditorRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
-      if (method === 'ActivateByEvent.activateByEvent') {
+      if (method === 'ExtensionHostManagement.activateByEvent') {
         return
       }
       throw new Error(`unexpected method ${method}`)

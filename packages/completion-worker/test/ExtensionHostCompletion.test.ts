@@ -9,7 +9,7 @@ test('executeCompletionProvider returns empty array when no completions', async 
   const mockEditorRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
-      if (method === 'ActivateByEvent.activateByEvent') {
+      if (method === 'ExtensionHostManagement.activateByEvent') {
         return
       }
       if (method === 'ExtensionHostCompletion.execute') {
@@ -42,7 +42,7 @@ test('executeCompletionProvider returns completion items when available', async 
   const mockEditorRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
-      if (method === 'ActivateByEvent.activateByEvent') {
+      if (method === 'ExtensionHostManagement.activateByEvent') {
         return
       }
       throw new Error(`unexpected method ${method}`)
@@ -68,7 +68,7 @@ test('executeCompletionProvider handles error from extension host', async () => 
   const mockEditorRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
-      if (method === 'ActivateByEvent.activateByEvent') {
+      if (method === 'ExtensionHostManagement.activateByEvent') {
         return
       }
       throw new Error(`unexpected method ${method}`)
@@ -94,7 +94,7 @@ test('executeResolveCompletionItem returns resolved completion item', async () =
   const mockEditorRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
-      if (method === 'ActivateByEvent.activateByEvent') {
+      if (method === 'ExtensionHostManagement.activateByEvent') {
         return
       }
       if (method === 'ExtensionHostCompletion.executeResolve') {
@@ -124,7 +124,7 @@ test('executeResolveCompletionItem returns undefined when no provider found', as
   const mockEditorRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
-      if (method === 'ActivateByEvent.activateByEvent') {
+      if (method === 'ExtensionHostManagement.activateByEvent') {
         return
       }
       if (method === 'ExtensionHostCompletion.executeResolve') {
