@@ -21,7 +21,7 @@ test('loadContent', async () => {
       if (method === 'Editor.getWordAtOffset' || method === 'Editor.getWordAtOffset2') {
         return 'test'
       }
-      if (method === 'ExtensionHostManagement.activateByEvent') {
+      if (method === 'ActivateByEvent.activateByEvent') {
         return undefined
       }
       throw new Error(`unexpected method ${method}`)
@@ -97,7 +97,7 @@ test('loadContent with completions', async () => {
           },
         ]
       }
-      if (method === 'ExtensionHostManagement.activateByEvent') {
+      if (method === 'ActivateByEvent.activateByEvent') {
         return undefined
       }
       throw new Error(`unexpected method ${method}`)
@@ -179,7 +179,7 @@ test('loadContent with no completions', async () => {
       if (method === 'ExtensionHostCompletion.execute') {
         return []
       }
-      if (method === 'ExtensionHostManagement.activateByEvent') {
+      if (method === 'ActivateByEvent.activateByEvent') {
         return undefined
       }
       throw new Error(`unexpected method ${method}`)
@@ -226,7 +226,7 @@ test('loadContent with error in getPositionAtCursor', async () => {
       if (method === 'ExtensionHostCompletion.execute') {
         return []
       }
-      if (method === 'ExtensionHostManagement.activateByEvent') {
+      if (method === 'ActivateByEvent.activateByEvent') {
         return undefined
       }
       throw new Error(`unexpected method ${method}`)
