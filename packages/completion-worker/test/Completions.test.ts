@@ -22,6 +22,9 @@ test('getCompletions returns completions successfully', async () => {
       if (method === 'ExtensionHostCompletion.execute') {
         return mockCompletions
       }
+      if (method === 'Editor.getOffsetAtCursor') {
+        return 0
+      }
       throw new Error(`unexpected method ${method}`)
     },
   })
@@ -32,6 +35,9 @@ test('getCompletions returns completions successfully', async () => {
     invoke: (method: string) => {
       if (method === 'ActivateByEvent.activateByEvent') {
         return
+      }
+      if (method === 'Editor.getOffsetAtCursor') {
+        return 0
       }
       throw new Error(`unexpected method ${method}`)
     },
@@ -53,6 +59,9 @@ test('getCompletions returns empty array on error', async () => {
       if (method === 'ExtensionHostCompletion.execute') {
         throw new Error('test error')
       }
+      if (method === 'Editor.getOffsetAtCursor') {
+        return 0
+      }
       throw new Error(`unexpected method ${method}`)
     },
   })
@@ -63,6 +72,9 @@ test('getCompletions returns empty array on error', async () => {
     invoke: (method: string) => {
       if (method === 'ActivateByEvent.activateByEvent') {
         return
+      }
+      if (method === 'Editor.getOffsetAtCursor') {
+        return 0
       }
       throw new Error(`unexpected method ${method}`)
     },

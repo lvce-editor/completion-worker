@@ -6,7 +6,7 @@ import * as Logger from '../Logger/Logger.ts'
 // TODO possible to do this with events/state machine instead of promises -> enables canceling operations / concurrent calls
 export const getCompletions = async (editorUid: number, editorLanguageId: string): Promise<readonly CompletionItem[]> => {
   try {
-    const offset = GetOffsetAtCursor.getOffsetAtCursor(editorUid)
+    const offset = await GetOffsetAtCursor.getOffsetAtCursor(editorUid)
     const completions = await ExtensionHostCompletion.executeCompletionProvider(editorUid, editorLanguageId, offset)
     return completions
   } catch (error) {

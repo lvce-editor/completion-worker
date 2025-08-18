@@ -10,6 +10,9 @@ test('loadContent', async () => {
   const mockEditorRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
+      if (method === 'Editor.getOffsetAtCursor') {
+        return 0
+      }
       if (method === 'Editor.getPositionAtCursor') {
         return {
           rowIndex: 1,
@@ -99,6 +102,9 @@ test('loadContent with completions', async () => {
       }
       if (method === 'ActivateByEvent.activateByEvent') {
         return undefined
+      }
+      if (method === 'Editor.getOffsetAtCursor') {
+        return 0
       }
       throw new Error(`unexpected method ${method}`)
     },

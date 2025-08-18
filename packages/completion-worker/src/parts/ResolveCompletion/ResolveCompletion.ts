@@ -8,7 +8,7 @@ export const resolveCompletion = async (editorUid: number, name: string, complet
   try {
     Assert.string(name)
     Assert.object(completionItem)
-    const offset = GetOffsetAtCursor.getOffsetAtCursor(editorUid)
+    const offset = await GetOffsetAtCursor.getOffsetAtCursor(editorUid)
     const resolvedCompletionItem = await ExtensionHostCompletion.executeResolveCompletionItem(editorUid, offset, name, completionItem)
     return resolvedCompletionItem
   } catch {
