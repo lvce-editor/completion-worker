@@ -1,4 +1,7 @@
-export const getOffsetAtCursor = (editorUid: any): number => {
+import * as EditorWorker from '../EditorWorker/EditorWorker.ts'
+
+export const getOffsetAtCursor = async (editorUid: any): Promise<number> => {
   // TODO ask editor worker
-  return 0
+  // @ts-ignore
+  return EditorWorker.invoke('Editor.getOffsetAtCursor', editorUid)
 }
