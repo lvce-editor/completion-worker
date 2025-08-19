@@ -13,8 +13,6 @@ export const executeCompletionProvider = async (editorUid: number, editorLanguag
     event: ExtensionHostActivationEvent.OnCompletion,
     method: ExtensionHostCommandType.CompletionExecute,
     args: [offset],
-    noProviderFoundMessage: 'no completion provider found',
-    noProviderFoundResult: [],
     combineResults,
   })
 }
@@ -29,8 +27,6 @@ export const executeResolveCompletionItem = async (editorUid: any, offset: any, 
     event: ExtensionHostActivationEvent.OnCompletion,
     method: ExtensionHostCommandType.CompletionResolveExecute,
     args: [offset, name, completionItem],
-    noProviderFoundMessage: 'no completion provider found',
-    noProviderFoundResult: [],
     combineResults: combineResultsResolve,
   })
 }
