@@ -12,6 +12,7 @@ export const {
   getPositionAtCursor,
   getSelections,
   getWordAt,
+  getOffsetAtCursor,
   getWordAtOffset2,
   getWordBefore,
   invokeAndTransfer,
