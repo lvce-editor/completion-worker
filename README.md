@@ -8,7 +8,7 @@
 git clone git@github.com:lvce-editor/completion-worker.git &&
 cd completion-worker &&
 npm ci &&
-npm completion
+npm test
 ```
 
 ## Gitpod

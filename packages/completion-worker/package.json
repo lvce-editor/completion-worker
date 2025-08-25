@@ -1,7 +1,7 @@
 {
   "name": "@lvce-editor/completion-worker",
   "version": "0.0.0-dev",
-  "description": "Web Worker for the find widget in Lvce Editor",
+  "description": "Web Worker for the completion widget in Lvce Editor",
   "repository": {
     "type": "git",
     "url": "git@github.com:lvce-editor/completion-worker.git"
