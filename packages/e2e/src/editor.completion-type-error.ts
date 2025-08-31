@@ -4,7 +4,7 @@ export const name = 'editor.completion-type-error'
 
 export const skip = 1
 
-export const test: Test = async ({ Extension, FileSystem, Workspace, Main, Editor, Locator, expect, Command }) => {
+export const test: Test = async ({ Extension, FileSystem, Workspace, Main, Editor }) => {
   // arrange
   const extensionUri = import.meta.resolve('../fixtures/editor.completion-type-error')
   await Extension.addWebExtension(extensionUri)
