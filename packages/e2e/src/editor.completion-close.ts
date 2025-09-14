@@ -1,8 +1,6 @@
-import type { Test } from '@lvce-editor/test-with-playwright'
+import { type Test, EditorCompletion } from '@lvce-editor/test-with-playwright'
 
 export const name = 'editor.completion-close'
-
-export const skip = 1
 
 export const test: Test = async ({ Extension, FileSystem, Workspace, Main, Editor, Locator, expect, Command }) => {
   // arrange
@@ -25,7 +23,7 @@ export const test: Test = async ({ Extension, FileSystem, Workspace, Main, Edito
   await expect(items).toHaveText('test')
 
   // act
-  await Command.execute('Editor.closeCompletion')
+  await Command.execute('EditorCompletion.close')
 
   // assert
   await expect(completions).toBeHidden()
