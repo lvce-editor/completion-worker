@@ -9,16 +9,9 @@ test('executeCompletionProvider returns empty array when no completions', async 
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const mockExtensionHostRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ExtensionHostCompletion.execute') {
-        return []
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+    'ExtensionHostCompletion.execute': () => [],
   })
-  ExtensionHostWorker.set(mockExtensionHostRpc)
 
   const result: readonly CompletionItem[] = await executeCompletionProvider(1, 'typescript', 10)
   expect(result).toEqual([])
@@ -32,16 +25,9 @@ test('executeCompletionProvider returns completion items when available', async 
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const mockExtensionHostRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ExtensionHostCompletion.execute') {
-        return mockCompletions
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+    'ExtensionHostCompletion.execute': () => mockCompletions,
   })
-  ExtensionHostWorker.set(mockExtensionHostRpc)
 
   const result: readonly CompletionItem[] = await executeCompletionProvider(1, 'typescript', 10)
   expect(result).toEqual(mockCompletions)
@@ -51,45 +37,23 @@ test('executeCompletionProvider handles error from extension host', async () => 
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const mockExtensionHostRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ExtensionHostCompletion.execute') {
-        throw new Error('Extension host error')
-      }
-      throw new Error(`unexpected method ${method}`)
+  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+    'ExtensionHostCompletion.execute': () => {
+      throw new Error('Extension host error')
     },
   })
-  ExtensionHostWorker.set(mockExtensionHostRpc)
 
   await expect(executeCompletionProvider(1, 'typescript', 10)).rejects.toThrow('Extension host error')
 })
 
 test('executeResolveCompletionItem returns resolved completion item', async () => {
   const mockResolvedItem = { resolved: true, detail: 'test detail' }
-  const mockEditorRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ActivateByEvent.activateByEvent') {
-        return
-      }
-      if (method === 'ExtensionHostCompletion.executeResolve') {
-        return mockResolvedItem
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockEditorRpc = EditorWorker.registerMockRpc({
+    'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const mockExtensionHostRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ExtensionHostCompletion.executeResolve') {
-        return mockResolvedItem
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+    'ExtensionHostCompletion.executeResolve': () => mockResolvedItem,
   })
-  EditorWorker.set(mockEditorRpc)
-  ExtensionHostWorker.set(mockExtensionHostRpc)
 
   const completionItem: CompletionItem = { label: 'test', kind: 1, flags: 0, matches: [] }
   const result = await executeResolveCompletionItem(1, 10, 'test', completionItem)
