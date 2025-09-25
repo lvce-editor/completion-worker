@@ -18,7 +18,6 @@ test('loadContent', async () => {
     'Editor.getWordAtOffset2': () => 'test',
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  // @ts-ignore
   const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostCompletion.execute': () => [
       {
@@ -72,7 +71,6 @@ test('loadContent with completions', async () => {
     'ActivateByEvent.activateByEvent': () => undefined,
     'Editor.getOffsetAtCursor': () => 0,
   })
-  // @ts-ignore
   const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostCompletion.execute': () => [
       {
@@ -125,7 +123,6 @@ test('loadContent with no completions', async () => {
     'Editor.getWordAtOffset2': () => 'test',
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  // @ts-ignore
   const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostCompletion.execute': () => [],
   })
@@ -157,7 +154,6 @@ test('loadContent with error in getPositionAtCursor', async () => {
     'Editor.getWordAtOffset2': () => 'test',
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  // @ts-ignore
   const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostCompletion.execute': () => [],
   })

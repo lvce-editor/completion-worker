@@ -12,7 +12,6 @@ const createCompletionItem = (label: string): CompletionItem => ({
 })
 
 test.skip('resolveCompletion returns resolved completion item', async () => {
-  // @ts-ignore
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'Editor.getOffsetAtCursor': () => 10,
   })
@@ -28,7 +27,6 @@ test.skip('resolveCompletion returns resolved completion item', async () => {
 })
 
 test('resolveCompletion returns undefined when extension host fails', async () => {
-  // @ts-ignore
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'Editor.getOffsetAtCursor': () => 10,
   })
@@ -46,7 +44,6 @@ test('resolveCompletion returns undefined when extension host fails', async () =
 })
 
 test('resolveCompletion returns undefined when getOffsetAtCursor fails', async () => {
-  // @ts-ignore
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'Editor.getOffsetAtCursor': () => {
       throw new Error('getOffsetAtCursor error')
@@ -60,7 +57,6 @@ test('resolveCompletion returns undefined when getOffsetAtCursor fails', async (
 })
 
 test('resolveCompletion returns undefined when name is not a string', async () => {
-  // @ts-ignore
   const mockEditorRpc = EditorWorker.registerMockRpc({})
 
   const result = await resolveCompletion(1, 123 as any, createCompletionItem('test'))
@@ -68,7 +64,6 @@ test('resolveCompletion returns undefined when name is not a string', async () =
 })
 
 test('resolveCompletion returns undefined when completionItem is not an object', async () => {
-  // @ts-ignore
   const mockEditorRpc = EditorWorker.registerMockRpc({})
 
   const result = await resolveCompletion(1, 'test', 'not an object' as any)
