@@ -1,7 +1,7 @@
 import { expect, jest, test } from '@jest/globals'
 import { EditorWorker } from '@lvce-editor/rpc-registry'
 import { getCompletions } from '../src/parts/Completions/Completions.ts'
-import * as ExtensionHostWorker from '../src/parts/ExtensionHostWorker/ExtensionHostWorker.ts'
+import { ExtensionHost } from '@lvce-editor/rpc-registry'
 
 test('getCompletions returns completions successfully', async () => {
   const mockCompletions = [

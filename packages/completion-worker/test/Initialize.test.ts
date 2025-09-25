@@ -1,6 +1,6 @@
 import { test, expect } from '@jest/globals'
 import { EditorWorker } from '@lvce-editor/rpc-registry'
-import * as ExtensionHostWorker from '../src/parts/ExtensionHostWorker/ExtensionHostWorker.ts'
+import { ExtensionHost } from '@lvce-editor/rpc-registry'
 import { initialize } from '../src/parts/Initialize/Initialize.ts'
 
 test('initialize sets extension host worker rpc', async () => {

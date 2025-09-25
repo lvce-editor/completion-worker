@@ -2,7 +2,8 @@ import { expect, test } from '@jest/globals'
 import { EditorWorker } from '@lvce-editor/rpc-registry'
 import type { CompletionState } from '../src/parts/CompletionState/CompletionState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
-import * as ExtensionHostWorker from '../src/parts/ExtensionHostWorker/ExtensionHostWorker.ts'
+import { ExtensionHost } from '@lvce-editor/rpc-registry'
+
 import { loadContent } from '../src/parts/LoadContent/LoadContent.ts'
 
 test('loadContent', async () => {
