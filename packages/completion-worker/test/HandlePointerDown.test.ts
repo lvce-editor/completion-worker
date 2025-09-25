@@ -17,6 +17,9 @@ test('handlePointerDown - valid click on first item', async () => {
       if (method === 'Editor.getSelections') {
         return [0, 5]
       }
+      if (method === 'Editor.getSelections2') {
+        return [0, 5]
+      }
       if (method === 'Editor.getOffsetAtCursor') {
         return 5
       }
@@ -24,6 +27,12 @@ test('handlePointerDown - valid click on first item', async () => {
         return undefined
       }
       if (method === 'ExtensionHost.invoke') {
+        return undefined
+      }
+      if (method === 'Editor.applyEdit2') {
+        return undefined
+      }
+      if (method === 'Editor.closeWidget2') {
         return undefined
       }
       throw new Error(`unexpected method ${method}`)
@@ -59,6 +68,9 @@ test('handlePointerDown - valid click on second item', async () => {
       if (method === 'Editor.getSelections') {
         return [0, 5]
       }
+      if (method === 'Editor.getSelections2') {
+        return [0, 5]
+      }
       if (method === 'Editor.getOffsetAtCursor') {
         return 5
       }
@@ -66,6 +78,12 @@ test('handlePointerDown - valid click on second item', async () => {
         return undefined
       }
       if (method === 'ExtensionHost.invoke') {
+        return undefined
+      }
+      if (method === 'Editor.applyEdit2') {
+        return undefined
+      }
+      if (method === 'Editor.closeWidget2') {
         return undefined
       }
       throw new Error(`unexpected method ${method}`)
@@ -133,6 +151,9 @@ test('handlePointerDown - click on last valid item', async () => {
       if (method === 'Editor.getSelections') {
         return [0, 5]
       }
+      if (method === 'Editor.getSelections2') {
+        return [0, 5]
+      }
       if (method === 'Editor.getOffsetAtCursor') {
         return 5
       }
@@ -140,6 +161,12 @@ test('handlePointerDown - click on last valid item', async () => {
         return undefined
       }
       if (method === 'ExtensionHost.invoke') {
+        return undefined
+      }
+      if (method === 'Editor.applyEdit2') {
+        return undefined
+      }
+      if (method === 'Editor.closeWidget2') {
         return undefined
       }
       throw new Error(`unexpected method ${method}`)
@@ -187,6 +214,9 @@ test('handlePointerDown - single item click', async () => {
       if (method === 'Editor.getSelections') {
         return [0, 5]
       }
+      if (method === 'Editor.getSelections2') {
+        return [0, 5]
+      }
       if (method === 'Editor.getOffsetAtCursor') {
         return 5
       }
@@ -194,6 +224,12 @@ test('handlePointerDown - single item click', async () => {
         return undefined
       }
       if (method === 'ExtensionHost.invoke') {
+        return undefined
+      }
+      if (method === 'Editor.applyEdit2') {
+        return undefined
+      }
+      if (method === 'Editor.closeWidget2') {
         return undefined
       }
       throw new Error(`unexpected method ${method}`)
