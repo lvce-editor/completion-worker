@@ -13,11 +13,6 @@ test('renderItems returns virtual dom for items', async () => {
     items: [item],
     focusedIndex: 0,
   }
-  const mockRpc = EditorWorker.registerMockRpc({
-    'Editor.getPositionAtCursor': () => ({ x: 100, y: 200 }),
-    'Editor.getWordAtOffset2': () => 'test',
-  })
-
   const result = renderItems(oldState, newState)
   expect(result).toBeDefined()
 })
@@ -29,11 +24,6 @@ test('renderItems returns virtual dom for empty items', async () => {
     items: [],
     focusedIndex: -1,
   }
-  const mockRpc = EditorWorker.registerMockRpc({
-    'Editor.getPositionAtCursor': () => ({ x: 100, y: 200 }),
-    'Editor.getWordAtOffset2': () => 'test',
-  })
-
   const result = renderItems(oldState, newState)
   expect(result).toBeDefined()
 })

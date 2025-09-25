@@ -78,6 +78,27 @@ test('handlePointerDown - valid click on second item', async () => {
 
   const result = await handlePointerDown(state, 50, 130)
   expect(result).toBeDefined()
+  
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 0],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+    ['Editor.getLines2', 0],
+    ['Editor.getSelections2', 0],
+    [
+      'Editor.applyEdit2',
+      0,
+      [
+        {
+          deleted: [''],
+          end: { columnIndex: 5, rowIndex: 0 },
+          inserted: ['item2'],
+          origin: '',
+          start: { columnIndex: 5, rowIndex: 0 },
+        },
+      ],
+    ],
+    ['Editor.closeWidget2', 0, 3, 'Completions', 9],
+  ])
 })
 
 test('handlePointerDown - click before first item returns original state', async () => {
@@ -110,6 +131,27 @@ test('handlePointerDown - click after last item returns original state', async (
 
   const result = await handlePointerDown(state, 50, 200)
   expect(result).toBe(state)
+  
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 0],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+    ['Editor.getLines2', 0],
+    ['Editor.getSelections2', 0],
+    [
+      'Editor.applyEdit2',
+      0,
+      [
+        {
+          deleted: [''],
+          end: { columnIndex: 5, rowIndex: 0 },
+          inserted: ['item3'],
+          origin: '',
+          start: { columnIndex: 5, rowIndex: 0 },
+        },
+      ],
+    ],
+    ['Editor.closeWidget2', 0, 3, 'Completions', 9],
+  ])
 })
 
 test('handlePointerDown - click on last valid item', async () => {
@@ -138,6 +180,27 @@ test('handlePointerDown - click on last valid item', async () => {
 
   const result = await handlePointerDown(state, 50, 150)
   expect(result).toBeDefined()
+  
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 0],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+    ['Editor.getLines2', 0],
+    ['Editor.getSelections2', 0],
+    [
+      'Editor.applyEdit2',
+      0,
+      [
+        {
+          deleted: [''],
+          end: { columnIndex: 5, rowIndex: 0 },
+          inserted: ['item3'],
+          origin: '',
+          start: { columnIndex: 5, rowIndex: 0 },
+        },
+      ],
+    ],
+    ['Editor.closeWidget2', 0, 3, 'Completions', 9],
+  ])
 })
 
 test('handlePointerDown - empty items array', async () => {

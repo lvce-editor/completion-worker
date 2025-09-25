@@ -61,6 +61,8 @@ test('resolveCompletion returns undefined when name is not a string', async () =
 
   const result = await resolveCompletion(1, 123 as any, createCompletionItem('test'))
   expect(result).toBeUndefined()
+  
+  expect(mockEditorRpc.invocations).toEqual([])
 })
 
 test('resolveCompletion returns undefined when completionItem is not an object', async () => {
@@ -68,4 +70,6 @@ test('resolveCompletion returns undefined when completionItem is not an object',
 
   const result = await resolveCompletion(1, 'test', 'not an object' as any)
   expect(result).toBeUndefined()
+  
+  expect(mockEditorRpc.invocations).toEqual([])
 })

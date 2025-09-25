@@ -32,4 +32,12 @@ test('selectIndex - selects item at given index', async () => {
   }
   const result = await selectIndex(state, 1)
   expect(result).toBe(state)
+  
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getEdits', 1, 'item2', { label: 'item2' }],
+    ['Editor.getLines2', 1],
+    ['Editor.getSelections2', 1],
+    ['Editor.applyEdit2', 1, []],
+    ['Editor.closeWidget2', 1, 3, 'Completions', 9]
+  ])
 })

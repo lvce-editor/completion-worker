@@ -19,6 +19,11 @@ test('handleEditorDeleteLeft returns state with updated items when focused item 
 
   const result = await handleEditorDeleteLeft(state)
   expect(result.items).toBeDefined()
+  
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getPositionAtCursor', 0],
+    ['Editor.getWordAtOffset2', 0, 0, 4]
+  ])
 })
 
 test('handleEditorDeleteLeft returns state with updated items when focused item has no matches', async () => {
@@ -35,6 +40,11 @@ test('handleEditorDeleteLeft returns state with updated items when focused item 
 
   const result = await handleEditorDeleteLeft(state)
   expect(result.items).toBeDefined()
+  
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getPositionAtCursor', 0],
+    ['Editor.getWordAtOffset2', 0, 0, 4]
+  ])
 })
 
 test('handleEditorDeleteLeft returns state unchanged when focusedIndex is -1', async () => {
@@ -51,4 +61,9 @@ test('handleEditorDeleteLeft returns state unchanged when focusedIndex is -1', a
 
   const result = await handleEditorDeleteLeft(state)
   expect(result.items).toBeDefined()
+  
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getPositionAtCursor', 0],
+    ['Editor.getWordAtOffset2', 0, 0, 4]
+  ])
 })
