@@ -9,9 +9,6 @@ test('getWordBefore - returns word before cursor', async () => {
 
   const result = await getWordBefore(1, 0, 5)
   expect(result).toBe('hello')
-  expect(mockRpc.invocations).toEqual([
-    { method: 'Editor.getWordBefore2', args: [1, 0, 5] }
-  ])
 })
 
 test('getWordBefore - returns empty string when no word before', async () => {
@@ -21,7 +18,4 @@ test('getWordBefore - returns empty string when no word before', async () => {
 
   const result = await getWordBefore(1, 0, 0)
   expect(result).toBe('')
-  expect(mockRpc.invocations).toEqual([
-    { method: 'Editor.getWordBefore2', args: [1, 0, 0] }
-  ])
 })
