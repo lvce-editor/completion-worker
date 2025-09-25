@@ -12,7 +12,6 @@ test('handleEditorDeleteLeft returns state with updated items when focused item 
     items: [item],
     focusedIndex: 0,
   }
-  // @ts-ignore
   const mockRpc = EditorWorker.registerMockRpc({
     'Editor.getPositionAtCursor': () => ({ x: 100, y: 200 }),
     'Editor.getWordAtOffset2': () => 'test',
@@ -29,7 +28,6 @@ test('handleEditorDeleteLeft returns state with updated items when focused item 
     items: [item],
     focusedIndex: 0,
   }
-  // @ts-ignore
   const mockRpc = EditorWorker.registerMockRpc({
     'Editor.getPositionAtCursor': () => ({ x: 100, y: 200 }),
     'Editor.getWordAtOffset2': () => 'test',
@@ -46,7 +44,6 @@ test('handleEditorDeleteLeft returns state unchanged when focusedIndex is -1', a
     items: [item],
     focusedIndex: -1,
   }
-  // @ts-ignore
   const mockRpc = EditorWorker.registerMockRpc({
     'Editor.getPositionAtCursor': () => ({ x: 100, y: 200 }),
     'Editor.getWordAtOffset2': () => 'test',
