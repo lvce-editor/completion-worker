@@ -78,7 +78,7 @@ test('handlePointerDown - valid click on second item', async () => {
 
   const result = await handlePointerDown(state, 50, 130)
   expect(result).toBeDefined()
-  
+
   expect(mockRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
     ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
@@ -159,7 +159,7 @@ test('handlePointerDown - click on last valid item', async () => {
 
   const result = await handlePointerDown(state, 50, 150)
   expect(result).toBeDefined()
-  
+
   expect(mockRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
     ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
@@ -216,7 +216,7 @@ test('handlePointerDown - single item click', async () => {
 
   const result = await handlePointerDown(state, 50, 110)
   expect(result).toBeDefined()
-  
+
   expect(mockRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
     ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
