@@ -1,5 +1,13 @@
 import type { CompletionState } from '../CompletionState/CompletionState.ts'
+import { selectIndex } from '../EditorCompletionSelectIndex/EditorCompletionSelectIndex.ts'
+import { getIndexFromPosition } from '../GetIndexFromPosition/GetIndexFromPosition.ts'
 
-export const handlePointerDown = (state: CompletionState, clientX: number, clientY: number): CompletionState => {
-  return state
+export const handlePointerDown = async (state: CompletionState, clientX: number, clientY: number): Promise<CompletionState> => {
+  const { y, itemHeight, items } = state
+  const index = getIndexFromPosition(y, clientY, itemHeight)
+  if (index < 0 || index >= items.length) {
+    //  TODO close maybe?
+    return state
+  }
+  return selectIndex(state, index)
 }
