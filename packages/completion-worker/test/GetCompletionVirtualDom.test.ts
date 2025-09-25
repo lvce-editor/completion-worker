@@ -1,4 +1,5 @@
 import { expect, test } from '@jest/globals'
+import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { VisibleCompletionItem } from '../src/parts/VisibleCompletionItem/VisibleCompletionItem.ts'
 import * as AriaRoles from '../src/parts/AriaRoles/AriaRoles.ts'
 import * as ClassNames from '../src/parts/ClassNames/ClassNames.ts'
@@ -6,7 +7,6 @@ import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctio
 import * as EditorStrings from '../src/parts/EditorStrings/EditorStrings.ts'
 import { getCompletionVirtualDom } from '../src/parts/GetCompletionVirtualDom/GetCompletionVirtualDom.ts'
 import * as Ids from '../src/parts/Ids/Ids.ts'
-import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 
 test('getCompletionVirtualDom returns correct structure with scrollbar', () => {
   const visibleItems: readonly VisibleCompletionItem[] = [

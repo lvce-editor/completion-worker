@@ -1,7 +1,7 @@
 import { test, expect } from '@jest/globals'
+import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import * as ClassNames from '../src/parts/ClassNames/ClassNames.ts'
 import { getScrollBarVirtualDom } from '../src/parts/GetScrollBarVirtualDom/GetScrollBarVirtualDom.ts'
-import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 
 test('should return empty array when scrollBarHeight is 0', () => {
   const result = getScrollBarVirtualDom(0, 0)
