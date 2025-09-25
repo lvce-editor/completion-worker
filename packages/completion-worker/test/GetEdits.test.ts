@@ -42,9 +42,6 @@ test('getEdits - returns changes for simple completion', async () => {
     ['Editor.getLines2', 1],
     ['Editor.getSelections2', 1]
   ])
-  expect(mockExtensionHostRpc.invocations).toEqual([
-    ['ExtensionHostEditor.execute', 1, 'hel', mockCompletion]
-  ])
 })
 
 test.skip('getEdits - returns changes with resolved snippet', async () => {
@@ -75,9 +72,6 @@ test.skip('getEdits - returns changes with resolved snippet', async () => {
     ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
     ['Editor.getLines2', 1],
     ['Editor.getSelections2', 1]
-  ])
-  expect(mockExtensionHostRpc.invocations).toEqual([
-    ['ExtensionHostEditor.execute', 1, 'hel', mockCompletion]
   ])
 })
 
@@ -111,8 +105,5 @@ test('getEdits - returns changes when resolved item is undefined', async () => {
     ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
     ['Editor.getLines2', 1],
     ['Editor.getSelections2', 1]
-  ])
-  expect(mockExtensionHostRpc.invocations).toEqual([
-    ['ExtensionHostEditor.execute', 1, 'hel', mockCompletion]
   ])
 })

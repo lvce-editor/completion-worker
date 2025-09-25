@@ -49,6 +49,16 @@ test('loadContent', async () => {
   expect(newState.maxLineY).toBe(2)
   expect(newState.version).toBe(1)
   expect(newState.width).toBe(200)
+  
+  expect(mockEditorRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 0],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:'],
+    ['Editor.getWordAtOffset2', 0],
+    ['Editor.getPositionAtCursor', 0]
+  ])
+  expect(mockExtensionHostRpc.invocations).toEqual([
+    ['ExtensionHostCompletion.execute', 0, 0]
+  ])
 })
 
 test('loadContent with completions', async () => {
@@ -94,6 +104,16 @@ test('loadContent with completions', async () => {
   expect(newState.maxLineY).toBe(2)
   expect(newState.version).toBe(1)
   expect(newState.width).toBe(200)
+  
+  expect(mockEditorRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 0],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:'],
+    ['Editor.getWordAtOffset2', 0],
+    ['Editor.getPositionAtCursor', 0]
+  ])
+  expect(mockExtensionHostRpc.invocations).toEqual([
+    ['ExtensionHostCompletion.execute', 0, 0]
+  ])
 })
 
 test('loadContent with no completions', async () => {
@@ -121,6 +141,15 @@ test('loadContent with no completions', async () => {
   expect(newState.leadingWord).toBe('test')
   expect(newState.focusedIndex).toBe(-1)
   expect(newState.maxLineY).toBe(0)
+  
+  expect(mockEditorRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 0],
+    ['Editor.getWordAtOffset2', 0],
+    ['Editor.getPositionAtCursor', 0]
+  ])
+  expect(mockExtensionHostRpc.invocations).toEqual([
+    ['ExtensionHostCompletion.execute', 0, 0]
+  ])
 })
 
 test('loadContent with error in getPositionAtCursor', async () => {
@@ -138,4 +167,10 @@ test('loadContent with error in getPositionAtCursor', async () => {
   EditorWorker.set(mockEditorRpc)
   const state = createDefaultState()
   await expect(loadContent(state)).rejects.toThrow('Failed to get position')
+  
+  expect(mockEditorRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 0],
+    ['Editor.getWordAtOffset2', 0],
+    ['Editor.getPositionAtCursor', 0]
+  ])
 })

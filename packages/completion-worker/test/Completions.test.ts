@@ -31,8 +31,7 @@ test('getCompletions returns completions successfully', async () => {
     ['ActivateByEvent.activateByEvent', 'onCompletion:typescript']
   ])
   expect(_mockExtensionHostRpc.invocations).toEqual([
-    ['GetOffsetAtCursor.getOffsetAtCursor', 1],
-    ['ExtensionHostCompletion.execute', 1, 10]
+    ['ExtensionHostCompletion.execute', 1, 0]
   ])
 })
 
@@ -62,7 +61,6 @@ test('getCompletions returns empty array on error', async () => {
     ['ActivateByEvent.activateByEvent', 'onCompletion:typescript']
   ])
   expect(_mockExtensionHostRpc.invocations).toEqual([
-    ['GetOffsetAtCursor.getOffsetAtCursor', 1],
     ['ExtensionHostCompletion.execute', 1, 0]
   ])
 
