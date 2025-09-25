@@ -4,7 +4,7 @@ export const name = 'editor.completion-click'
 
 export const skip = 1
 
-export const test: Test = async ({ Command, Extension, FileSystem, Workspace, Main, Editor, Locator, expect, EditorCompletion }) => {
+export const test: Test = async ({ Command, Extension, FileSystem, Workspace, Main, Editor, Locator, expect }) => {
   // arrange
   const extensionUri = import.meta.resolve('../fixtures/editor.completion-click')
   await Extension.addWebExtension(extensionUri)
@@ -25,7 +25,7 @@ export const test: Test = async ({ Command, Extension, FileSystem, Workspace, Ma
   await expect(items).toHaveText('test')
 
   // act
-  await Command.execute('EditorCompletion.handlePointerDown', 20, 20)
+  await Command.execute('EditorCompletion.handlePointerDown', 10, 80)
 
   // assert
   const token = Locator('.Token.Unknown')
