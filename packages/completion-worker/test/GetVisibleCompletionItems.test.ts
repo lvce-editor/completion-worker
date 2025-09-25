@@ -29,25 +29,26 @@ test('getVisibleItems transforms completion items correctly', () => {
 
   const result = getVisibleItems(filteredItems, itemHeight, leadingWord, minLineY, maxLineY, focusedIndex, 0)
 
-  expect(result).toHaveLength(2)
-  expect(result[0]).toEqual({
-    label: 'test1',
-    symbolName: EditorCompletionMap.getSymbolName(1),
-    top: 0,
-    highlights: GetCompletionItemHighlights.getHighlights(filteredItems[0]),
-    focused: true,
-    deprecated: 0,
-    fileIcon: GetCompletionFileIcon.getCompletionFileIcon(1),
-  })
-  expect(result[1]).toEqual({
-    label: 'test2',
-    symbolName: EditorCompletionMap.getSymbolName(1),
-    top: 20,
-    highlights: GetCompletionItemHighlights.getHighlights(filteredItems[1]),
-    focused: false,
-    deprecated: 0,
-    fileIcon: GetCompletionFileIcon.getCompletionFileIcon(1),
-  })
+  expect(result).toEqual([
+    {
+      label: 'test1',
+      symbolName: EditorCompletionMap.getSymbolName(1),
+      top: 0,
+      highlights: GetCompletionItemHighlights.getHighlights(filteredItems[0]),
+      focused: true,
+      deprecated: 0,
+      fileIcon: GetCompletionFileIcon.getCompletionFileIcon(1),
+    },
+    {
+      label: 'test2',
+      symbolName: EditorCompletionMap.getSymbolName(1),
+      top: 20,
+      highlights: GetCompletionItemHighlights.getHighlights(filteredItems[1]),
+      focused: false,
+      deprecated: 0,
+      fileIcon: GetCompletionFileIcon.getCompletionFileIcon(1),
+    },
+  ])
 })
 
 test('getVisibleItems handles empty array', () => {
@@ -74,6 +75,24 @@ test('getVisibleItems handles different focused index', () => {
 
   const result = getVisibleItems(filteredItems, 20, 'test', 0, 2, 1, 0)
 
-  expect(result[0].focused).toBe(false)
-  expect(result[1].focused).toBe(true)
+  expect(result).toEqual([
+    {
+      label: 'test1',
+      symbolName: EditorCompletionMap.getSymbolName(1),
+      top: 0,
+      highlights: GetCompletionItemHighlights.getHighlights(filteredItems[0]),
+      focused: false,
+      deprecated: 0,
+      fileIcon: GetCompletionFileIcon.getCompletionFileIcon(1),
+    },
+    {
+      label: 'test2',
+      symbolName: EditorCompletionMap.getSymbolName(1),
+      top: 20,
+      highlights: GetCompletionItemHighlights.getHighlights(filteredItems[1]),
+      focused: true,
+      deprecated: 0,
+      fileIcon: GetCompletionFileIcon.getCompletionFileIcon(1),
+    },
+  ])
 })
