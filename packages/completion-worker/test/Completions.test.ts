@@ -1,7 +1,7 @@
 import { expect, jest, test } from '@jest/globals'
 import { EditorWorker } from '@lvce-editor/rpc-registry'
-import { getCompletions } from '../src/parts/Completions/Completions.ts'
 import { ExtensionHost } from '@lvce-editor/rpc-registry'
+import { getCompletions } from '../src/parts/Completions/Completions.ts'
 
 test('getCompletions returns completions successfully', async () => {
   const mockCompletions = [
@@ -12,7 +12,7 @@ test('getCompletions returns completions successfully', async () => {
       matches: [0, 1, 2, 3],
     },
   ]
-  const _mockExtensionHostRpc = ExtensionHost.registerMockRpc({
+  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'GetOffsetAtCursor.getOffsetAtCursor': () => 10,
     'ExtensionHostCompletion.execute': () => mockCompletions,
     'Editor.getOffsetAtCursor': () => 0,
@@ -30,13 +30,13 @@ test('getCompletions returns completions successfully', async () => {
     ['Editor.getOffsetAtCursor', 1],
     ['ActivateByEvent.activateByEvent', 'onCompletion:typescript'],
   ])
-  expect(_mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.execute', 1, 0]])
+  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.execute', 1, 0]])
 })
 
 test('getCompletions returns empty array on error', async () => {
   // @ts-ignore
   const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
-  const _mockExtensionHostRpc = ExtensionHost.registerMockRpc({
+  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'GetOffsetAtCursor.getOffsetAtCursor': () => 10,
     'ExtensionHostCompletion.execute': () => {
       throw new Error('test error')
@@ -58,7 +58,7 @@ test('getCompletions returns empty array on error', async () => {
     ['Editor.getOffsetAtCursor', 1],
     ['ActivateByEvent.activateByEvent', 'onCompletion:typescript'],
   ])
-  expect(_mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.execute', 1, 0]])
+  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.execute', 1, 0]])
 
   consoleErrorSpy.mockRestore()
 })

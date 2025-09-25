@@ -1,8 +1,7 @@
 import { expect, test } from '@jest/globals'
 import { EditorWorker } from '@lvce-editor/rpc-registry'
-import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.ts'
 import { ExtensionHost } from '@lvce-editor/rpc-registry'
-
+import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.ts'
 import { getEdits } from '../src/parts/GetEdits/GetEdits.ts'
 
 const createCompletionItem = (label: string): CompletionItem => ({
@@ -23,8 +22,7 @@ test('getEdits - returns changes for simple completion', async () => {
     'Editor.getOffsetAtCursor': () => 10,
   })
 
-  // @ts-ignore
-  const _mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostEditor.execute': () => undefined,
   })
 
@@ -59,8 +57,7 @@ test.skip('getEdits - returns changes with resolved snippet', async () => {
     'Editor.getSelections2': () => mockSelections,
     'Editor.getOffsetAtCursor': () => 10,
   })
-  // @ts-ignore
-  const _mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostEditor.execute': () => [mockResolvedItem],
   })
 
@@ -89,8 +86,7 @@ test('getEdits - returns changes when resolved item is undefined', async () => {
     'Editor.getOffsetAtCursor': () => 10,
   })
 
-  // @ts-ignore
-  const _mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostEditor.execute': () => undefined,
   })
 

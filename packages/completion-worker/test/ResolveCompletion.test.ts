@@ -13,26 +13,26 @@ const createCompletionItem = (label: string): CompletionItem => ({
 
 test.skip('resolveCompletion returns resolved completion item', async () => {
   // @ts-ignore
-  const _mockEditorRpc = EditorWorker.registerMockRpc({
+  const mockEditorRpc = EditorWorker.registerMockRpc({
     'Editor.getOffsetAtCursor': () => 10,
   })
-  const _mockExtensionHostRpc = ExtensionHost.registerMockRpc({
+  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostCompletion.executeResolve': () => ({ resolved: true }),
   })
 
   const result = await resolveCompletion(1, 'test', createCompletionItem('test'))
   expect(result).toEqual({ resolved: true })
 
-  expect(_mockEditorRpc.invocations).toEqual([['Editor.getOffsetAtCursor', 1]])
-  expect(_mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.executeResolve', 1, 10, 'test', createCompletionItem('test')]])
+  expect(mockEditorRpc.invocations).toEqual([['Editor.getOffsetAtCursor', 1]])
+  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.executeResolve', 1, 10, 'test', createCompletionItem('test')]])
 })
 
 test('resolveCompletion returns undefined when extension host fails', async () => {
   // @ts-ignore
-  const _mockEditorRpc = EditorWorker.registerMockRpc({
+  const mockEditorRpc = EditorWorker.registerMockRpc({
     'Editor.getOffsetAtCursor': () => 10,
   })
-  const _mockExtensionHostRpc = ExtensionHost.registerMockRpc({
+  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostEditor.execute': () => {
       throw new Error('extension host error')
     },
@@ -41,13 +41,13 @@ test('resolveCompletion returns undefined when extension host fails', async () =
   const result = await resolveCompletion(1, 'test', createCompletionItem('test'))
   expect(result).toBeUndefined()
 
-  expect(_mockEditorRpc.invocations).toEqual([['Editor.getOffsetAtCursor', 1]])
-  expect(_mockExtensionHostRpc.invocations).toEqual([['ExtensionHostEditor.execute', 1, 'test', createCompletionItem('test')]])
+  expect(mockEditorRpc.invocations).toEqual([['Editor.getOffsetAtCursor', 1]])
+  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostEditor.execute', 1, 'test', createCompletionItem('test')]])
 })
 
 test('resolveCompletion returns undefined when getOffsetAtCursor fails', async () => {
   // @ts-ignore
-  const _mockEditorRpc = EditorWorker.registerMockRpc({
+  const mockEditorRpc = EditorWorker.registerMockRpc({
     'Editor.getOffsetAtCursor': () => {
       throw new Error('getOffsetAtCursor error')
     },
@@ -56,12 +56,12 @@ test('resolveCompletion returns undefined when getOffsetAtCursor fails', async (
   const result = await resolveCompletion(1, 'test', createCompletionItem('test'))
   expect(result).toBeUndefined()
 
-  expect(_mockEditorRpc.invocations).toEqual([['Editor.getOffsetAtCursor', 1]])
+  expect(mockEditorRpc.invocations).toEqual([['Editor.getOffsetAtCursor', 1]])
 })
 
 test('resolveCompletion returns undefined when name is not a string', async () => {
   // @ts-ignore
-  const _mockEditorRpc = EditorWorker.registerMockRpc({})
+  const mockEditorRpc = EditorWorker.registerMockRpc({})
 
   const result = await resolveCompletion(1, 123 as any, createCompletionItem('test'))
   expect(result).toBeUndefined()
@@ -69,7 +69,7 @@ test('resolveCompletion returns undefined when name is not a string', async () =
 
 test('resolveCompletion returns undefined when completionItem is not an object', async () => {
   // @ts-ignore
-  const _mockEditorRpc = EditorWorker.registerMockRpc({})
+  const mockEditorRpc = EditorWorker.registerMockRpc({})
 
   const result = await resolveCompletion(1, 'test', 'not an object' as any)
   expect(result).toBeUndefined()
