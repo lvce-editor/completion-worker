@@ -15,6 +15,7 @@ import * as GetCommandIds from '../GetCommandIds/GetCommandIds.ts'
 import * as GetKeyBindings from '../GetKeyBindings/GetKeyBindings.ts'
 import * as HandleEditorDeleteLeft from '../HandleEditorDeleteLeft/HandleEditorDeleteLeft.ts'
 import * as HandleEditorType from '../HandleEditorType/HandleEditorType.ts'
+import { handlePointerDown } from '../HandlePointerDown/HandlePointerDown.ts'
 import * as HandleWheel from '../HandleWheel/HandleWheel.ts'
 import * as Initialize from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
@@ -34,6 +35,7 @@ export const commandMap = {
   'Completions.handleEditorDeleteLeft': WrapCommand.wrapCommand(HandleEditorDeleteLeft.handleEditorDeleteLeft),
   'Completions.handleEditorType': WrapCommand.wrapCommand(HandleEditorType.handleEditorType),
   'Completions.handleWheel': WrapCommand.wrapCommand(HandleWheel.handleWheel),
+  'Completions.handlePointerDown': WrapCommand.wrapCommand(handlePointerDown),
   'Completions.initialize': Initialize.initialize,
   'Completions.loadContent': WrapCommand.wrapCommand(LoadContent.loadContent),
   'Completions.openDetails': WrapCommand.wrapCommand(EditorCompletionOpenDetails.openDetails),
