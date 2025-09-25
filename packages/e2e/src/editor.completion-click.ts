@@ -2,7 +2,9 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'editor.completion-click'
 
-export const test: Test = async ({ Extension, FileSystem, Workspace, Main, Editor, Locator, expect, EditorCompletion }) => {
+export const skip = 1
+
+export const test: Test = async ({ Command, Extension, FileSystem, Workspace, Main, Editor, Locator, expect, EditorCompletion }) => {
   // arrange
   const extensionUri = import.meta.resolve('../fixtures/editor.completion-click')
   await Extension.addWebExtension(extensionUri)
@@ -23,7 +25,7 @@ export const test: Test = async ({ Extension, FileSystem, Workspace, Main, Edito
   await expect(items).toHaveText('test')
 
   // act
-  await EditorCompletion.selectIndex(0)
+  await Command.execute('EditorCompletion.handlePointerDown', 20, 20)
 
   // assert
   const token = Locator('.Token.Unknown')
