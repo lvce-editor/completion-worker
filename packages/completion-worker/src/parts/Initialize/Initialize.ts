@@ -1,8 +1,7 @@
-import * as CreateExtensionHostRpc from '../CreateExtensionHostRpc/CreateExtensionHostRpc.ts'
 import { ExtensionHost } from '@lvce-editor/rpc-registry'
-;('../ExtensionHostWorker/ExtensionHostWorker.ts')
+import * as CreateExtensionHostRpc from '../CreateExtensionHostRpc/CreateExtensionHostRpc.ts'
 
 export const initialize = async (): Promise<void> => {
   const rpc = await CreateExtensionHostRpc.createExtensionHostRpc()
-  ExtensionHostWorker.set(rpc)
+  ExtensionHost.set(rpc)
 }
