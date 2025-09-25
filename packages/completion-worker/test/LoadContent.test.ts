@@ -112,6 +112,7 @@ test('loadContent with completions', async () => {
 })
 
 test('loadContent with no completions', async () => {
+  // @ts-ignore
   const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
 
   const mockEditorRpc = EditorWorker.registerMockRpc({
@@ -142,17 +143,19 @@ test('loadContent with no completions', async () => {
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:'],
     ['Editor.getWordAtOffset2', 0],
     ['Editor.getPositionAtCursor', 0],
   ])
-  expect(mockExtensionHostRpc.invocations).toEqual([])
+  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.execute', 0, 0]])
 
   consoleErrorSpy.mockRestore()
 })
 
 test('loadContent with error in getPositionAtCursor', async () => {
+  // @ts-ignore
   const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
-  
+
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'Editor.getOffsetAtCursor': () => 0,
     'Editor.getPositionAtCursor': () => {
@@ -168,9 +171,10 @@ test('loadContent with error in getPositionAtCursor', async () => {
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:'],
     ['Editor.getWordAtOffset2', 0],
     ['Editor.getPositionAtCursor', 0],
   ])
-  
+
   consoleErrorSpy.mockRestore()
 })
