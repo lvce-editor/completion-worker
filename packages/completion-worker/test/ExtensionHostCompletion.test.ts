@@ -15,12 +15,8 @@ test('executeCompletionProvider returns empty array when no completions', async 
   const result: readonly CompletionItem[] = await executeCompletionProvider(1, 'typescript', 10)
   expect(result).toEqual([])
 
-  expect(mockEditorRpc.invocations).toEqual([
-    ['ActivateByEvent.activateByEvent', 'onCompletion:typescript']
-  ])
-  expect(mockExtensionHostRpc.invocations).toEqual([
-    ['ExtensionHostCompletion.execute', 1, 10]
-  ])
+  expect(mockEditorRpc.invocations).toEqual([['ActivateByEvent.activateByEvent', 'onCompletion:typescript']])
+  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.execute', 1, 10]])
 })
 
 test('executeCompletionProvider returns completion items when available', async () => {
@@ -38,12 +34,8 @@ test('executeCompletionProvider returns completion items when available', async 
   const result: readonly CompletionItem[] = await executeCompletionProvider(1, 'typescript', 10)
   expect(result).toEqual(mockCompletions)
 
-  expect(mockEditorRpc.invocations).toEqual([
-    ['ActivateByEvent.activateByEvent', 'onCompletion:typescript']
-  ])
-  expect(mockExtensionHostRpc.invocations).toEqual([
-    ['ExtensionHostCompletion.execute', 1, 10]
-  ])
+  expect(mockEditorRpc.invocations).toEqual([['ActivateByEvent.activateByEvent', 'onCompletion:typescript']])
+  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.execute', 1, 10]])
 })
 
 test('executeCompletionProvider handles error from extension host', async () => {
@@ -58,12 +50,8 @@ test('executeCompletionProvider handles error from extension host', async () => 
 
   await expect(executeCompletionProvider(1, 'typescript', 10)).rejects.toThrow('Extension host error')
 
-  expect(mockEditorRpc.invocations).toEqual([
-    ['ActivateByEvent.activateByEvent', 'onCompletion:typescript']
-  ])
-  expect(mockExtensionHostRpc.invocations).toEqual([
-    ['ExtensionHostCompletion.execute', 1, 10]
-  ])
+  expect(mockEditorRpc.invocations).toEqual([['ActivateByEvent.activateByEvent', 'onCompletion:typescript']])
+  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.execute', 1, 10]])
 })
 
 test('executeResolveCompletionItem returns resolved completion item', async () => {
@@ -79,12 +67,8 @@ test('executeResolveCompletionItem returns resolved completion item', async () =
   const result = await executeResolveCompletionItem(1, 10, 'test', completionItem)
   expect(result).toEqual(mockResolvedItem)
 
-  expect(mockEditorRpc.invocations).toEqual([
-    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined']
-  ])
-  expect(mockExtensionHostRpc.invocations).toEqual([
-    ['ExtensionHostCompletion.executeResolve', 1, 10, 'test', completionItem]
-  ])
+  expect(mockEditorRpc.invocations).toEqual([['ActivateByEvent.activateByEvent', 'onCompletion:undefined']])
+  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.executeResolve', 1, 10, 'test', completionItem]])
 })
 
 test('executeResolveCompletionItem returns undefined when no provider found', async () => {
@@ -99,10 +83,6 @@ test('executeResolveCompletionItem returns undefined when no provider found', as
   const result = await executeResolveCompletionItem(1, 10, 'test', completionItem)
   expect(result).toBeUndefined()
 
-  expect(mockEditorRpc.invocations).toEqual([
-    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined']
-  ])
-  expect(mockExtensionHostRpc.invocations).toEqual([
-    ['ExtensionHostCompletion.executeResolve', 1, 10, 'test', completionItem]
-  ])
+  expect(mockEditorRpc.invocations).toEqual([['ActivateByEvent.activateByEvent', 'onCompletion:undefined']])
+  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.executeResolve', 1, 10, 'test', completionItem]])
 })

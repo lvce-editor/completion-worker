@@ -11,9 +11,7 @@ test('getLines - returns document lines', async () => {
 
   const result = await getLines(1)
   expect(result).toEqual(mockLines)
-  expect(mockRpc.invocations).toEqual([
-    ['Editor.getLines2', 1]
-  ])
+  expect(mockRpc.invocations).toEqual([['Editor.getLines2', 1]])
 })
 
 test('getLines - returns empty document', async () => {
@@ -25,7 +23,5 @@ test('getLines - returns empty document', async () => {
 
   const result = await getLines(1)
   expect(result).toEqual(mockLines)
-  expect(mockRpc.invocations).toEqual([
-    ['Editor.getLines2', 1]
-  ])
+  expect(mockRpc.invocations).toEqual([['Editor.getLines2', 1]])
 })

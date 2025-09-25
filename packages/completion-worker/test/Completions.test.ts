@@ -28,11 +28,9 @@ test('getCompletions returns completions successfully', async () => {
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 1],
-    ['ActivateByEvent.activateByEvent', 'onCompletion:typescript']
+    ['ActivateByEvent.activateByEvent', 'onCompletion:typescript'],
   ])
-  expect(_mockExtensionHostRpc.invocations).toEqual([
-    ['ExtensionHostCompletion.execute', 1, 0]
-  ])
+  expect(_mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.execute', 1, 0]])
 })
 
 test('getCompletions returns empty array on error', async () => {
@@ -55,14 +53,12 @@ test('getCompletions returns empty array on error', async () => {
   expect(result).toEqual([])
   expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to get completions:')
   expect(consoleErrorSpy).toHaveBeenCalledWith(new Error('test error'))
-  
+
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 1],
-    ['ActivateByEvent.activateByEvent', 'onCompletion:typescript']
+    ['ActivateByEvent.activateByEvent', 'onCompletion:typescript'],
   ])
-  expect(_mockExtensionHostRpc.invocations).toEqual([
-    ['ExtensionHostCompletion.execute', 1, 0]
-  ])
+  expect(_mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.execute', 1, 0]])
 
   consoleErrorSpy.mockRestore()
 })

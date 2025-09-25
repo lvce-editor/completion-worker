@@ -41,7 +41,7 @@ test('getEdits - returns changes for simple completion', async () => {
     ['Editor.getOffsetAtCursor', 1],
     ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
     ['Editor.getLines2', 1],
-    ['Editor.getSelections2', 1]
+    ['Editor.getSelections2', 1],
   ])
 })
 
@@ -68,12 +68,12 @@ test.skip('getEdits - returns changes with resolved snippet', async () => {
   expect(result[0]).toMatchObject({
     inserted: ['hello()'],
   })
-  
+
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 1],
     ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
     ['Editor.getLines2', 1],
-    ['Editor.getSelections2', 1]
+    ['Editor.getSelections2', 1],
   ])
 })
 
@@ -107,6 +107,6 @@ test('getEdits - returns changes when resolved item is undefined', async () => {
     ['Editor.getOffsetAtCursor', 1],
     ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
     ['Editor.getLines2', 1],
-    ['Editor.getSelections2', 1]
+    ['Editor.getSelections2', 1],
   ])
 })

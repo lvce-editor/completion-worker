@@ -33,7 +33,7 @@ test('handleEditorType - basic functionality', async () => {
 
   expect(mockRpc.invocations).toEqual([
     ['Editor.getPositionAtCursor', 0],
-    ['Editor.getWordBefore2', 0, 5, 10]
+    ['Editor.getWordBefore2', 0, 5, 10],
   ])
 })
 
@@ -60,7 +60,7 @@ test('handleEditorType - with position and word', async () => {
 
   expect(mockRpc.invocations).toEqual([
     ['Editor.getPositionAtCursor', 0],
-    ['Editor.getWordBefore2', 0, 5, 10]
+    ['Editor.getWordBefore2', 0, 5, 10],
   ])
 })
 
@@ -95,6 +95,6 @@ test('handleEditorType - with filtered items', async () => {
 
   expect(mockRpc.invocations).toEqual([
     ['Editor.getPositionAtCursor', 0],
-    ['Editor.getWordBefore2', 0, 5, 10]
+    ['Editor.getWordBefore2', 0, 5, 10],
   ])
 })

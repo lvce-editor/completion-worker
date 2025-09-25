@@ -16,9 +16,7 @@ test('getPositionAtCursor - returns position at cursor', async () => {
 
   const result = await getPositionAtCursor(1)
   expect(result).toEqual(mockPosition)
-  expect(mockRpc.invocations).toEqual([
-    ['Editor.getPositionAtCursor', 1]
-  ])
+  expect(mockRpc.invocations).toEqual([['Editor.getPositionAtCursor', 1]])
 })
 
 test('getPositionAtCursor - returns position at start of document', async () => {
@@ -35,7 +33,5 @@ test('getPositionAtCursor - returns position at start of document', async () => 
 
   const result = await getPositionAtCursor(1)
   expect(result).toEqual(mockPosition)
-  expect(mockRpc.invocations).toEqual([
-    ['Editor.getPositionAtCursor', 1]
-  ])
+  expect(mockRpc.invocations).toEqual([['Editor.getPositionAtCursor', 1]])
 })
