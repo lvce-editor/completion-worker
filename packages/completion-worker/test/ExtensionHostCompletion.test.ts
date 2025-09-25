@@ -1,22 +1,13 @@
 import { test, expect } from '@jest/globals'
 import { MockRpc } from '@lvce-editor/rpc'
+import { EditorWorker, ExtensionHost } from '@lvce-editor/rpc-registry'
 import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.ts'
-import * as EditorWorker from '../src/parts/EditorWorker/EditorWorker.ts'
 import { executeCompletionProvider, executeResolveCompletionItem } from '../src/parts/ExtensionHostCompletion/ExtensionHostCompletion.ts'
 import * as ExtensionHostWorker from '../src/parts/ExtensionHostWorker/ExtensionHostWorker.ts'
 
 test('executeCompletionProvider returns empty array when no completions', async () => {
-  const mockEditorRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ActivateByEvent.activateByEvent') {
-        return
-      }
-      if (method === 'ExtensionHostCompletion.execute') {
-        return []
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockEditorRpc = EditorWorker.registerMockRpc({
+    'ActivateByEvent.activateByEvent': () => undefined,
   })
   const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
@@ -27,7 +18,6 @@ test('executeCompletionProvider returns empty array when no completions', async 
       throw new Error(`unexpected method ${method}`)
     },
   })
-  EditorWorker.set(mockEditorRpc)
   ExtensionHostWorker.set(mockExtensionHostRpc)
 
   const result: readonly CompletionItem[] = await executeCompletionProvider(1, 'typescript', 10)
@@ -39,14 +29,8 @@ test('executeCompletionProvider returns completion items when available', async 
     { label: 'test1', kind: 1, flags: 0, matches: [] },
     { label: 'test2', kind: 2, flags: 1, matches: [0, 1] },
   ]
-  const mockEditorRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ActivateByEvent.activateByEvent') {
-        return
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockEditorRpc = EditorWorker.registerMockRpc({
+    'ActivateByEvent.activateByEvent': () => undefined,
   })
   const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
@@ -57,7 +41,6 @@ test('executeCompletionProvider returns completion items when available', async 
       throw new Error(`unexpected method ${method}`)
     },
   })
-  EditorWorker.set(mockEditorRpc)
   ExtensionHostWorker.set(mockExtensionHostRpc)
 
   const result: readonly CompletionItem[] = await executeCompletionProvider(1, 'typescript', 10)
