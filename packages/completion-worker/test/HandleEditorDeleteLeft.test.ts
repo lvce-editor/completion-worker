@@ -1,5 +1,4 @@
 import { test, expect } from '@jest/globals'
-import { EditorWorker } from '@lvce-editor/rpc-registry'
 import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.ts'
 import type { CompletionState } from '../src/parts/CompletionState/CompletionState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
@@ -12,11 +11,6 @@ test('handleEditorDeleteLeft returns state with updated items when focused item 
     items: [item],
     focusedIndex: 0,
   }
-  const mockRpc = EditorWorker.registerMockRpc({
-    'Editor.getPositionAtCursor': () => ({ x: 100, y: 200 }),
-    'Editor.getWordAtOffset2': () => 'test',
-  })
-
   const result = await handleEditorDeleteLeft(state)
   expect(result.items).toBeDefined()
 })
@@ -28,11 +22,6 @@ test('handleEditorDeleteLeft returns state with updated items when focused item 
     items: [item],
     focusedIndex: 0,
   }
-  const mockRpc = EditorWorker.registerMockRpc({
-    'Editor.getPositionAtCursor': () => ({ x: 100, y: 200 }),
-    'Editor.getWordAtOffset2': () => 'test',
-  })
-
   const result = await handleEditorDeleteLeft(state)
   expect(result.items).toBeDefined()
 })
@@ -44,11 +33,6 @@ test('handleEditorDeleteLeft returns state unchanged when focusedIndex is -1', a
     items: [item],
     focusedIndex: -1,
   }
-  const mockRpc = EditorWorker.registerMockRpc({
-    'Editor.getPositionAtCursor': () => ({ x: 100, y: 200 }),
-    'Editor.getWordAtOffset2': () => 'test',
-  })
-
   const result = await handleEditorDeleteLeft(state)
   expect(result.items).toBeDefined()
 })

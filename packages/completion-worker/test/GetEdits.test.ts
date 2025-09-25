@@ -44,9 +44,6 @@ test.skip('getEdits - returns changes with resolved snippet', async () => {
   const mockLines = ['const hel']
   const mockSelections = [0, 5]
   const mockCompletion = createCompletionItem('hello')
-  const mockResolvedItem = {
-    snippet: 'hello()',
-  }
 
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'Editor.getLines2': () => mockLines,
