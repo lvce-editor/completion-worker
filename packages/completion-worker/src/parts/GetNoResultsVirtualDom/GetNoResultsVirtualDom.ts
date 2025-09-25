@@ -1,7 +1,6 @@
-import type { VirtualDomNode } from '../VirtualDomNode/VirtualDomNode.ts'
+import type { VirtualDomNode } from '@lvce-editor/virtual-dom-worker'
+import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
 import * as EditorStrings from '../EditorStrings/EditorStrings.ts'
-import * as VirtualDomElements from '../VirtualDomElements/VirtualDomElements.ts'
-import { text } from '../VirtualDomHelpers/VirtualDomHelpers.ts'
 
 const parentNode: VirtualDomNode = {
   type: VirtualDomElements.Div,
