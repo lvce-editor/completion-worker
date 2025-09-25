@@ -1,6 +1,5 @@
 import { test, expect } from '@jest/globals'
-import { MockRpc } from '@lvce-editor/rpc'
-import { EditorWorker, ExtensionHost } from '@lvce-editor/rpc-registry'
+import { EditorWorker } from '@lvce-editor/rpc-registry'
 import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.ts'
 import { executeCompletionProvider, executeResolveCompletionItem } from '../src/parts/ExtensionHostCompletion/ExtensionHostCompletion.ts'
 import * as ExtensionHostWorker from '../src/parts/ExtensionHostWorker/ExtensionHostWorker.ts'
@@ -61,29 +60,12 @@ test('executeResolveCompletionItem returns resolved completion item', async () =
 })
 
 test('executeResolveCompletionItem returns undefined when no provider found', async () => {
-  const mockEditorRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ActivateByEvent.activateByEvent') {
-        return
-      }
-      if (method === 'ExtensionHostCompletion.executeResolve') {
-        return undefined
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockEditorRpc = EditorWorker.registerMockRpc({
+    'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const mockExtensionHostRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ExtensionHostCompletion.executeResolve') {
-        return undefined
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+    'ExtensionHostCompletion.executeResolve': () => undefined,
   })
-  EditorWorker.set(mockEditorRpc)
-  ExtensionHostWorker.set(mockExtensionHostRpc)
 
   const completionItem: CompletionItem = { label: 'test', kind: 1, flags: 0, matches: [] }
   const result = await executeResolveCompletionItem(1, 10, 'test', completionItem)
