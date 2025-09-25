@@ -147,9 +147,7 @@ test('loadContent with no completions', async () => {
     ['Editor.getWordAtOffset2', 0],
     ['Editor.getPositionAtCursor', 0]
   ])
-  expect(mockExtensionHostRpc.invocations).toEqual([
-    ['ExtensionHostCompletion.execute', 0, 0]
-  ])
+  expect(mockExtensionHostRpc.invocations).toEqual([])
 })
 
 test('loadContent with error in getPositionAtCursor', async () => {
