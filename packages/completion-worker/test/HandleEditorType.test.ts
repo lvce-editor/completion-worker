@@ -1,5 +1,4 @@
 import { expect, test } from '@jest/globals'
-import { MockRpc } from '@lvce-editor/rpc'
 import { EditorWorker } from '@lvce-editor/rpc-registry'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.js'
 import { handleEditorType } from '../src/parts/HandleEditorType/HandleEditorType.js'
@@ -13,22 +12,11 @@ test('handleEditorType - basic functionality', async () => {
   }
   const mockWord = 'test'
 
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'FileSystem.readDirWithFileTypes') {
-        return []
-      }
-      if (method === 'Editor.getPositionAtCursor') {
-        return mockPosition
-      }
-      if (method === 'Editor.getWordBefore2') {
-        return mockWord
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'FileSystem.readDirWithFileTypes': () => [],
+    'Editor.getPositionAtCursor': () => mockPosition,
+    'Editor.getWordBefore2': () => mockWord,
   })
-  EditorWorker.set(mockRpc)
 
   const state = createDefaultState()
   const result = await handleEditorType(state)
@@ -42,6 +30,11 @@ test('handleEditorType - basic functionality', async () => {
   expect(result.leadingWord).toBeDefined()
   expect(result.height).toBeDefined()
   expect(result.finalDeltaY).toBeDefined()
+
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getPositionAtCursor', 0],
+    ['Editor.getWordBefore2', 0, 5, 10],
+  ])
 })
 
 test('handleEditorType - with position and word', async () => {
@@ -53,19 +46,10 @@ test('handleEditorType - with position and word', async () => {
   }
   const mockWord = 'test'
 
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'Editor.getPositionAtCursor') {
-        return mockPosition
-      }
-      if (method === 'Editor.getWordBefore2') {
-        return mockWord
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'Editor.getPositionAtCursor': () => mockPosition,
+    'Editor.getWordBefore2': () => mockWord,
   })
-  EditorWorker.set(mockRpc)
 
   const state = createDefaultState()
   const result = await handleEditorType(state)
@@ -73,6 +57,11 @@ test('handleEditorType - with position and word', async () => {
   expect(result.x).toBe(mockPosition.x)
   expect(result.y).toBe(mockPosition.y)
   expect(result.leadingWord).toBe(mockWord)
+
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getPositionAtCursor', 0],
+    ['Editor.getWordBefore2', 0, 5, 10],
+  ])
 })
 
 test('handleEditorType - with filtered items', async () => {
@@ -89,19 +78,10 @@ test('handleEditorType - with filtered items', async () => {
     { label: 'other', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
   ]
 
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'Editor.getPositionAtCursor') {
-        return mockPosition
-      }
-      if (method === 'Editor.getWordBefore2') {
-        return mockWord
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'Editor.getPositionAtCursor': () => mockPosition,
+    'Editor.getWordBefore2': () => mockWord,
   })
-  EditorWorker.set(mockRpc)
 
   const state = {
     ...createDefaultState(),
@@ -112,4 +92,9 @@ test('handleEditorType - with filtered items', async () => {
   expect(result.items).toHaveLength(2)
   expect(result.items[0].label).toBe('test1')
   expect(result.items[1].label).toBe('test2')
+
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getPositionAtCursor', 0],
+    ['Editor.getWordBefore2', 0, 5, 10],
+  ])
 })
