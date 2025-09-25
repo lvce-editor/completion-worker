@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals'
 import { EditorWorker } from '@lvce-editor/rpc-registry'
 import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.ts'
-import * as import { ExtensionHost}  from '@lvce-editor/rpc-registry'
+import { ExtensionHost } from '@lvce-editor/rpc-registry'
 
 import { resolveCompletion } from '../src/parts/ResolveCompletion/ResolveCompletion.ts'
 

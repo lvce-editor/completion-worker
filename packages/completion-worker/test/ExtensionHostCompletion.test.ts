@@ -1,9 +1,8 @@
 import { test, expect } from '@jest/globals'
 import { EditorWorker } from '@lvce-editor/rpc-registry'
+import { ExtensionHost } from '@lvce-editor/rpc-registry'
 import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.ts'
 import { executeCompletionProvider, executeResolveCompletionItem } from '../src/parts/ExtensionHostCompletion/ExtensionHostCompletion.ts'
-import * as import { ExtensionHost}  from '@lvce-editor/rpc-registry'
-
 
 test('executeCompletionProvider returns empty array when no completions', async () => {
   const mockEditorRpc = EditorWorker.registerMockRpc({
