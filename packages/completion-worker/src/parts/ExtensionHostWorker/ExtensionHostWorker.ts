@@ -1,3 +1,3 @@
 import { ExtensionHost } from '@lvce-editor/rpc-registry'
 
-export const { invoke, set, dispose, registerMockRpc } = ExtensionHost
+export const { invoke, set, dispose } = ExtensionHost
