@@ -6,7 +6,7 @@ import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctio
 import * as EditorStrings from '../src/parts/EditorStrings/EditorStrings.ts'
 import { getCompletionVirtualDom } from '../src/parts/GetCompletionVirtualDom/GetCompletionVirtualDom.ts'
 import * as Ids from '../src/parts/Ids/Ids.ts'
-import * as VirtualDomElements from '../src/parts/VirtualDomElements/VirtualDomElements.ts'
+import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 
 test('getCompletionVirtualDom returns correct structure with scrollbar', () => {
   const visibleItems: readonly VisibleCompletionItem[] = [
