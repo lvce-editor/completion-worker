@@ -14,6 +14,13 @@ test('executeCompletionProvider returns empty array when no completions', async 
 
   const result: readonly CompletionItem[] = await executeCompletionProvider(1, 'typescript', 10)
   expect(result).toEqual([])
+  
+  expect(mockEditorRpc.invocations).toEqual([
+    ['ActivateByEvent.activateByEvent', 'onCompletion:typescript']
+  ])
+  expect(mockExtensionHostRpc.invocations).toEqual([
+    ['ExtensionHostCompletion.execute', 1, 'typescript', 10]
+  ])
 })
 
 test('executeCompletionProvider returns completion items when available', async () => {
@@ -30,6 +37,13 @@ test('executeCompletionProvider returns completion items when available', async 
 
   const result: readonly CompletionItem[] = await executeCompletionProvider(1, 'typescript', 10)
   expect(result).toEqual(mockCompletions)
+  
+  expect(mockEditorRpc.invocations).toEqual([
+    ['ActivateByEvent.activateByEvent', 'onCompletion:typescript']
+  ])
+  expect(mockExtensionHostRpc.invocations).toEqual([
+    ['ExtensionHostCompletion.execute', 1, 'typescript', 10]
+  ])
 })
 
 test('executeCompletionProvider handles error from extension host', async () => {
