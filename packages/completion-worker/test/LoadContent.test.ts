@@ -1,5 +1,4 @@
 import { expect, test } from '@jest/globals'
-import { MockRpc } from '@lvce-editor/rpc'
 import { EditorWorker } from '@lvce-editor/rpc-registry'
 import type { CompletionState } from '../src/parts/CompletionState/CompletionState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
@@ -19,7 +18,8 @@ test('loadContent', async () => {
     'Editor.getWordAtOffset2': () => 'test',
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  // @ts-ignore
+  const _mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
     'ExtensionHostCompletion.execute': () => [
       {
         label: 'test1',
@@ -56,7 +56,7 @@ test('loadContent', async () => {
     ['Editor.getWordAtOffset2', 0],
     ['Editor.getPositionAtCursor', 0]
   ])
-  expect(mockExtensionHostRpc.invocations).toEqual([
+  expect(_mockExtensionHostRpc.invocations).toEqual([
     ['ExtensionHostCompletion.execute', 0, 0]
   ])
 })
@@ -74,7 +74,8 @@ test('loadContent with completions', async () => {
     'ActivateByEvent.activateByEvent': () => undefined,
     'Editor.getOffsetAtCursor': () => 0,
   })
-  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  // @ts-ignore
+  const _mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
     'ExtensionHostCompletion.execute': () => [
       {
         label: 'test1',
@@ -111,7 +112,7 @@ test('loadContent with completions', async () => {
     ['Editor.getWordAtOffset2', 0],
     ['Editor.getPositionAtCursor', 0]
   ])
-  expect(mockExtensionHostRpc.invocations).toEqual([
+  expect(_mockExtensionHostRpc.invocations).toEqual([
     ['ExtensionHostCompletion.execute', 0, 0]
   ])
 })
@@ -128,7 +129,8 @@ test('loadContent with no completions', async () => {
     'Editor.getWordAtOffset2': () => 'test',
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  // @ts-ignore
+  const _mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
     'ExtensionHostCompletion.execute': () => [],
   })
   EditorWorker.set(mockEditorRpc)
@@ -147,7 +149,7 @@ test('loadContent with no completions', async () => {
     ['Editor.getWordAtOffset2', 0],
     ['Editor.getPositionAtCursor', 0]
   ])
-  expect(mockExtensionHostRpc.invocations).toEqual([])
+  expect(_mockExtensionHostRpc.invocations).toEqual([])
 })
 
 test('loadContent with error in getPositionAtCursor', async () => {
@@ -159,7 +161,8 @@ test('loadContent with error in getPositionAtCursor', async () => {
     'Editor.getWordAtOffset2': () => 'test',
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  // @ts-ignore
+  const _mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
     'ExtensionHostCompletion.execute': () => [],
   })
   EditorWorker.set(mockEditorRpc)

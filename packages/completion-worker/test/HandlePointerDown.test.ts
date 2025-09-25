@@ -4,7 +4,8 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import { handlePointerDown } from '../src/parts/HandlePointerDown/HandlePointerDown.js'
 
 test('handlePointerDown - valid click on first item', async () => {
-  const mockRpc = EditorWorker.registerMockRpc({
+  // @ts-ignore
+  const _mockRpc = EditorWorker.registerMockRpc({
     'FileSystem.readDirWithFileTypes': () => [],
     'Editor.getLines2': () => ['line1', 'line2', 'line3'],
     'Editor.getSelections': () => [0, 5],
@@ -30,7 +31,7 @@ test('handlePointerDown - valid click on first item', async () => {
   const result = await handlePointerDown(state, 50, 110)
   expect(result).toBeDefined()
   
-  expect(mockRpc.invocations).toEqual([
+  expect(_mockRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
     ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
     ['Editor.getLines2', 0],
@@ -47,7 +48,8 @@ test('handlePointerDown - valid click on first item', async () => {
 })
 
 test('handlePointerDown - valid click on second item', async () => {
-  const mockRpc = EditorWorker.registerMockRpc({
+  // @ts-ignore
+  const _mockRpc = EditorWorker.registerMockRpc({
     'FileSystem.readDirWithFileTypes': () => [],
     'Editor.getLines2': () => ['line1', 'line2', 'line3'],
     'Editor.getSelections': () => [0, 5],
@@ -107,7 +109,8 @@ test('handlePointerDown - click after last item returns original state', async (
 })
 
 test('handlePointerDown - click on last valid item', async () => {
-  const mockRpc = EditorWorker.registerMockRpc({
+  // @ts-ignore
+  const _mockRpc = EditorWorker.registerMockRpc({
     'FileSystem.readDirWithFileTypes': () => [],
     'Editor.getLines2': () => ['line1', 'line2', 'line3'],
     'Editor.getSelections': () => [0, 5],
@@ -147,7 +150,8 @@ test('handlePointerDown - empty items array', async () => {
 })
 
 test('handlePointerDown - single item click', async () => {
-  const mockRpc = EditorWorker.registerMockRpc({
+  // @ts-ignore
+  const _mockRpc = EditorWorker.registerMockRpc({
     'FileSystem.readDirWithFileTypes': () => [],
     'Editor.getLines2': () => ['line1', 'line2', 'line3'],
     'Editor.getSelections': () => [0, 5],
