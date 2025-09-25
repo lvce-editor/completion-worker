@@ -1,8 +1,7 @@
 import { expect, test } from '@jest/globals'
 import { EditorWorker } from '@lvce-editor/rpc-registry'
-import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.ts'
 import { ExtensionHost } from '@lvce-editor/rpc-registry'
-
+import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.ts'
 import { resolveCompletion } from '../src/parts/ResolveCompletion/ResolveCompletion.ts'
 
 const createCompletionItem = (label: string): CompletionItem => ({
@@ -17,7 +16,7 @@ test.skip('resolveCompletion returns resolved completion item', async () => {
   const _mockEditorRpc = EditorWorker.registerMockRpc({
     'Editor.getOffsetAtCursor': () => 10,
   })
-  const _mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  const _mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostCompletion.executeResolve': () => ({ resolved: true }),
   })
 
@@ -33,7 +32,7 @@ test('resolveCompletion returns undefined when extension host fails', async () =
   const _mockEditorRpc = EditorWorker.registerMockRpc({
     'Editor.getOffsetAtCursor': () => 10,
   })
-  const _mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  const _mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostEditor.execute': () => {
       throw new Error('extension host error')
     },

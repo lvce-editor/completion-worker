@@ -8,7 +8,7 @@ test('executeCompletionProvider returns empty array when no completions', async 
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostCompletion.execute': () => [],
   })
 
@@ -27,7 +27,7 @@ test('executeCompletionProvider returns completion items when available', async 
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostCompletion.execute': () => mockCompletions,
   })
 
@@ -42,7 +42,7 @@ test('executeCompletionProvider handles error from extension host', async () => 
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostCompletion.execute': () => {
       throw new Error('Extension host error')
     },
@@ -59,7 +59,7 @@ test('executeResolveCompletionItem returns resolved completion item', async () =
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostCompletion.executeResolve': () => mockResolvedItem,
   })
 
@@ -75,7 +75,7 @@ test('executeResolveCompletionItem returns undefined when no provider found', as
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostCompletion.executeResolve': () => undefined,
   })
 

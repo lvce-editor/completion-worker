@@ -12,7 +12,7 @@ test('getCompletions returns completions successfully', async () => {
       matches: [0, 1, 2, 3],
     },
   ]
-  const _mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  const _mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'GetOffsetAtCursor.getOffsetAtCursor': () => 10,
     'ExtensionHostCompletion.execute': () => mockCompletions,
     'Editor.getOffsetAtCursor': () => 0,
@@ -36,7 +36,7 @@ test('getCompletions returns completions successfully', async () => {
 test('getCompletions returns empty array on error', async () => {
   // @ts-ignore
   const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
-  const _mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  const _mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'GetOffsetAtCursor.getOffsetAtCursor': () => 10,
     'ExtensionHostCompletion.execute': () => {
       throw new Error('test error')
