@@ -13,22 +13,11 @@ test('getCompletions returns completions successfully', async () => {
       matches: [0, 1, 2, 3],
     },
   ]
-  const mockExtensionHostRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'GetOffsetAtCursor.getOffsetAtCursor') {
-        return 10
-      }
-      if (method === 'ExtensionHostCompletion.execute') {
-        return mockCompletions
-      }
-      if (method === 'Editor.getOffsetAtCursor') {
-        return 0
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+    'GetOffsetAtCursor.getOffsetAtCursor': () => 10,
+    'ExtensionHostCompletion.execute': () => mockCompletions,
+    'Editor.getOffsetAtCursor': () => 0,
   })
-  ExtensionHostWorker.set(mockExtensionHostRpc)
 
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'ActivateByEvent.activateByEvent': () => undefined,
@@ -47,22 +36,13 @@ test('getCompletions returns completions successfully', async () => {
 test('getCompletions returns empty array on error', async () => {
   // @ts-ignore
   const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
-  const mockExtensionHostRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'GetOffsetAtCursor.getOffsetAtCursor') {
-        return 10
-      }
-      if (method === 'ExtensionHostCompletion.execute') {
-        throw new Error('test error')
-      }
-      if (method === 'Editor.getOffsetAtCursor') {
-        return 0
-      }
-      throw new Error(`unexpected method ${method}`)
+  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+    'GetOffsetAtCursor.getOffsetAtCursor': () => 10,
+    'ExtensionHostCompletion.execute': () => {
+      throw new Error('test error')
     },
+    'Editor.getOffsetAtCursor': () => 0,
   })
-  ExtensionHostWorker.set(mockExtensionHostRpc)
 
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'ActivateByEvent.activateByEvent': () => undefined,

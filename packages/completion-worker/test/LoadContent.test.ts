@@ -19,30 +19,23 @@ test('loadContent', async () => {
     'Editor.getWordAtOffset2': () => 'test',
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const mockExtensionHostRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ExtensionHostCompletion.execute') {
-        return [
-          {
-            label: 'test1',
-            kind: 1,
-            flags: 0,
-            matches: [0, 4],
-          },
-          {
-            label: 'test2',
-            kind: 1,
-            flags: 0,
-            matches: [0, 4],
-          },
-        ]
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+    'ExtensionHostCompletion.execute': () => [
+      {
+        label: 'test1',
+        kind: 1,
+        flags: 0,
+        matches: [0, 4],
+      },
+      {
+        label: 'test2',
+        kind: 1,
+        flags: 0,
+        matches: [0, 4],
+      },
+    ],
   })
   EditorWorker.set(mockEditorRpc)
-  ExtensionHostWorker.set(mockExtensionHostRpc)
 
   const state: CompletionState = createDefaultState()
   const newState = await loadContent(state)
@@ -71,49 +64,23 @@ test('loadContent with completions', async () => {
     'ActivateByEvent.activateByEvent': () => undefined,
     'Editor.getOffsetAtCursor': () => 0,
   })
-  const mockExtensionHostRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ExtensionHostCompletion.execute') {
-        return [
-          {
-            label: 'test1',
-            kind: 1,
-            flags: 0,
-            matches: [0, 4],
-          },
-          {
-            label: 'test2',
-            kind: 1,
-            flags: 0,
-            matches: [0, 4],
-          },
-        ]
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
-    invokeAndTransfer: (method: string) => {
-      if (method === 'ExtensionHostCompletion.execute') {
-        return [
-          {
-            label: 'test1',
-            kind: 1,
-            flags: 0,
-            matches: [0, 4],
-          },
-          {
-            label: 'test2',
-            kind: 1,
-            flags: 0,
-            matches: [0, 4],
-          },
-        ]
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+    'ExtensionHostCompletion.execute': () => [
+      {
+        label: 'test1',
+        kind: 1,
+        flags: 0,
+        matches: [0, 4],
+      },
+      {
+        label: 'test2',
+        kind: 1,
+        flags: 0,
+        matches: [0, 4],
+      },
+    ],
   })
   EditorWorker.set(mockEditorRpc)
-  ExtensionHostWorker.set(mockExtensionHostRpc)
 
   const state = createDefaultState()
   const newState = await loadContent(state)
@@ -141,23 +108,10 @@ test('loadContent with no completions', async () => {
     'Editor.getWordAtOffset2': () => 'test',
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const mockExtensionHostRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ExtensionHostCompletion.execute') {
-        return []
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
-    invokeAndTransfer: (method: string) => {
-      if (method === 'ExtensionHostCompletion.execute') {
-        return []
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+    'ExtensionHostCompletion.execute': () => [],
   })
   EditorWorker.set(mockEditorRpc)
-  ExtensionHostWorker.set(mockExtensionHostRpc)
 
   const state = createDefaultState()
   const newState = await loadContent(state)
@@ -178,23 +132,10 @@ test('loadContent with error in getPositionAtCursor', async () => {
     'Editor.getWordAtOffset2': () => 'test',
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const mockExtensionHostRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ExtensionHostCompletion.execute') {
-        return []
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
-    invokeAndTransfer: (method: string) => {
-      if (method === 'ExtensionHostCompletion.execute') {
-        return []
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+    'ExtensionHostCompletion.execute': () => [],
   })
   EditorWorker.set(mockEditorRpc)
-  ExtensionHostWorker.set(mockExtensionHostRpc)
   const state = createDefaultState()
   await expect(loadContent(state)).rejects.toThrow('Failed to get position')
 })

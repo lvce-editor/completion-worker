@@ -24,16 +24,9 @@ test('getEdits - returns changes for simple completion', async () => {
     'Editor.getOffsetAtCursor': () => 10,
   })
 
-  const mockExtensionHostRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ExtensionHostEditor.execute') {
-        return undefined
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+    'ExtensionHostEditor.execute': () => undefined,
   })
-  RpcRegistry.set(RpcId.ExtensionHostWorker, mockExtensionHostRpc)
 
   const result = await getEdits(1, 'hel', mockCompletion)
   expect(result).toHaveLength(1)
@@ -61,26 +54,14 @@ test.skip('getEdits - returns changes with resolved snippet', async () => {
     snippet: 'hello()',
   }
 
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'Editor.getLines2') {
-        return mockLines
-      }
-      if (method === 'Editor.getSelections2') {
-        return mockSelections
-      }
-      if (method === 'Editor.getOffsetAtCursor') {
-        return 10
-      }
-      if (method === 'ExtensionHostEditor.execute') {
-        return [mockResolvedItem]
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getLines2': () => mockLines,
+    'Editor.getSelections2': () => mockSelections,
+    'Editor.getOffsetAtCursor': () => 10,
   })
-  RpcRegistry.set(RpcId.EditorWorker, mockRpc)
-  RpcRegistry.set(RpcId.ExtensionHostWorker, mockRpc)
+  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+    'ExtensionHostEditor.execute': () => [mockResolvedItem],
+  })
 
   const result = await getEdits(1, 'hel', mockCompletion)
   expect(result).toHaveLength(1)
@@ -100,16 +81,9 @@ test('getEdits - returns changes when resolved item is undefined', async () => {
     'Editor.getOffsetAtCursor': () => 10,
   })
 
-  const mockExtensionHostRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ExtensionHostEditor.execute') {
-        return undefined
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+    'ExtensionHostEditor.execute': () => undefined,
   })
-  RpcRegistry.set(RpcId.ExtensionHostWorker, mockExtensionHostRpc)
 
   const result = await getEdits(1, 'hel', mockCompletion)
   expect(result).toHaveLength(1)
