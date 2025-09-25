@@ -9,6 +9,9 @@ test('getWordAtOffset - returns word at cursor', async () => {
 
   const result = await getWordAtOffset(1)
   expect(result).toBe('hello')
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getWordAtOffset2', 1]
+  ])
 })
 
 test('getWordAtOffset - returns empty string when no word at cursor', async () => {
@@ -18,4 +21,7 @@ test('getWordAtOffset - returns empty string when no word at cursor', async () =
 
   const result = await getWordAtOffset(1)
   expect(result).toBe('')
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getWordAtOffset2', 1]
+  ])
 })

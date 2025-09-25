@@ -1,43 +1,35 @@
 import { test, expect } from '@jest/globals'
-import { MockRpc } from '@lvce-editor/rpc'
+import { EditorWorker } from '@lvce-editor/rpc-registry'
 import { createExtensionHostRpc } from '../src/parts/CreateExtensionHostRpc/CreateExtensionHostRpc.ts'
-import * as EditorWorker from '../src/parts/EditorWorker/EditorWorker.ts'
 
 test('createExtensionHostRpc creates rpc successfully', async () => {
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker') {
-        return undefined
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
-    invokeAndTransfer: (method: string) => {
-      if (method === 'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker') {
-        return undefined
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker': () => undefined,
   })
-  EditorWorker.set(mockRpc)
 
   const result = await createExtensionHostRpc()
   expect(result).toBeDefined()
+  
+  // Check invocations before disposing
+  const invocations = mockRpc.invocations
+  expect(invocations).toEqual([
+    ['SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker']
+  ])
 
   await result.dispose()
 })
 
 test('createExtensionHostRpc throws VError when port creation fails', async () => {
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: () => {
-      throw new Error('Port creation failed')
-    },
-    invokeAndTransfer: () => {
+  const mockRpc = EditorWorker.registerMockRpc({
+    'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker': () => {
       throw new Error('Port creation failed')
     },
   })
-  EditorWorker.set(mockRpc)
 
   await expect(createExtensionHostRpc()).rejects.toThrow('Failed to create extension host rpc')
+  
+  const invocations = mockRpc.invocations
+  expect(invocations).toEqual([
+    ['SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker']
+  ])
 })
