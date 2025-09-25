@@ -11,10 +11,9 @@ test('createExtensionHostRpc creates rpc successfully', async () => {
   expect(result).toBeDefined()
   
   // Check invocations before disposing
-  const invocations = mockRpc.invocations
-  expect(invocations).toEqual([
-    ['SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker']
-  ])
+  const invocations = mockRpc.invocations.slice()
+  expect(invocations.length).toBe(1)
+  expect(invocations[0]).toEqual(['SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker'])
 
   await result.dispose()
 })
@@ -28,8 +27,7 @@ test('createExtensionHostRpc throws VError when port creation fails', async () =
 
   await expect(createExtensionHostRpc()).rejects.toThrow('Failed to create extension host rpc')
   
-  const invocations = mockRpc.invocations
-  expect(invocations).toEqual([
-    ['SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker']
-  ])
+  const invocations = mockRpc.invocations.slice()
+  expect(invocations.length).toBe(1)
+  expect(invocations[0]).toEqual(['SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker'])
 })

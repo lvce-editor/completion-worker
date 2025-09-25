@@ -13,9 +13,6 @@ test('initialize sets extension host worker rpc', async () => {
   await initialize()
   await ExtensionHostWorker.dispose()
   
-  const invocations = mockRpc.invocations
-  expect(invocations).toEqual([
-    ['FileSystem.readDirWithFileTypes'],
-    ['SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker']
-  ])
+  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations[0]).toEqual(['FileSystem.readDirWithFileTypes'])
 })

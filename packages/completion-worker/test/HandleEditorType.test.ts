@@ -13,22 +13,11 @@ test('handleEditorType - basic functionality', async () => {
   }
   const mockWord = 'test'
 
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'FileSystem.readDirWithFileTypes') {
-        return []
-      }
-      if (method === 'Editor.getPositionAtCursor') {
-        return mockPosition
-      }
-      if (method === 'Editor.getWordBefore2') {
-        return mockWord
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'FileSystem.readDirWithFileTypes': () => [],
+    'Editor.getPositionAtCursor': () => mockPosition,
+    'Editor.getWordBefore2': () => mockWord,
   })
-  EditorWorker.set(mockRpc)
 
   const state = createDefaultState()
   const result = await handleEditorType(state)
@@ -53,19 +42,10 @@ test('handleEditorType - with position and word', async () => {
   }
   const mockWord = 'test'
 
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'Editor.getPositionAtCursor') {
-        return mockPosition
-      }
-      if (method === 'Editor.getWordBefore2') {
-        return mockWord
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'Editor.getPositionAtCursor': () => mockPosition,
+    'Editor.getWordBefore2': () => mockWord,
   })
-  EditorWorker.set(mockRpc)
 
   const state = createDefaultState()
   const result = await handleEditorType(state)
@@ -89,19 +69,10 @@ test('handleEditorType - with filtered items', async () => {
     { label: 'other', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
   ]
 
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'Editor.getPositionAtCursor') {
-        return mockPosition
-      }
-      if (method === 'Editor.getWordBefore2') {
-        return mockWord
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'Editor.getPositionAtCursor': () => mockPosition,
+    'Editor.getWordBefore2': () => mockWord,
   })
-  EditorWorker.set(mockRpc)
 
   const state = {
     ...createDefaultState(),

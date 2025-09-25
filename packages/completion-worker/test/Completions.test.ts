@@ -1,7 +1,7 @@
 import { expect, jest, test } from '@jest/globals'
 import { MockRpc } from '@lvce-editor/rpc'
+import { EditorWorker } from '@lvce-editor/rpc-registry'
 import { getCompletions } from '../src/parts/Completions/Completions.ts'
-import * as EditorWorker from '../src/parts/EditorWorker/EditorWorker.ts'
 import * as ExtensionHostWorker from '../src/parts/ExtensionHostWorker/ExtensionHostWorker.ts'
 
 test('getCompletions returns completions successfully', async () => {
@@ -30,21 +30,18 @@ test('getCompletions returns completions successfully', async () => {
   })
   ExtensionHostWorker.set(mockExtensionHostRpc)
 
-  const mockEditorRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ActivateByEvent.activateByEvent') {
-        return
-      }
-      if (method === 'Editor.getOffsetAtCursor') {
-        return 0
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockEditorRpc = EditorWorker.registerMockRpc({
+    'ActivateByEvent.activateByEvent': () => undefined,
+    'Editor.getOffsetAtCursor': () => 0,
   })
-  EditorWorker.set(mockEditorRpc)
+  
   const result = await getCompletions(1, 'typescript')
   expect(result).toEqual(mockCompletions)
+  
+  expect(mockEditorRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 1],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:typescript']
+  ])
 })
 
 test('getCompletions returns empty array on error', async () => {
@@ -67,22 +64,20 @@ test('getCompletions returns empty array on error', async () => {
   })
   ExtensionHostWorker.set(mockExtensionHostRpc)
 
-  const mockEditorRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'ActivateByEvent.activateByEvent') {
-        return
-      }
-      if (method === 'Editor.getOffsetAtCursor') {
-        return 0
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockEditorRpc = EditorWorker.registerMockRpc({
+    'ActivateByEvent.activateByEvent': () => undefined,
+    'Editor.getOffsetAtCursor': () => 0,
   })
-  EditorWorker.set(mockEditorRpc)
+  
   const result = await getCompletions(1, 'typescript')
   expect(result).toEqual([])
   expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to get completions:')
   expect(consoleErrorSpy).toHaveBeenCalledWith(new Error('test error'))
+  
+  expect(mockEditorRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 1],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:typescript']
+  ])
+  
   consoleErrorSpy.mockRestore()
 })
