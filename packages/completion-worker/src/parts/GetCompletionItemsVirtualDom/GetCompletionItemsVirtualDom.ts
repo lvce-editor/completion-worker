@@ -8,10 +8,11 @@ export const getCompletionItemsVirtualDom = (visibleItems: readonly VisibleCompl
   if (visibleItems.length === 0) {
     return GetNoResultsVirtualDom.getNoResultsVirtualDom()
   }
-  const root = {
-    type: VirtualDomElements.Div,
-    childCount: visibleItems.length,
-  }
-  const dom = [root, ...visibleItems.flatMap(GetCompletionItemVirtualDom.getCompletionItemVirtualDom)]
-  return dom
+  return [
+    {
+      type: VirtualDomElements.Div,
+      childCount: visibleItems.length,
+    },
+    ...visibleItems.flatMap(GetCompletionItemVirtualDom.getCompletionItemVirtualDom),
+  ]
 }

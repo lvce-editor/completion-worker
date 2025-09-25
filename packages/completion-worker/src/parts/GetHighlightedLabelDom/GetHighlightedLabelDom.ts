@@ -1,7 +1,6 @@
 import type { VirtualDomNode } from '@lvce-editor/virtual-dom-worker'
-import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
-import { text } from '@lvce-editor/virtual-dom-worker'
 
 const label1: VirtualDomNode = {
   type: VirtualDomElements.Div,
