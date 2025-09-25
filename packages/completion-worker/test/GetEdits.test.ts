@@ -1,5 +1,6 @@
 import { expect, test } from '@jest/globals'
 import { MockRpc } from '@lvce-editor/rpc'
+import { EditorWorker } from '@lvce-editor/rpc-registry'
 import * as RpcRegistry from '@lvce-editor/rpc-registry'
 import { RpcId } from '@lvce-editor/rpc-registry'
 import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.ts'
@@ -17,26 +18,22 @@ test('getEdits - returns changes for simple completion', async () => {
   const mockSelections = [0, 5]
   const mockCompletion = createCompletionItem('hello')
 
-  const mockRpc = MockRpc.create({
+  const mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getLines2': () => mockLines,
+    'Editor.getSelections2': () => mockSelections,
+    'Editor.getOffsetAtCursor': () => 10,
+  })
+
+  const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
-      if (method === 'Editor.getLines2') {
-        return mockLines
-      }
-      if (method === 'Editor.getSelections2') {
-        return mockSelections
-      }
-      if (method === 'Editor.getOffsetAtCursor') {
-        return 10
-      }
       if (method === 'ExtensionHostEditor.execute') {
         return undefined
       }
       throw new Error(`unexpected method ${method}`)
     },
   })
-  RpcRegistry.set(RpcId.EditorWorker, mockRpc)
-  RpcRegistry.set(RpcId.ExtensionHostWorker, mockRpc)
+  RpcRegistry.set(RpcId.ExtensionHostWorker, mockExtensionHostRpc)
 
   const result = await getEdits(1, 'hel', mockCompletion)
   expect(result).toHaveLength(1)
@@ -47,6 +44,13 @@ test('getEdits - returns changes for simple completion', async () => {
     deleted: ['nst'],
     origin: '',
   })
+
+  expect(mockEditorRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 1],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+    ['Editor.getLines2', 1],
+    ['Editor.getSelections2', 1]
+  ])
 })
 
 test.skip('getEdits - returns changes with resolved snippet', async () => {
@@ -90,26 +94,22 @@ test('getEdits - returns changes when resolved item is undefined', async () => {
   const mockSelections = [0, 5]
   const mockCompletion = createCompletionItem('hello')
 
-  const mockRpc = MockRpc.create({
+  const mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getLines2': () => mockLines,
+    'Editor.getSelections2': () => mockSelections,
+    'Editor.getOffsetAtCursor': () => 10,
+  })
+
+  const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
     invoke: (method: string) => {
-      if (method === 'Editor.getLines2') {
-        return mockLines
-      }
-      if (method === 'Editor.getSelections2') {
-        return mockSelections
-      }
-      if (method === 'Editor.getOffsetAtCursor') {
-        return 10
-      }
       if (method === 'ExtensionHostEditor.execute') {
         return undefined
       }
       throw new Error(`unexpected method ${method}`)
     },
   })
-  RpcRegistry.set(RpcId.EditorWorker, mockRpc)
-  RpcRegistry.set(RpcId.ExtensionHostWorker, mockRpc)
+  RpcRegistry.set(RpcId.ExtensionHostWorker, mockExtensionHostRpc)
 
   const result = await getEdits(1, 'hel', mockCompletion)
   expect(result).toHaveLength(1)
@@ -120,4 +120,11 @@ test('getEdits - returns changes when resolved item is undefined', async () => {
     deleted: ['nst'],
     origin: '',
   })
+
+  expect(mockEditorRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 1],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+    ['Editor.getLines2', 1],
+    ['Editor.getSelections2', 1]
+  ])
 })

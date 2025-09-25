@@ -34,10 +34,10 @@ test('getCompletions returns completions successfully', async () => {
     'ActivateByEvent.activateByEvent': () => undefined,
     'Editor.getOffsetAtCursor': () => 0,
   })
-  
+
   const result = await getCompletions(1, 'typescript')
   expect(result).toEqual(mockCompletions)
-  
+
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 1],
     ['ActivateByEvent.activateByEvent', 'onCompletion:typescript']
@@ -68,16 +68,16 @@ test('getCompletions returns empty array on error', async () => {
     'ActivateByEvent.activateByEvent': () => undefined,
     'Editor.getOffsetAtCursor': () => 0,
   })
-  
+
   const result = await getCompletions(1, 'typescript')
   expect(result).toEqual([])
   expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to get completions:')
   expect(consoleErrorSpy).toHaveBeenCalledWith(new Error('test error'))
-  
+
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 1],
     ['ActivateByEvent.activateByEvent', 'onCompletion:typescript']
   ])
-  
+
   consoleErrorSpy.mockRestore()
 })

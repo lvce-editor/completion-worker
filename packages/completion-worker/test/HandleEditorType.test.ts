@@ -31,6 +31,11 @@ test('handleEditorType - basic functionality', async () => {
   expect(result.leadingWord).toBeDefined()
   expect(result.height).toBeDefined()
   expect(result.finalDeltaY).toBeDefined()
+
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getPositionAtCursor', 0],
+    ['Editor.getWordBefore2', 0, 5, 10]
+  ])
 })
 
 test('handleEditorType - with position and word', async () => {
@@ -53,6 +58,11 @@ test('handleEditorType - with position and word', async () => {
   expect(result.x).toBe(mockPosition.x)
   expect(result.y).toBe(mockPosition.y)
   expect(result.leadingWord).toBe(mockWord)
+
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getPositionAtCursor', 0],
+    ['Editor.getWordBefore2', 0, 5, 10]
+  ])
 })
 
 test('handleEditorType - with filtered items', async () => {
@@ -83,4 +93,9 @@ test('handleEditorType - with filtered items', async () => {
   expect(result.items).toHaveLength(2)
   expect(result.items[0].label).toBe('test1')
   expect(result.items[1].label).toBe('test2')
+
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getPositionAtCursor', 0],
+    ['Editor.getWordBefore2', 0, 5, 10]
+  ])
 })
