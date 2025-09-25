@@ -1,5 +1,4 @@
 import { expect, jest, test } from '@jest/globals'
-import { MockRpc } from '@lvce-editor/rpc'
 import { EditorWorker } from '@lvce-editor/rpc-registry'
 import { getCompletions } from '../src/parts/Completions/Completions.ts'
 import * as ExtensionHostWorker from '../src/parts/ExtensionHostWorker/ExtensionHostWorker.ts'
@@ -13,7 +12,7 @@ test('getCompletions returns completions successfully', async () => {
       matches: [0, 1, 2, 3],
     },
   ]
-  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  const _mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
     'GetOffsetAtCursor.getOffsetAtCursor': () => 10,
     'ExtensionHostCompletion.execute': () => mockCompletions,
     'Editor.getOffsetAtCursor': () => 0,
@@ -36,7 +35,7 @@ test('getCompletions returns completions successfully', async () => {
 test('getCompletions returns empty array on error', async () => {
   // @ts-ignore
   const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
-  const mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
+  const _mockExtensionHostRpc = ExtensionHostWorker.registerMockRpc({
     'GetOffsetAtCursor.getOffsetAtCursor': () => 10,
     'ExtensionHostCompletion.execute': () => {
       throw new Error('test error')
