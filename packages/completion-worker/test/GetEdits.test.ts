@@ -22,6 +22,7 @@ test('getEdits - returns changes for simple completion', async () => {
     'Editor.getOffsetAtCursor': () => 10,
   })
 
+  // @ts-ignore
   const _mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostEditor.execute': () => undefined,
   })
@@ -57,6 +58,7 @@ test.skip('getEdits - returns changes with resolved snippet', async () => {
     'Editor.getSelections2': () => mockSelections,
     'Editor.getOffsetAtCursor': () => 10,
   })
+  // @ts-ignore
   const _mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostEditor.execute': () => [mockResolvedItem],
   })
@@ -86,6 +88,7 @@ test('getEdits - returns changes when resolved item is undefined', async () => {
     'Editor.getOffsetAtCursor': () => 10,
   })
 
+  // @ts-ignore
   const _mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostEditor.execute': () => undefined,
   })

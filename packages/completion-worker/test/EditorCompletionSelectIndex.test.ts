@@ -34,10 +34,16 @@ test('selectIndex - selects item at given index', async () => {
   expect(result).toBe(state)
   
   expect(mockRpc.invocations).toEqual([
-    ['Editor.getEdits', 1, 'item2', { label: 'item2' }],
+    ['Editor.getOffsetAtCursor', 1],
     ['Editor.getLines2', 1],
     ['Editor.getSelections2', 1],
-    ['Editor.applyEdit2', 1, []],
+    ['Editor.applyEdit2', 1, [{
+      deleted: [''],
+      end: { columnIndex: 0, rowIndex: 0 },
+      inserted: ['item2'],
+      origin: '',
+      start: { columnIndex: 0, rowIndex: 0 }
+    }]],
     ['Editor.closeWidget2', 1, 3, 'Completions', 9]
   ])
 })

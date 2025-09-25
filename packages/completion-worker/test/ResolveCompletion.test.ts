@@ -39,8 +39,11 @@ test('resolveCompletion returns undefined when extension host fails', async () =
   const result = await resolveCompletion(1, 'test', createCompletionItem('test'))
   expect(result).toBeUndefined()
 
-  expect(mockEditorRpc.invocations).toEqual([['Editor.getOffsetAtCursor', 1]])
-  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostEditor.execute', 1, 'test', createCompletionItem('test')]])
+  expect(mockEditorRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 1],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined']
+  ])
+  expect(mockExtensionHostRpc.invocations).toEqual([])
 })
 
 test('resolveCompletion returns undefined when getOffsetAtCursor fails', async () => {

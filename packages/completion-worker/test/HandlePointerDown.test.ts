@@ -216,4 +216,25 @@ test('handlePointerDown - single item click', async () => {
 
   const result = await handlePointerDown(state, 50, 110)
   expect(result).toBeDefined()
+  
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 0],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+    ['Editor.getLines2', 0],
+    ['Editor.getSelections2', 0],
+    [
+      'Editor.applyEdit2',
+      0,
+      [
+        {
+          deleted: [''],
+          end: { columnIndex: 5, rowIndex: 0 },
+          inserted: ['singleItem'],
+          origin: '',
+          start: { columnIndex: 5, rowIndex: 0 },
+        },
+      ],
+    ],
+    ['Editor.closeWidget2', 0, 3, 'Completions', 9],
+  ])
 })
