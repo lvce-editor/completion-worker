@@ -1,34 +1,23 @@
 import { expect, test } from '@jest/globals'
 import { MockRpc } from '@lvce-editor/rpc'
+import { EditorWorker } from '@lvce-editor/rpc-registry'
 import type { CompletionState } from '../src/parts/CompletionState/CompletionState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
-import * as EditorWorker from '../src/parts/EditorWorker/EditorWorker.ts'
 import * as ExtensionHostWorker from '../src/parts/ExtensionHostWorker/ExtensionHostWorker.ts'
 import { loadContent } from '../src/parts/LoadContent/LoadContent.ts'
 
 test('loadContent', async () => {
-  const mockEditorRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'Editor.getOffsetAtCursor') {
-        return 0
-      }
-      if (method === 'Editor.getPositionAtCursor') {
-        return {
-          rowIndex: 1,
-          columnIndex: 2,
-          x: 100,
-          y: 200,
-        }
-      }
-      if (method === 'Editor.getWordAtOffset' || method === 'Editor.getWordAtOffset2') {
-        return 'test'
-      }
-      if (method === 'ActivateByEvent.activateByEvent') {
-        return undefined
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getOffsetAtCursor': () => 0,
+    'Editor.getPositionAtCursor': () => ({
+      rowIndex: 1,
+      columnIndex: 2,
+      x: 100,
+      y: 200,
+    }),
+    'Editor.getWordAtOffset': () => 'test',
+    'Editor.getWordAtOffset2': () => 'test',
+    'ActivateByEvent.activateByEvent': () => undefined,
   })
   const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
@@ -70,44 +59,17 @@ test('loadContent', async () => {
 })
 
 test('loadContent with completions', async () => {
-  const mockEditorRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'Editor.getPositionAtCursor') {
-        return {
-          rowIndex: 1,
-          columnIndex: 2,
-          x: 100,
-          y: 200,
-        }
-      }
-      if (method === 'Editor.getWordAtOffset' || method === 'Editor.getWordAtOffset2') {
-        return 'test'
-      }
-      if (method === 'ExtensionHostCompletion.execute') {
-        return [
-          {
-            label: 'test1',
-            kind: 1,
-            flags: 0,
-            matches: [0, 4],
-          },
-          {
-            label: 'test2',
-            kind: 1,
-            flags: 0,
-            matches: [0, 4],
-          },
-        ]
-      }
-      if (method === 'ActivateByEvent.activateByEvent') {
-        return undefined
-      }
-      if (method === 'Editor.getOffsetAtCursor') {
-        return 0
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getPositionAtCursor': () => ({
+      rowIndex: 1,
+      columnIndex: 2,
+      x: 100,
+      y: 200,
+    }),
+    'Editor.getWordAtOffset': () => 'test',
+    'Editor.getWordAtOffset2': () => 'test',
+    'ActivateByEvent.activateByEvent': () => undefined,
+    'Editor.getOffsetAtCursor': () => 0,
   })
   const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
@@ -168,28 +130,16 @@ test('loadContent with completions', async () => {
 })
 
 test('loadContent with no completions', async () => {
-  const mockEditorRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'Editor.getPositionAtCursor') {
-        return {
-          rowIndex: 1,
-          columnIndex: 2,
-          x: 100,
-          y: 200,
-        }
-      }
-      if (method === 'Editor.getWordAtOffset' || method === 'Editor.getWordAtOffset2') {
-        return 'test'
-      }
-      if (method === 'ExtensionHostCompletion.execute') {
-        return []
-      }
-      if (method === 'ActivateByEvent.activateByEvent') {
-        return undefined
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getPositionAtCursor': () => ({
+      rowIndex: 1,
+      columnIndex: 2,
+      x: 100,
+      y: 200,
+    }),
+    'Editor.getWordAtOffset': () => 'test',
+    'Editor.getWordAtOffset2': () => 'test',
+    'ActivateByEvent.activateByEvent': () => undefined,
   })
   const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
@@ -220,23 +170,13 @@ test('loadContent with no completions', async () => {
 })
 
 test('loadContent with error in getPositionAtCursor', async () => {
-  const mockEditorRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'Editor.getPositionAtCursor') {
-        throw new Error('Failed to get position')
-      }
-      if (method === 'Editor.getWordAtOffset' || method === 'Editor.getWordAtOffset2') {
-        return 'test'
-      }
-      if (method === 'ExtensionHostCompletion.execute') {
-        return []
-      }
-      if (method === 'ActivateByEvent.activateByEvent') {
-        return undefined
-      }
-      throw new Error(`unexpected method ${method}`)
+  const mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getPositionAtCursor': () => {
+      throw new Error('Failed to get position')
     },
+    'Editor.getWordAtOffset': () => 'test',
+    'Editor.getWordAtOffset2': () => 'test',
+    'ActivateByEvent.activateByEvent': () => undefined,
   })
   const mockExtensionHostRpc = MockRpc.create({
     commandMap: {},
