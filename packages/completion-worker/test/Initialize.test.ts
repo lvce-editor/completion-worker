@@ -8,10 +8,10 @@ test('initialize sets extension host worker rpc', async () => {
     'FileSystem.readDirWithFileTypes': () => [],
     'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker': () => undefined,
   })
-  ExtensionHostWorker.set(mockRpc)
+  ExtensionHost.set(mockRpc)
 
   await initialize()
-  await ExtensionHostWorker.dispose()
+  await ExtensionHost.dispose()
 
   expect(mockRpc.invocations).toBeDefined()
 })
