@@ -53,9 +53,6 @@ test.skip('getEdits - returns changes with resolved snippet', async () => {
     'Editor.getSelections2': () => mockSelections,
     'Editor.getOffsetAtCursor': () => 10,
   })
-  const _mockExtensionHostRpc = ExtensionHost.registerMockRpc({
-    'ExtensionHostEditor.execute': () => [mockResolvedItem],
-  })
 
   const result = await getEdits(1, 'hel', mockCompletion)
   expect(result).toHaveLength(1)

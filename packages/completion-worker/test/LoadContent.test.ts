@@ -154,9 +154,6 @@ test('loadContent with error in getPositionAtCursor', async () => {
     'Editor.getWordAtOffset2': () => 'test',
     'ActivateByEvent.activateByEvent': () => undefined,
   })
-  const _mockExtensionHostRpc = ExtensionHost.registerMockRpc({
-    'ExtensionHostCompletion.execute': () => [],
-  })
   EditorWorker.set(mockEditorRpc)
   const state = createDefaultState()
   await expect(loadContent(state)).rejects.toThrow('Failed to get position')
