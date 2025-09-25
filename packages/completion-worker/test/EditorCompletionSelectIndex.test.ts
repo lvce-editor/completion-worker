@@ -17,7 +17,7 @@ test('selectIndex - throws error when index is too large', async () => {
 
 test('selectIndex - selects item at given index', async () => {
   // @ts-ignore
-  const _mockRpc = EditorWorker.registerMockRpc({
+  const mockRpc = EditorWorker.registerMockRpc({
     'Editor.getEdits': () => [],
     'Editor.getLines2': () => [''],
     'Editor.getSelections2': () => [0, 0, 0, 0],

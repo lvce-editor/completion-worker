@@ -5,7 +5,7 @@ import { handlePointerDown } from '../src/parts/HandlePointerDown/HandlePointerD
 
 test('handlePointerDown - valid click on first item', async () => {
   // @ts-ignore
-  const _mockRpc = EditorWorker.registerMockRpc({
+  const mockRpc = EditorWorker.registerMockRpc({
     'FileSystem.readDirWithFileTypes': () => [],
     'Editor.getLines2': () => ['line1', 'line2', 'line3'],
     'Editor.getSelections': () => [0, 5],
@@ -30,26 +30,32 @@ test('handlePointerDown - valid click on first item', async () => {
 
   const result = await handlePointerDown(state, 50, 110)
   expect(result).toBeDefined()
-  
-  expect(_mockRpc.invocations).toEqual([
+
+  expect(mockRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
     ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
     ['Editor.getLines2', 0],
     ['Editor.getSelections2', 0],
-    ['Editor.applyEdit2', 0, [{
-      deleted: [''],
-      end: { columnIndex: 5, rowIndex: 0 },
-      inserted: ['item1'],
-      origin: '',
-      start: { columnIndex: 5, rowIndex: 0 }
-    }]],
-    ['Editor.closeWidget2', 0, 3, 'Completions', 9]
+    [
+      'Editor.applyEdit2',
+      0,
+      [
+        {
+          deleted: [''],
+          end: { columnIndex: 5, rowIndex: 0 },
+          inserted: ['item1'],
+          origin: '',
+          start: { columnIndex: 5, rowIndex: 0 },
+        },
+      ],
+    ],
+    ['Editor.closeWidget2', 0, 3, 'Completions', 9],
   ])
 })
 
 test('handlePointerDown - valid click on second item', async () => {
   // @ts-ignore
-  const _mockRpc = EditorWorker.registerMockRpc({
+  const mockRpc = EditorWorker.registerMockRpc({
     'FileSystem.readDirWithFileTypes': () => [],
     'Editor.getLines2': () => ['line1', 'line2', 'line3'],
     'Editor.getSelections': () => [0, 5],
@@ -110,7 +116,7 @@ test('handlePointerDown - click after last item returns original state', async (
 
 test('handlePointerDown - click on last valid item', async () => {
   // @ts-ignore
-  const _mockRpc = EditorWorker.registerMockRpc({
+  const mockRpc = EditorWorker.registerMockRpc({
     'FileSystem.readDirWithFileTypes': () => [],
     'Editor.getLines2': () => ['line1', 'line2', 'line3'],
     'Editor.getSelections': () => [0, 5],
@@ -151,7 +157,7 @@ test('handlePointerDown - empty items array', async () => {
 
 test('handlePointerDown - single item click', async () => {
   // @ts-ignore
-  const _mockRpc = EditorWorker.registerMockRpc({
+  const mockRpc = EditorWorker.registerMockRpc({
     'FileSystem.readDirWithFileTypes': () => [],
     'Editor.getLines2': () => ['line1', 'line2', 'line3'],
     'Editor.getSelections': () => [0, 5],
