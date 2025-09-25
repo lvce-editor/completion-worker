@@ -1,25 +1,17 @@
-import { test } from '@jest/globals'
-import { MockRpc } from '@lvce-editor/rpc'
-import * as EditorWorker from '../src/parts/EditorWorker/EditorWorker.ts'
-import * as ExtensionHostWorker from '../src/parts/ExtensionHostWorker/ExtensionHostWorker.ts'
+import { test, expect } from '@jest/globals'
+import { EditorWorker } from '@lvce-editor/rpc-registry'
+import { ExtensionHost } from '@lvce-editor/rpc-registry'
 import { initialize } from '../src/parts/Initialize/Initialize.ts'
 
 test('initialize sets extension host worker rpc', async () => {
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'FileSystem.readDirWithFileTypes') {
-        return []
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
-    invokeAndTransfer: async () => {
-      return
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'FileSystem.readDirWithFileTypes': () => [],
+    'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker': () => undefined,
   })
-  EditorWorker.set(mockRpc)
-  ExtensionHostWorker.set(mockRpc)
+  ExtensionHost.set(mockRpc)
 
   await initialize()
-  await ExtensionHostWorker.dispose()
+  await ExtensionHost.dispose()
+
+  expect(mockRpc.invocations).toBeDefined()
 })

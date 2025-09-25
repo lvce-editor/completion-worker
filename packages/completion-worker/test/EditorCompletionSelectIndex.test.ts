@@ -1,5 +1,4 @@
 import { expect, test } from '@jest/globals'
-import { MockRpc } from '@lvce-editor/rpc'
 import { EditorWorker } from '@lvce-editor/rpc-registry'
 import type { CompletionState } from '../src/parts/CompletionState/CompletionState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.js'
@@ -17,28 +16,13 @@ test('selectIndex - throws error when index is too large', async () => {
 })
 
 test('selectIndex - selects item at given index', async () => {
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'Editor.getEdits') {
-        return []
-      }
-      if (method === 'Editor.getLines2') {
-        return ['']
-      }
-      if (method === 'Editor.getSelections2') {
-        return [0, 0, 0, 0]
-      }
-      if (method === 'Editor.applyEdit2') {
-        return
-      }
-      if (method === 'Editor.closeWidget2') {
-        return
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'Editor.getEdits': () => [],
+    'Editor.getLines2': () => [''],
+    'Editor.getSelections2': () => [0, 0, 0, 0],
+    'Editor.applyEdit2': () => undefined,
+    'Editor.closeWidget2': () => undefined,
   })
-  EditorWorker.set(mockRpc)
 
   const state: CompletionState = {
     ...createDefaultState(),
@@ -48,4 +32,24 @@ test('selectIndex - selects item at given index', async () => {
   }
   const result = await selectIndex(state, 1)
   expect(result).toBe(state)
+
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 1],
+    ['Editor.getLines2', 1],
+    ['Editor.getSelections2', 1],
+    [
+      'Editor.applyEdit2',
+      1,
+      [
+        {
+          deleted: [''],
+          end: { columnIndex: 0, rowIndex: 0 },
+          inserted: ['item2'],
+          origin: '',
+          start: { columnIndex: 0, rowIndex: 0 },
+        },
+      ],
+    ],
+    ['Editor.closeWidget2', 1, 3, 'Completions', 9],
+  ])
 })

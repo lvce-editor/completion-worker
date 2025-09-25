@@ -1,6 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { MockRpc } from '@lvce-editor/rpc'
-import { set } from '../src/parts/EditorWorker/EditorWorker.ts'
+import { EditorWorker } from '@lvce-editor/rpc-registry'
 import { getPositionAtCursor } from '../src/parts/GetPositionAtCursor/GetPositionAtCursor.ts'
 
 test('getPositionAtCursor - returns position at cursor', async () => {
@@ -11,19 +10,13 @@ test('getPositionAtCursor - returns position at cursor', async () => {
     columnIndex: 10,
   }
 
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'Editor.getPositionAtCursor') {
-        return mockPosition
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'Editor.getPositionAtCursor': () => mockPosition,
   })
-  set(mockRpc)
 
   const result = await getPositionAtCursor(1)
   expect(result).toEqual(mockPosition)
+  expect(mockRpc.invocations).toEqual([['Editor.getPositionAtCursor', 1]])
 })
 
 test('getPositionAtCursor - returns position at start of document', async () => {
@@ -34,17 +27,11 @@ test('getPositionAtCursor - returns position at start of document', async () => 
     columnIndex: 0,
   }
 
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'Editor.getPositionAtCursor') {
-        return mockPosition
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'Editor.getPositionAtCursor': () => mockPosition,
   })
-  set(mockRpc)
 
   const result = await getPositionAtCursor(1)
   expect(result).toEqual(mockPosition)
+  expect(mockRpc.invocations).toEqual([['Editor.getPositionAtCursor', 1]])
 })

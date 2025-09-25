@@ -1,44 +1,20 @@
 import { expect, test } from '@jest/globals'
-import { MockRpc } from '@lvce-editor/rpc'
 import { EditorWorker } from '@lvce-editor/rpc-registry'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.js'
 import { handlePointerDown } from '../src/parts/HandlePointerDown/HandlePointerDown.js'
 
 test('handlePointerDown - valid click on first item', async () => {
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'FileSystem.readDirWithFileTypes') {
-        return []
-      }
-      if (method === 'Editor.getLines2') {
-        return ['line1', 'line2', 'line3']
-      }
-      if (method === 'Editor.getSelections') {
-        return [0, 5]
-      }
-      if (method === 'Editor.getSelections2') {
-        return [0, 5]
-      }
-      if (method === 'Editor.getOffsetAtCursor') {
-        return 5
-      }
-      if (method === 'ExtensionHost.activateByEvent') {
-        return undefined
-      }
-      if (method === 'ExtensionHost.invoke') {
-        return undefined
-      }
-      if (method === 'Editor.applyEdit2') {
-        return undefined
-      }
-      if (method === 'Editor.closeWidget2') {
-        return undefined
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'FileSystem.readDirWithFileTypes': () => [],
+    'Editor.getLines2': () => ['line1', 'line2', 'line3'],
+    'Editor.getSelections': () => [0, 5],
+    'Editor.getSelections2': () => [0, 5],
+    'Editor.getOffsetAtCursor': () => 5,
+    'ExtensionHost.activateByEvent': () => undefined,
+    'ExtensionHost.invoke': () => undefined,
+    'Editor.applyEdit2': () => undefined,
+    'Editor.closeWidget2': () => undefined,
   })
-  EditorWorker.set(mockRpc)
 
   const state = {
     ...createDefaultState(),
@@ -53,43 +29,41 @@ test('handlePointerDown - valid click on first item', async () => {
 
   const result = await handlePointerDown(state, 50, 110)
   expect(result).toBeDefined()
+
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 0],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+    ['Editor.getLines2', 0],
+    ['Editor.getSelections2', 0],
+    [
+      'Editor.applyEdit2',
+      0,
+      [
+        {
+          deleted: [''],
+          end: { columnIndex: 5, rowIndex: 0 },
+          inserted: ['item1'],
+          origin: '',
+          start: { columnIndex: 5, rowIndex: 0 },
+        },
+      ],
+    ],
+    ['Editor.closeWidget2', 0, 3, 'Completions', 9],
+  ])
 })
 
 test('handlePointerDown - valid click on second item', async () => {
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'FileSystem.readDirWithFileTypes') {
-        return []
-      }
-      if (method === 'Editor.getLines2') {
-        return ['line1', 'line2', 'line3']
-      }
-      if (method === 'Editor.getSelections') {
-        return [0, 5]
-      }
-      if (method === 'Editor.getSelections2') {
-        return [0, 5]
-      }
-      if (method === 'Editor.getOffsetAtCursor') {
-        return 5
-      }
-      if (method === 'ExtensionHost.activateByEvent') {
-        return undefined
-      }
-      if (method === 'ExtensionHost.invoke') {
-        return undefined
-      }
-      if (method === 'Editor.applyEdit2') {
-        return undefined
-      }
-      if (method === 'Editor.closeWidget2') {
-        return undefined
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'FileSystem.readDirWithFileTypes': () => [],
+    'Editor.getLines2': () => ['line1', 'line2', 'line3'],
+    'Editor.getSelections': () => [0, 5],
+    'Editor.getSelections2': () => [0, 5],
+    'Editor.getOffsetAtCursor': () => 5,
+    'ExtensionHost.activateByEvent': () => undefined,
+    'ExtensionHost.invoke': () => undefined,
+    'Editor.applyEdit2': () => undefined,
+    'Editor.closeWidget2': () => undefined,
   })
-  EditorWorker.set(mockRpc)
 
   const state = {
     ...createDefaultState(),
@@ -104,6 +78,27 @@ test('handlePointerDown - valid click on second item', async () => {
 
   const result = await handlePointerDown(state, 50, 130)
   expect(result).toBeDefined()
+
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 0],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+    ['Editor.getLines2', 0],
+    ['Editor.getSelections2', 0],
+    [
+      'Editor.applyEdit2',
+      0,
+      [
+        {
+          deleted: [''],
+          end: { columnIndex: 5, rowIndex: 0 },
+          inserted: ['item2'],
+          origin: '',
+          start: { columnIndex: 5, rowIndex: 0 },
+        },
+      ],
+    ],
+    ['Editor.closeWidget2', 0, 3, 'Completions', 9],
+  ])
 })
 
 test('handlePointerDown - click before first item returns original state', async () => {
@@ -139,40 +134,17 @@ test('handlePointerDown - click after last item returns original state', async (
 })
 
 test('handlePointerDown - click on last valid item', async () => {
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'FileSystem.readDirWithFileTypes') {
-        return []
-      }
-      if (method === 'Editor.getLines2') {
-        return ['line1', 'line2', 'line3']
-      }
-      if (method === 'Editor.getSelections') {
-        return [0, 5]
-      }
-      if (method === 'Editor.getSelections2') {
-        return [0, 5]
-      }
-      if (method === 'Editor.getOffsetAtCursor') {
-        return 5
-      }
-      if (method === 'ExtensionHost.activateByEvent') {
-        return undefined
-      }
-      if (method === 'ExtensionHost.invoke') {
-        return undefined
-      }
-      if (method === 'Editor.applyEdit2') {
-        return undefined
-      }
-      if (method === 'Editor.closeWidget2') {
-        return undefined
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'FileSystem.readDirWithFileTypes': () => [],
+    'Editor.getLines2': () => ['line1', 'line2', 'line3'],
+    'Editor.getSelections': () => [0, 5],
+    'Editor.getSelections2': () => [0, 5],
+    'Editor.getOffsetAtCursor': () => 5,
+    'ExtensionHost.activateByEvent': () => undefined,
+    'ExtensionHost.invoke': () => undefined,
+    'Editor.applyEdit2': () => undefined,
+    'Editor.closeWidget2': () => undefined,
   })
-  EditorWorker.set(mockRpc)
 
   const state = {
     ...createDefaultState(),
@@ -187,6 +159,27 @@ test('handlePointerDown - click on last valid item', async () => {
 
   const result = await handlePointerDown(state, 50, 150)
   expect(result).toBeDefined()
+
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 0],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+    ['Editor.getLines2', 0],
+    ['Editor.getSelections2', 0],
+    [
+      'Editor.applyEdit2',
+      0,
+      [
+        {
+          deleted: [''],
+          end: { columnIndex: 5, rowIndex: 0 },
+          inserted: ['item3'],
+          origin: '',
+          start: { columnIndex: 5, rowIndex: 0 },
+        },
+      ],
+    ],
+    ['Editor.closeWidget2', 0, 3, 'Completions', 9],
+  ])
 })
 
 test('handlePointerDown - empty items array', async () => {
@@ -202,40 +195,17 @@ test('handlePointerDown - empty items array', async () => {
 })
 
 test('handlePointerDown - single item click', async () => {
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'FileSystem.readDirWithFileTypes') {
-        return []
-      }
-      if (method === 'Editor.getLines2') {
-        return ['line1', 'line2', 'line3']
-      }
-      if (method === 'Editor.getSelections') {
-        return [0, 5]
-      }
-      if (method === 'Editor.getSelections2') {
-        return [0, 5]
-      }
-      if (method === 'Editor.getOffsetAtCursor') {
-        return 5
-      }
-      if (method === 'ExtensionHost.activateByEvent') {
-        return undefined
-      }
-      if (method === 'ExtensionHost.invoke') {
-        return undefined
-      }
-      if (method === 'Editor.applyEdit2') {
-        return undefined
-      }
-      if (method === 'Editor.closeWidget2') {
-        return undefined
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'FileSystem.readDirWithFileTypes': () => [],
+    'Editor.getLines2': () => ['line1', 'line2', 'line3'],
+    'Editor.getSelections': () => [0, 5],
+    'Editor.getSelections2': () => [0, 5],
+    'Editor.getOffsetAtCursor': () => 5,
+    'ExtensionHost.activateByEvent': () => undefined,
+    'ExtensionHost.invoke': () => undefined,
+    'Editor.applyEdit2': () => undefined,
+    'Editor.closeWidget2': () => undefined,
   })
-  EditorWorker.set(mockRpc)
 
   const state = {
     ...createDefaultState(),
@@ -246,4 +216,25 @@ test('handlePointerDown - single item click', async () => {
 
   const result = await handlePointerDown(state, 50, 110)
   expect(result).toBeDefined()
+
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 0],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+    ['Editor.getLines2', 0],
+    ['Editor.getSelections2', 0],
+    [
+      'Editor.applyEdit2',
+      0,
+      [
+        {
+          deleted: [''],
+          end: { columnIndex: 5, rowIndex: 0 },
+          inserted: ['singleItem'],
+          origin: '',
+          start: { columnIndex: 5, rowIndex: 0 },
+        },
+      ],
+    ],
+    ['Editor.closeWidget2', 0, 3, 'Completions', 9],
+  ])
 })
