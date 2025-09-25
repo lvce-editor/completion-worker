@@ -10,9 +10,10 @@ test('filterCompletionItems returns all items with empty matches when word is em
     { label: 'test2', flags: CompletionItemFlags.Deprecated, kind: 0, matches: [] },
   ]
   const result = filterCompletionItems(items, '')
-  expect(result).toHaveLength(2)
-  expect(result[0].matches).toBe(EmptyMatches.EmptyMatches)
-  expect(result[1].matches).toBe(EmptyMatches.EmptyMatches)
+  expect(result).toEqual([
+    { label: 'test1', flags: CompletionItemFlags.None, kind: 0, matches: EmptyMatches.EmptyMatches },
+    { label: 'test2', flags: CompletionItemFlags.Deprecated, kind: 0, matches: EmptyMatches.EmptyMatches },
+  ])
 })
 
 test('filterCompletionItems filters items based on fuzzy search', () => {
@@ -34,10 +35,11 @@ test('filterCompletionItems puts deprecated items at the end', () => {
     { label: 'test3', flags: CompletionItemFlags.Deprecated, kind: 0, matches: [] },
   ]
   const result = filterCompletionItems(items, 'test')
-  expect(result).toHaveLength(3)
-  expect(result[0].label).toBe('test2')
-  expect(result[1].label).toBe('test1')
-  expect(result[2].label).toBe('test3')
+  expect(result).toEqual([
+    { label: 'test2', flags: CompletionItemFlags.None, kind: 0, matches: expect.any(Array) },
+    { label: 'test1', flags: CompletionItemFlags.Deprecated, kind: 0, matches: expect.any(Array) },
+    { label: 'test3', flags: CompletionItemFlags.Deprecated, kind: 0, matches: expect.any(Array) },
+  ])
 })
 
 test('filterCompletionItems returns empty array when no matches found', () => {
