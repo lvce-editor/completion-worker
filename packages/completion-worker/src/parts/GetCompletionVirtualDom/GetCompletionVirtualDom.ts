@@ -1,4 +1,5 @@
-import type { VirtualDomNode } from '../VirtualDomNode/VirtualDomNode.ts'
+import type { VirtualDomNode } from '@lvce-editor/virtual-dom-worker'
+import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { VisibleCompletionItem } from '../VisibleCompletionItem/VisibleCompletionItem.ts'
 import * as AriaRoles from '../AriaRoles/AriaRoles.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
@@ -8,7 +9,6 @@ import * as GetCompletionItemsVirtualDom from '../GetCompletionItemsVirtualDom/G
 import * as GetScrollBarVirtualDom from '../GetScrollBarVirtualDom/GetScrollBarVirtualDom.ts'
 import * as Ids from '../Ids/Ids.ts'
 import * as MergeClassNames from '../MergeClassNames/MergeClassNames.ts'
-import * as VirtualDomElements from '../VirtualDomElements/VirtualDomElements.ts'
 
 export const getCompletionVirtualDom = (
   visibleItems: readonly VisibleCompletionItem[],
