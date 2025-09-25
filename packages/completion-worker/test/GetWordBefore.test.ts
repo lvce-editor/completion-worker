@@ -1,36 +1,27 @@
 import { expect, test } from '@jest/globals'
-import { MockRpc } from '@lvce-editor/rpc'
-import { set } from '../src/parts/EditorWorker/EditorWorker.ts'
+import { EditorWorker } from '@lvce-editor/rpc-registry'
 import { getWordBefore } from '../src/parts/GetWordBefore/GetWordBefore.ts'
 
 test('getWordBefore - returns word before cursor', async () => {
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'Editor.getWordBefore2') {
-        return 'hello'
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'Editor.getWordBefore2': () => 'hello',
   })
-  set(mockRpc)
 
   const result = await getWordBefore(1, 0, 5)
   expect(result).toBe('hello')
+  expect(mockRpc.invocations).toEqual([
+    { method: 'Editor.getWordBefore2', args: [1, 0, 5] }
+  ])
 })
 
 test('getWordBefore - returns empty string when no word before', async () => {
-  const mockRpc = MockRpc.create({
-    commandMap: {},
-    invoke: (method: string) => {
-      if (method === 'Editor.getWordBefore2') {
-        return ''
-      }
-      throw new Error(`unexpected method ${method}`)
-    },
+  const mockRpc = EditorWorker.registerMockRpc({
+    'Editor.getWordBefore2': () => '',
   })
-  set(mockRpc)
 
   const result = await getWordBefore(1, 0, 0)
   expect(result).toBe('')
+  expect(mockRpc.invocations).toEqual([
+    { method: 'Editor.getWordBefore2', args: [1, 0, 0] }
+  ])
 })
