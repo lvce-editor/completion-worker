@@ -1,6 +1,5 @@
 import { expect, test } from '@jest/globals'
 import { EditorWorker } from '@lvce-editor/rpc-registry'
-import { ExtensionHost } from '@lvce-editor/rpc-registry'
 import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.ts'
 import { getEdits } from '../src/parts/GetEdits/GetEdits.ts'
 
@@ -22,9 +21,6 @@ test('getEdits - returns changes for simple completion', async () => {
     'Editor.getOffsetAtCursor': () => 10,
   })
 
-  const _mockExtensionHostRpc = ExtensionHost.registerMockRpc({
-    'ExtensionHostEditor.execute': () => undefined,
-  })
 
   const result = await getEdits(1, 'hel', mockCompletion)
   expect(result).toHaveLength(1)
@@ -86,9 +82,6 @@ test('getEdits - returns changes when resolved item is undefined', async () => {
     'Editor.getOffsetAtCursor': () => 10,
   })
 
-  const _mockExtensionHostRpc = ExtensionHost.registerMockRpc({
-    'ExtensionHostEditor.execute': () => undefined,
-  })
 
   const result = await getEdits(1, 'hel', mockCompletion)
   expect(result).toHaveLength(1)
