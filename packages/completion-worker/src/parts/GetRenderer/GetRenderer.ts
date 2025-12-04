@@ -9,18 +9,18 @@ import * as RenderUid from '../RenderUid/RenderUid.ts'
 
 export const getRenderer = (diffType: number): Renderer => {
   switch (diffType) {
-    case DiffType.RenderContent:
-      return RenderContent.renderContent
     case DiffType.RenderBounds:
       return RenderBounds.renderBounds
+    case DiffType.RenderContent:
+      return RenderContent.renderContent
     case DiffType.RenderEventListeners:
       return RenderEventListeners.renderEventListeners
-    case DiffType.RenderUid:
-      return RenderUid.renderUid
-    case DiffType.RenderItems:
-      return RenderItems.renderItems
     case DiffType.RenderFocusContext:
       return RenderFocusContext.renderFocusContext
+    case DiffType.RenderItems:
+      return RenderItems.renderItems
+    case DiffType.RenderUid:
+      return RenderUid.renderUid
     default:
       throw new Error('unknown renderer')
   }

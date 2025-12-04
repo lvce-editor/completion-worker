@@ -1,17 +1,17 @@
 export interface Range {
-  readonly rowIndex: number
   readonly columnIndex: number
+  readonly rowIndex: number
 }
 
 export interface Selection {
-  readonly start: Range
   readonly end: Range
+  readonly start: Range
 }
 
 export interface Change {
-  readonly start: Range
+  readonly deleted: readonly string[]
   readonly end: Range
   readonly inserted: readonly string[]
-  readonly deleted: readonly string[]
   readonly origin: string
+  readonly start: Range
 }
