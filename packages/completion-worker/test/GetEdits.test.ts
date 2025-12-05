@@ -21,7 +21,6 @@ test('getEdits - returns changes for simple completion', async () => {
     'Editor.getSelections2': () => mockSelections,
   })
 
-
   const result = await getEdits(1, 'hel', mockCompletion)
   expect(result).toHaveLength(1)
   expect(result[0]).toEqual({
@@ -75,7 +74,6 @@ test('getEdits - returns changes when resolved item is undefined', async () => {
     'Editor.getOffsetAtCursor': () => 10,
     'Editor.getSelections2': () => mockSelections,
   })
-
 
   const result = await getEdits(1, 'hel', mockCompletion)
   expect(result).toHaveLength(1)
