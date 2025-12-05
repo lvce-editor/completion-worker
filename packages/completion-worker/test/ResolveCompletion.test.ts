@@ -5,9 +5,9 @@ import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.
 import { resolveCompletion } from '../src/parts/ResolveCompletion/ResolveCompletion.ts'
 
 const createCompletionItem = (label: string): CompletionItem => ({
-  label,
-  kind: 1,
   flags: 0,
+  kind: 1,
+  label,
   matches: [],
 })
 

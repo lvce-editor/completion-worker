@@ -19,18 +19,18 @@ export const getCompletionVirtualDom = (
   const childCount = scrollBarDom.length === 0 ? 1 : 2
   return [
     {
-      type: VirtualDomElements.Div,
+      childCount: childCount,
       className: MergeClassNames.mergeClassNames(ClassNames.Viewlet, ClassNames.EditorCompletion),
       id: Ids.Completions,
-      childCount: childCount,
+      type: VirtualDomElements.Div,
     },
     {
-      type: VirtualDomElements.Div,
-      className: ClassNames.ListItems,
-      role: AriaRoles.ListBox,
       ariaLabel: EditorStrings.suggest(),
       childCount: 1,
+      className: ClassNames.ListItems,
       onWheel: DomEventListenerFunctions.HandleWheel,
+      role: AriaRoles.ListBox,
+      type: VirtualDomElements.Div,
     },
     ...GetCompletionItemsVirtualDom.getCompletionItemsVirtualDom(visibleItems),
     ...scrollBarDom,

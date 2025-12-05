@@ -6,16 +6,16 @@ import { getCompletions } from '../src/parts/Completions/Completions.ts'
 test('getCompletions returns completions successfully', async () => {
   const mockCompletions = [
     {
-      label: 'test',
-      kind: 1,
       flags: 0,
+      kind: 1,
+      label: 'test',
       matches: [0, 1, 2, 3],
     },
   ]
   const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
-    'GetOffsetAtCursor.getOffsetAtCursor': () => 10,
-    'ExtensionHostCompletion.execute': () => mockCompletions,
     'Editor.getOffsetAtCursor': () => 0,
+    'ExtensionHostCompletion.execute': () => mockCompletions,
+    'GetOffsetAtCursor.getOffsetAtCursor': () => 10,
   })
 
   const mockEditorRpc = EditorWorker.registerMockRpc({
@@ -37,11 +37,11 @@ test('getCompletions returns empty array on error', async () => {
   // @ts-ignore
   const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
   const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
-    'GetOffsetAtCursor.getOffsetAtCursor': () => 10,
+    'Editor.getOffsetAtCursor': () => 0,
     'ExtensionHostCompletion.execute': () => {
       throw new Error('test error')
     },
-    'Editor.getOffsetAtCursor': () => 0,
+    'GetOffsetAtCursor.getOffsetAtCursor': () => 10,
   })
 
   const mockEditorRpc = EditorWorker.registerMockRpc({

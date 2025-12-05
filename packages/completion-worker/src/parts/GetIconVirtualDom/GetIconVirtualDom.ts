@@ -3,9 +3,9 @@ import * as AriaRoles from '../AriaRoles/AriaRoles.ts'
 
 export const getIconVirtualDom = (icon: string, type = VirtualDomElements.Div) => {
   return {
-    type,
+    childCount: 0,
     className: `MaskIcon MaskIcon${icon}`,
     role: AriaRoles.None,
-    childCount: 0,
+    type,
   }
 }

@@ -20,13 +20,13 @@ test('getCompletionItemsVirtualDom - empty', () => {
 test('getCompletionItemsVirtualDom', () => {
   const visibleItems: VisibleCompletionItem[] = [
     {
-      top: 0,
-      label: 'test',
-      symbolName: 'test',
-      highlights: [],
-      focused: true,
       deprecated: true,
       fileIcon: '',
+      focused: true,
+      highlights: [],
+      label: 'test',
+      symbolName: 'test',
+      top: 0,
     },
   ]
   expect(GetCompletionItemsVirtualDom.getCompletionItemsVirtualDom(visibleItems)).toEqual([

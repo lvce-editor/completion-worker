@@ -12,16 +12,16 @@ test('should return scrollbar virtual dom when scrollBarHeight is greater than 0
   const result = getScrollBarVirtualDom(100, 50)
   expect(result).toEqual([
     {
-      type: VirtualDomElements.Div,
-      className: `${ClassNames.ScrollBar} ${ClassNames.ScrollBarSmall}`,
       childCount: 1,
+      className: `${ClassNames.ScrollBar} ${ClassNames.ScrollBarSmall}`,
+      type: VirtualDomElements.Div,
     },
     {
-      type: VirtualDomElements.Div,
-      className: ClassNames.ScrollBarThumb,
       childCount: 0,
+      className: ClassNames.ScrollBarThumb,
       height: '100px',
       translate: '0px 50px',
+      type: VirtualDomElements.Div,
     },
   ])
 })

@@ -17,17 +17,17 @@ test('selectIndex - throws error when index is too large', async () => {
 
 test('selectIndex - selects item at given index', async () => {
   const mockRpc = EditorWorker.registerMockRpc({
+    'Editor.applyEdit2': () => undefined,
+    'Editor.closeWidget2': () => undefined,
     'Editor.getEdits': () => [],
     'Editor.getLines2': () => [''],
     'Editor.getSelections2': () => [0, 0, 0, 0],
-    'Editor.applyEdit2': () => undefined,
-    'Editor.closeWidget2': () => undefined,
   })
 
   const state: CompletionState = {
     ...createDefaultState(),
-    items: [{ label: 'item1' }, { label: 'item2' }] as any,
     editorUid: 1,
+    items: [{ label: 'item1' }, { label: 'item2' }] as any,
     leadingWord: '',
   }
   const result = await selectIndex(state, 1)

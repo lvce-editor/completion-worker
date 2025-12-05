@@ -12,7 +12,7 @@ export const filterCompletionItems = (completionItems: readonly CompletionItem[]
   const filteredCompletions: CompletionItem[] = []
   const deprecated: CompletionItem[] = []
   for (const completionItem of completionItems) {
-    const { label, flags } = completionItem
+    const { flags, label } = completionItem
     const result = FuzzySearch.fuzzySearch(word, label)
     if (result.length > 0) {
       if (flags & CompletionItemFlags.Deprecated) {

@@ -11,11 +11,11 @@ test('replaceRange - single line replacement', () => {
 
   expect(changes).toHaveLength(1)
   expect(changes[0]).toEqual({
-    start: { rowIndex: 0, columnIndex: 0 },
-    end: { rowIndex: 0, columnIndex: 5 },
-    inserted: ['hi'],
     deleted: ['hello'],
+    end: { columnIndex: 5, rowIndex: 0 },
+    inserted: ['hi'],
     origin: 'test',
+    start: { columnIndex: 0, rowIndex: 0 },
   })
 })
 
@@ -29,11 +29,11 @@ test('replaceRange - multi line replacement', () => {
 
   expect(changes).toHaveLength(1)
   expect(changes[0]).toEqual({
-    start: { rowIndex: 0, columnIndex: 0 },
-    end: { rowIndex: 1, columnIndex: 5 },
-    inserted: ['hi', 'there'],
     deleted: ['hello', 'world'],
+    end: { columnIndex: 5, rowIndex: 1 },
+    inserted: ['hi', 'there'],
     origin: 'test',
+    start: { columnIndex: 0, rowIndex: 0 },
   })
 })
 
@@ -56,17 +56,17 @@ test('replaceRange - multiple selections', () => {
 
   expect(changes).toHaveLength(2)
   expect(changes[0]).toEqual({
-    start: { rowIndex: 0, columnIndex: 0 },
-    end: { rowIndex: 0, columnIndex: 5 },
-    inserted: ['hi'],
     deleted: ['hello'],
+    end: { columnIndex: 5, rowIndex: 0 },
+    inserted: ['hi'],
     origin: 'test',
+    start: { columnIndex: 0, rowIndex: 0 },
   })
   expect(changes[1]).toEqual({
-    start: { rowIndex: 0, columnIndex: 6 },
-    end: { rowIndex: 0, columnIndex: 11 },
-    inserted: ['hi'],
     deleted: ['world'],
+    end: { columnIndex: 11, rowIndex: 0 },
+    inserted: ['hi'],
     origin: 'test',
+    start: { columnIndex: 6, rowIndex: 0 },
   })
 })

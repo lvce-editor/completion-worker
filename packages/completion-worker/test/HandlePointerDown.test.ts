@@ -5,26 +5,26 @@ import { handlePointerDown } from '../src/parts/HandlePointerDown/HandlePointerD
 
 test('handlePointerDown - valid click on first item', async () => {
   const mockRpc = EditorWorker.registerMockRpc({
-    'FileSystem.readDirWithFileTypes': () => [],
-    'Editor.getLines2': () => ['line1', 'line2', 'line3'],
-    'Editor.getSelections': () => [0, 5],
-    'Editor.getSelections2': () => [0, 5],
-    'Editor.getOffsetAtCursor': () => 5,
-    'ExtensionHost.activateByEvent': () => undefined,
-    'ExtensionHost.invoke': () => undefined,
     'Editor.applyEdit2': () => undefined,
     'Editor.closeWidget2': () => undefined,
+    'Editor.getLines2': () => ['line1', 'line2', 'line3'],
+    'Editor.getOffsetAtCursor': () => 5,
+    'Editor.getSelections': () => [0, 5],
+    'Editor.getSelections2': () => [0, 5],
+    'ExtensionHost.activateByEvent': () => undefined,
+    'ExtensionHost.invoke': () => undefined,
+    'FileSystem.readDirWithFileTypes': () => [],
   })
 
   const state = {
     ...createDefaultState(),
-    y: 100,
     itemHeight: 20,
     items: [
-      { label: 'item1', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
-      { label: 'item2', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
-      { label: 'item3', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
+      { flags: 0, kind: 1, label: 'item1', matches: [0, 1, 2, 3] },
+      { flags: 0, kind: 1, label: 'item2', matches: [0, 1, 2, 3] },
+      { flags: 0, kind: 1, label: 'item3', matches: [0, 1, 2, 3] },
     ],
+    y: 100,
   }
 
   const result = await handlePointerDown(state, 50, 110)
@@ -54,26 +54,26 @@ test('handlePointerDown - valid click on first item', async () => {
 
 test('handlePointerDown - valid click on second item', async () => {
   const mockRpc = EditorWorker.registerMockRpc({
-    'FileSystem.readDirWithFileTypes': () => [],
-    'Editor.getLines2': () => ['line1', 'line2', 'line3'],
-    'Editor.getSelections': () => [0, 5],
-    'Editor.getSelections2': () => [0, 5],
-    'Editor.getOffsetAtCursor': () => 5,
-    'ExtensionHost.activateByEvent': () => undefined,
-    'ExtensionHost.invoke': () => undefined,
     'Editor.applyEdit2': () => undefined,
     'Editor.closeWidget2': () => undefined,
+    'Editor.getLines2': () => ['line1', 'line2', 'line3'],
+    'Editor.getOffsetAtCursor': () => 5,
+    'Editor.getSelections': () => [0, 5],
+    'Editor.getSelections2': () => [0, 5],
+    'ExtensionHost.activateByEvent': () => undefined,
+    'ExtensionHost.invoke': () => undefined,
+    'FileSystem.readDirWithFileTypes': () => [],
   })
 
   const state = {
     ...createDefaultState(),
-    y: 100,
     itemHeight: 20,
     items: [
-      { label: 'item1', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
-      { label: 'item2', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
-      { label: 'item3', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
+      { flags: 0, kind: 1, label: 'item1', matches: [0, 1, 2, 3] },
+      { flags: 0, kind: 1, label: 'item2', matches: [0, 1, 2, 3] },
+      { flags: 0, kind: 1, label: 'item3', matches: [0, 1, 2, 3] },
     ],
+    y: 100,
   }
 
   const result = await handlePointerDown(state, 50, 130)
@@ -104,13 +104,13 @@ test('handlePointerDown - valid click on second item', async () => {
 test('handlePointerDown - click before first item returns original state', async () => {
   const state = {
     ...createDefaultState(),
-    y: 100,
     itemHeight: 20,
     items: [
-      { label: 'item1', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
-      { label: 'item2', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
-      { label: 'item3', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
+      { flags: 0, kind: 1, label: 'item1', matches: [0, 1, 2, 3] },
+      { flags: 0, kind: 1, label: 'item2', matches: [0, 1, 2, 3] },
+      { flags: 0, kind: 1, label: 'item3', matches: [0, 1, 2, 3] },
     ],
+    y: 100,
   }
 
   const result = await handlePointerDown(state, 50, 90)
@@ -120,13 +120,13 @@ test('handlePointerDown - click before first item returns original state', async
 test('handlePointerDown - click after last item returns original state', async () => {
   const state = {
     ...createDefaultState(),
-    y: 100,
     itemHeight: 20,
     items: [
-      { label: 'item1', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
-      { label: 'item2', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
-      { label: 'item3', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
+      { flags: 0, kind: 1, label: 'item1', matches: [0, 1, 2, 3] },
+      { flags: 0, kind: 1, label: 'item2', matches: [0, 1, 2, 3] },
+      { flags: 0, kind: 1, label: 'item3', matches: [0, 1, 2, 3] },
     ],
+    y: 100,
   }
 
   const result = await handlePointerDown(state, 50, 200)
@@ -135,26 +135,26 @@ test('handlePointerDown - click after last item returns original state', async (
 
 test('handlePointerDown - click on last valid item', async () => {
   const mockRpc = EditorWorker.registerMockRpc({
-    'FileSystem.readDirWithFileTypes': () => [],
-    'Editor.getLines2': () => ['line1', 'line2', 'line3'],
-    'Editor.getSelections': () => [0, 5],
-    'Editor.getSelections2': () => [0, 5],
-    'Editor.getOffsetAtCursor': () => 5,
-    'ExtensionHost.activateByEvent': () => undefined,
-    'ExtensionHost.invoke': () => undefined,
     'Editor.applyEdit2': () => undefined,
     'Editor.closeWidget2': () => undefined,
+    'Editor.getLines2': () => ['line1', 'line2', 'line3'],
+    'Editor.getOffsetAtCursor': () => 5,
+    'Editor.getSelections': () => [0, 5],
+    'Editor.getSelections2': () => [0, 5],
+    'ExtensionHost.activateByEvent': () => undefined,
+    'ExtensionHost.invoke': () => undefined,
+    'FileSystem.readDirWithFileTypes': () => [],
   })
 
   const state = {
     ...createDefaultState(),
-    y: 100,
     itemHeight: 20,
     items: [
-      { label: 'item1', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
-      { label: 'item2', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
-      { label: 'item3', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
+      { flags: 0, kind: 1, label: 'item1', matches: [0, 1, 2, 3] },
+      { flags: 0, kind: 1, label: 'item2', matches: [0, 1, 2, 3] },
+      { flags: 0, kind: 1, label: 'item3', matches: [0, 1, 2, 3] },
     ],
+    y: 100,
   }
 
   const result = await handlePointerDown(state, 50, 150)
@@ -185,9 +185,9 @@ test('handlePointerDown - click on last valid item', async () => {
 test('handlePointerDown - empty items array', async () => {
   const state = {
     ...createDefaultState(),
-    y: 100,
     itemHeight: 20,
     items: [],
+    y: 100,
   }
 
   const result = await handlePointerDown(state, 50, 110)
@@ -196,22 +196,22 @@ test('handlePointerDown - empty items array', async () => {
 
 test('handlePointerDown - single item click', async () => {
   const mockRpc = EditorWorker.registerMockRpc({
-    'FileSystem.readDirWithFileTypes': () => [],
-    'Editor.getLines2': () => ['line1', 'line2', 'line3'],
-    'Editor.getSelections': () => [0, 5],
-    'Editor.getSelections2': () => [0, 5],
-    'Editor.getOffsetAtCursor': () => 5,
-    'ExtensionHost.activateByEvent': () => undefined,
-    'ExtensionHost.invoke': () => undefined,
     'Editor.applyEdit2': () => undefined,
     'Editor.closeWidget2': () => undefined,
+    'Editor.getLines2': () => ['line1', 'line2', 'line3'],
+    'Editor.getOffsetAtCursor': () => 5,
+    'Editor.getSelections': () => [0, 5],
+    'Editor.getSelections2': () => [0, 5],
+    'ExtensionHost.activateByEvent': () => undefined,
+    'ExtensionHost.invoke': () => undefined,
+    'FileSystem.readDirWithFileTypes': () => [],
   })
 
   const state = {
     ...createDefaultState(),
-    y: 100,
     itemHeight: 20,
-    items: [{ label: 'singleItem', kind: 1, flags: 0, matches: [0, 1, 2, 3] }],
+    items: [{ flags: 0, kind: 1, label: 'singleItem', matches: [0, 1, 2, 3] }],
+    y: 100,
   }
 
   const result = await handlePointerDown(state, 50, 110)

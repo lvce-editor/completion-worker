@@ -4,10 +4,10 @@ import { getPositionAtCursor } from '../src/parts/GetPositionAtCursor/GetPositio
 
 test('getPositionAtCursor - returns position at cursor', async () => {
   const mockPosition = {
+    columnIndex: 10,
+    rowIndex: 5,
     x: 100,
     y: 200,
-    rowIndex: 5,
-    columnIndex: 10,
   }
 
   const mockRpc = EditorWorker.registerMockRpc({
@@ -21,10 +21,10 @@ test('getPositionAtCursor - returns position at cursor', async () => {
 
 test('getPositionAtCursor - returns position at start of document', async () => {
   const mockPosition = {
+    columnIndex: 0,
+    rowIndex: 0,
     x: 0,
     y: 0,
-    rowIndex: 0,
-    columnIndex: 0,
   }
 
   const mockRpc = EditorWorker.registerMockRpc({

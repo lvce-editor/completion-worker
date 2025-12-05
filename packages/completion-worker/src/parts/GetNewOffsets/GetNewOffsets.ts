@@ -17,17 +17,17 @@ export const getNewOffsets = (
     return {
       modified: false,
       newDeltaY: 0,
-      newMinLineY: 0,
       newMaxLineY: 0,
+      newMinLineY: 0,
     }
   }
   // TODO when it only moves by one px, items don't need to be rerendered, only negative margin
   const minLineY = Math.floor(newDeltaY / itemHeight)
   const maxLineY = Math.min(minLineY + GetNumberOfVisibleItems.getNumberOfVisibleItems(listHeight, itemHeight), itemCount - 1)
   return {
-    newDeltaY: newDeltaY,
-    newMinLineY: minLineY,
-    newMaxLineY: maxLineY,
     modified: true,
+    newDeltaY: newDeltaY,
+    newMaxLineY: maxLineY,
+    newMinLineY: minLineY,
   }
 }

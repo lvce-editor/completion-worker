@@ -7,8 +7,8 @@ test('renderUid', () => {
   const oldState = createDefaultState()
   const newState = {
     ...createDefaultState(),
-    uid: 123,
     editorUid: 456,
+    uid: 123,
   }
   const result = renderUid(oldState, newState)
   expect(result).toEqual([RenderMethod.SetUid, 123, 456])

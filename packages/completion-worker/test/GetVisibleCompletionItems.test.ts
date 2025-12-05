@@ -8,15 +8,15 @@ import { getVisibleItems } from '../src/parts/GetVisibleCompletionItems/GetVisib
 test('getVisibleItems transforms completion items correctly', () => {
   const filteredItems: CompletionItem[] = [
     {
-      label: 'test1',
-      kind: 1,
       flags: 0,
+      kind: 1,
+      label: 'test1',
       matches: [0, 4],
     },
     {
-      label: 'test2',
-      kind: 1,
       flags: 0,
+      kind: 1,
+      label: 'test2',
       matches: [0, 4],
     },
   ]
@@ -31,22 +31,22 @@ test('getVisibleItems transforms completion items correctly', () => {
 
   expect(result).toEqual([
     {
+      deprecated: 0,
+      fileIcon: GetCompletionFileIcon.getCompletionFileIcon(1),
+      focused: true,
+      highlights: GetCompletionItemHighlights.getHighlights(filteredItems[0]),
       label: 'test1',
       symbolName: EditorCompletionMap.getSymbolName(1),
       top: 0,
-      highlights: GetCompletionItemHighlights.getHighlights(filteredItems[0]),
-      focused: true,
-      deprecated: 0,
-      fileIcon: GetCompletionFileIcon.getCompletionFileIcon(1),
     },
     {
+      deprecated: 0,
+      fileIcon: GetCompletionFileIcon.getCompletionFileIcon(1),
+      focused: false,
+      highlights: GetCompletionItemHighlights.getHighlights(filteredItems[1]),
       label: 'test2',
       symbolName: EditorCompletionMap.getSymbolName(1),
       top: 20,
-      highlights: GetCompletionItemHighlights.getHighlights(filteredItems[1]),
-      focused: false,
-      deprecated: 0,
-      fileIcon: GetCompletionFileIcon.getCompletionFileIcon(1),
     },
   ])
 })
@@ -60,15 +60,15 @@ test('getVisibleItems handles empty array', () => {
 test('getVisibleItems handles different focused index', () => {
   const filteredItems: CompletionItem[] = [
     {
-      label: 'test1',
-      kind: 1,
       flags: 0,
+      kind: 1,
+      label: 'test1',
       matches: [0, 4],
     },
     {
-      label: 'test2',
-      kind: 1,
       flags: 0,
+      kind: 1,
+      label: 'test2',
       matches: [0, 4],
     },
   ]
@@ -77,22 +77,22 @@ test('getVisibleItems handles different focused index', () => {
 
   expect(result).toEqual([
     {
+      deprecated: 0,
+      fileIcon: GetCompletionFileIcon.getCompletionFileIcon(1),
+      focused: false,
+      highlights: GetCompletionItemHighlights.getHighlights(filteredItems[0]),
       label: 'test1',
       symbolName: EditorCompletionMap.getSymbolName(1),
       top: 0,
-      highlights: GetCompletionItemHighlights.getHighlights(filteredItems[0]),
-      focused: false,
-      deprecated: 0,
-      fileIcon: GetCompletionFileIcon.getCompletionFileIcon(1),
     },
     {
+      deprecated: 0,
+      fileIcon: GetCompletionFileIcon.getCompletionFileIcon(1),
+      focused: true,
+      highlights: GetCompletionItemHighlights.getHighlights(filteredItems[1]),
       label: 'test2',
       symbolName: EditorCompletionMap.getSymbolName(1),
       top: 20,
-      highlights: GetCompletionItemHighlights.getHighlights(filteredItems[1]),
-      focused: true,
-      deprecated: 0,
-      fileIcon: GetCompletionFileIcon.getCompletionFileIcon(1),
     },
   ])
 })
