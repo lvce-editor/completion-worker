@@ -10,8 +10,8 @@ export const getCompletionItemsVirtualDom = (visibleItems: readonly VisibleCompl
   }
   return [
     {
-      type: VirtualDomElements.Div,
       childCount: visibleItems.length,
+      type: VirtualDomElements.Div,
     },
     ...visibleItems.flatMap(GetCompletionItemVirtualDom.getCompletionItemVirtualDom),
   ]

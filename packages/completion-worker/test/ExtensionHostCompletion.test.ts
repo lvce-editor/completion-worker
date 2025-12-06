@@ -21,8 +21,8 @@ test('executeCompletionProvider returns empty array when no completions', async 
 
 test('executeCompletionProvider returns completion items when available', async () => {
   const mockCompletions: CompletionItem[] = [
-    { label: 'test1', kind: 1, flags: 0, matches: [] },
-    { label: 'test2', kind: 2, flags: 1, matches: [0, 1] },
+    { flags: 0, kind: 1, label: 'test1', matches: [] },
+    { flags: 1, kind: 2, label: 'test2', matches: [0, 1] },
   ]
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'ActivateByEvent.activateByEvent': () => undefined,
@@ -55,7 +55,7 @@ test('executeCompletionProvider handles error from extension host', async () => 
 })
 
 test('executeResolveCompletionItem returns resolved completion item', async () => {
-  const mockResolvedItem = { resolved: true, detail: 'test detail' }
+  const mockResolvedItem = { detail: 'test detail', resolved: true }
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'ActivateByEvent.activateByEvent': () => undefined,
   })
@@ -63,7 +63,7 @@ test('executeResolveCompletionItem returns resolved completion item', async () =
     'ExtensionHostCompletion.executeResolve': () => mockResolvedItem,
   })
 
-  const completionItem: CompletionItem = { label: 'test', kind: 1, flags: 0, matches: [] }
+  const completionItem: CompletionItem = { flags: 0, kind: 1, label: 'test', matches: [] }
   const result = await executeResolveCompletionItem(1, 10, 'test', completionItem)
   expect(result).toEqual(mockResolvedItem)
 
@@ -79,7 +79,7 @@ test('executeResolveCompletionItem returns undefined when no provider found', as
     'ExtensionHostCompletion.executeResolve': () => undefined,
   })
 
-  const completionItem: CompletionItem = { label: 'test', kind: 1, flags: 0, matches: [] }
+  const completionItem: CompletionItem = { flags: 0, kind: 1, label: 'test', matches: [] }
   const result = await executeResolveCompletionItem(1, 10, 'test', completionItem)
   expect(result).toBeUndefined()
 

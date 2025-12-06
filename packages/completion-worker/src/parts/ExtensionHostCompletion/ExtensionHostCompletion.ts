@@ -8,12 +8,12 @@ const combineResults = (results: any) => {
 
 export const executeCompletionProvider = async (editorUid: number, editorLanguageId: string, offset: number) => {
   return ExtensionHostEditor.execute({
-    editorUid,
-    editorLanguageId,
-    event: ExtensionHostActivationEvent.OnCompletion,
-    method: ExtensionHostCommandType.CompletionExecute,
     args: [offset],
     combineResults,
+    editorLanguageId,
+    editorUid,
+    event: ExtensionHostActivationEvent.OnCompletion,
+    method: ExtensionHostCommandType.CompletionExecute,
   })
 }
 
@@ -23,10 +23,10 @@ const combineResultsResolve = (items: any) => {
 
 export const executeResolveCompletionItem = async (editorUid: any, offset: any, name: any, completionItem: any) => {
   return ExtensionHostEditor.execute({
+    args: [offset, name, completionItem],
+    combineResults: combineResultsResolve,
     editorUid,
     event: ExtensionHostActivationEvent.OnCompletion,
     method: ExtensionHostCommandType.CompletionResolveExecute,
-    args: [offset, name, completionItem],
-    combineResults: combineResultsResolve,
   })
 }

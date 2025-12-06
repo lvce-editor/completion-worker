@@ -3,15 +3,15 @@ import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 
 const label1: VirtualDomNode = {
-  type: VirtualDomElements.Div,
-  className: ClassNames.Label,
   childCount: 1,
+  className: ClassNames.Label,
+  type: VirtualDomElements.Div,
 }
 
 const completionHighlight: VirtualDomNode = {
-  type: VirtualDomElements.Span,
-  className: ClassNames.EditorCompletionItemHighlight,
   childCount: 1,
+  className: ClassNames.EditorCompletionItemHighlight,
+  type: VirtualDomElements.Span,
 }
 
 export const getHighlightedLabelDom = (label: string, highlights: readonly number[]): readonly VirtualDomNode[] => {
@@ -20,9 +20,9 @@ export const getHighlightedLabelDom = (label: string, highlights: readonly numbe
   }
   const dom = []
   const labelDom = {
-    type: VirtualDomElements.Div,
-    className: ClassNames.Label,
     childCount: 0,
+    className: ClassNames.Label,
+    type: VirtualDomElements.Div,
   }
   dom.push(labelDom)
   let position = 0

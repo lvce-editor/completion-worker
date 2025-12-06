@@ -7,11 +7,11 @@ import * as GetPositionAtCursor from '../GetPositionAtCursor/GetPositionAtCursor
 import * as GetWordAtOffset from '../GetWordAtOffset/GetWordAtOffset.ts'
 
 export const loadContent = async (state: CompletionState): Promise<CompletionState> => {
-  const { itemHeight, maxHeight, editorUid, editorLanguageId } = state
+  const { editorLanguageId, editorUid, itemHeight, maxHeight } = state
   const unfilteredItems = await Completions.getCompletions(editorUid, editorLanguageId)
   const wordAtOffset = await GetWordAtOffset.getWordAtOffset(editorUid)
   const items = FilterCompletionItems.filterCompletionItems(unfilteredItems, wordAtOffset)
-  const { rowIndex, columnIndex, x, y } = await GetPositionAtCursor.getPositionAtCursor(editorUid)
+  const { columnIndex, rowIndex, x, y } = await GetPositionAtCursor.getPositionAtCursor(editorUid)
   const newMaxLineY = Math.min(items.length, 8)
   const itemsLength = items.length
   const newFocusedIndex = itemsLength === 0 ? -1 : 0
@@ -20,19 +20,19 @@ export const loadContent = async (state: CompletionState): Promise<CompletionSta
   const finalDeltaY = GetFinalDeltaY.getFinalDeltaY(height, itemHeight, total)
   return {
     ...state,
-    unfilteredItems,
+    // @ts-ignore
+    columnIndex,
+    finalDeltaY,
+    focusedIndex: newFocusedIndex,
+    height,
     items,
+    leadingWord: wordAtOffset,
+    maxLineY: newMaxLineY,
+    rowIndex,
+    unfilteredItems,
+    version: 1,
+    width: 200,
     x,
     y,
-    maxLineY: newMaxLineY,
-    focusedIndex: newFocusedIndex,
-    finalDeltaY,
-    leadingWord: wordAtOffset,
-    height,
-    // @ts-ignore
-    rowIndex,
-    columnIndex,
-    width: 200,
-    version: 1,
   }
 }

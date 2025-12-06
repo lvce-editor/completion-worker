@@ -5,8 +5,8 @@ import * as GetNewOffsets from '../GetNewOffsets/GetNewOffsets.ts'
 export const setDeltaY = <K, T extends VirtualListState<K>>(state: T, value: number): T => {
   Assert.object(state)
   Assert.number(value)
-  const { itemHeight, finalDeltaY, deltaY, height, headerHeight, items } = state
-  const { newDeltaY, newMaxLineY, newMinLineY, modified } = GetNewOffsets.getNewOffsets(
+  const { deltaY, finalDeltaY, headerHeight, height, itemHeight, items } = state
+  const { modified, newDeltaY, newMaxLineY, newMinLineY } = GetNewOffsets.getNewOffsets(
     itemHeight,
     finalDeltaY,
     deltaY,
@@ -21,7 +21,7 @@ export const setDeltaY = <K, T extends VirtualListState<K>>(state: T, value: num
   return {
     ...state,
     deltaY: newDeltaY,
-    minLineY: newMinLineY,
     maxLineY: newMaxLineY,
+    minLineY: newMinLineY,
   }
 }

@@ -4,9 +4,9 @@ import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.
 import { getEdits } from '../src/parts/GetEdits/GetEdits.ts'
 
 const createCompletionItem = (label: string): CompletionItem => ({
-  label,
-  kind: 1,
   flags: 0,
+  kind: 1,
+  label,
   matches: [],
 })
 
@@ -17,19 +17,18 @@ test('getEdits - returns changes for simple completion', async () => {
 
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'Editor.getLines2': () => mockLines,
-    'Editor.getSelections2': () => mockSelections,
     'Editor.getOffsetAtCursor': () => 10,
+    'Editor.getSelections2': () => mockSelections,
   })
-
 
   const result = await getEdits(1, 'hel', mockCompletion)
   expect(result).toHaveLength(1)
   expect(result[0]).toEqual({
-    start: { rowIndex: 0, columnIndex: 2 },
-    end: { rowIndex: 0, columnIndex: 5 },
-    inserted: ['hello'],
     deleted: ['nst'],
+    end: { columnIndex: 5, rowIndex: 0 },
+    inserted: ['hello'],
     origin: '',
+    start: { columnIndex: 2, rowIndex: 0 },
   })
 
   expect(mockEditorRpc.invocations).toEqual([
@@ -47,8 +46,8 @@ test.skip('getEdits - returns changes with resolved snippet', async () => {
 
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'Editor.getLines2': () => mockLines,
-    'Editor.getSelections2': () => mockSelections,
     'Editor.getOffsetAtCursor': () => 10,
+    'Editor.getSelections2': () => mockSelections,
   })
 
   const result = await getEdits(1, 'hel', mockCompletion)
@@ -72,19 +71,18 @@ test('getEdits - returns changes when resolved item is undefined', async () => {
 
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'Editor.getLines2': () => mockLines,
-    'Editor.getSelections2': () => mockSelections,
     'Editor.getOffsetAtCursor': () => 10,
+    'Editor.getSelections2': () => mockSelections,
   })
-
 
   const result = await getEdits(1, 'hel', mockCompletion)
   expect(result).toHaveLength(1)
   expect(result[0]).toEqual({
-    start: { rowIndex: 0, columnIndex: 2 },
-    end: { rowIndex: 0, columnIndex: 5 },
-    inserted: ['hello'],
     deleted: ['nst'],
+    end: { columnIndex: 5, rowIndex: 0 },
+    inserted: ['hello'],
     origin: '',
+    start: { columnIndex: 2, rowIndex: 0 },
   })
 
   expect(mockEditorRpc.invocations).toEqual([

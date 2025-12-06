@@ -6,21 +6,21 @@ import { filterCompletionItems } from '../src/parts/FilterCompletionItems/Filter
 
 test('filterCompletionItems returns all items with empty matches when word is empty', () => {
   const items: readonly CompletionItem[] = [
-    { label: 'test1', flags: CompletionItemFlags.None, kind: 0, matches: [] },
-    { label: 'test2', flags: CompletionItemFlags.Deprecated, kind: 0, matches: [] },
+    { flags: CompletionItemFlags.None, kind: 0, label: 'test1', matches: [] },
+    { flags: CompletionItemFlags.Deprecated, kind: 0, label: 'test2', matches: [] },
   ]
   const result = filterCompletionItems(items, '')
   expect(result).toEqual([
-    { label: 'test1', flags: CompletionItemFlags.None, kind: 0, matches: EmptyMatches.EmptyMatches },
-    { label: 'test2', flags: CompletionItemFlags.Deprecated, kind: 0, matches: EmptyMatches.EmptyMatches },
+    { flags: CompletionItemFlags.None, kind: 0, label: 'test1', matches: EmptyMatches.EmptyMatches },
+    { flags: CompletionItemFlags.Deprecated, kind: 0, label: 'test2', matches: EmptyMatches.EmptyMatches },
   ])
 })
 
 test('filterCompletionItems filters items based on fuzzy search', () => {
   const items: readonly CompletionItem[] = [
-    { label: 'test1', flags: CompletionItemFlags.None, kind: 0, matches: [] },
-    { label: 'other', flags: CompletionItemFlags.None, kind: 0, matches: [] },
-    { label: 'test2', flags: CompletionItemFlags.None, kind: 0, matches: [] },
+    { flags: CompletionItemFlags.None, kind: 0, label: 'test1', matches: [] },
+    { flags: CompletionItemFlags.None, kind: 0, label: 'other', matches: [] },
+    { flags: CompletionItemFlags.None, kind: 0, label: 'test2', matches: [] },
   ]
   const result = filterCompletionItems(items, 'test')
   expect(result).toHaveLength(2)
@@ -30,22 +30,22 @@ test('filterCompletionItems filters items based on fuzzy search', () => {
 
 test('filterCompletionItems puts deprecated items at the end', () => {
   const items = [
-    { label: 'test1', flags: CompletionItemFlags.Deprecated, kind: 0, matches: [] },
-    { label: 'test2', flags: CompletionItemFlags.None, kind: 0, matches: [] },
-    { label: 'test3', flags: CompletionItemFlags.Deprecated, kind: 0, matches: [] },
+    { flags: CompletionItemFlags.Deprecated, kind: 0, label: 'test1', matches: [] },
+    { flags: CompletionItemFlags.None, kind: 0, label: 'test2', matches: [] },
+    { flags: CompletionItemFlags.Deprecated, kind: 0, label: 'test3', matches: [] },
   ]
   const result = filterCompletionItems(items, 'test')
   expect(result).toEqual([
-    { label: 'test2', flags: CompletionItemFlags.None, kind: 0, matches: expect.any(Array) },
-    { label: 'test1', flags: CompletionItemFlags.Deprecated, kind: 0, matches: expect.any(Array) },
-    { label: 'test3', flags: CompletionItemFlags.Deprecated, kind: 0, matches: expect.any(Array) },
+    { flags: CompletionItemFlags.None, kind: 0, label: 'test2', matches: expect.any(Array) },
+    { flags: CompletionItemFlags.Deprecated, kind: 0, label: 'test1', matches: expect.any(Array) },
+    { flags: CompletionItemFlags.Deprecated, kind: 0, label: 'test3', matches: expect.any(Array) },
   ])
 })
 
 test('filterCompletionItems returns empty array when no matches found', () => {
   const items = [
-    { label: 'test1', flags: CompletionItemFlags.None, kind: 0, matches: [] },
-    { label: 'test2', flags: CompletionItemFlags.None, kind: 0, matches: [] },
+    { flags: CompletionItemFlags.None, kind: 0, label: 'test1', matches: [] },
+    { flags: CompletionItemFlags.None, kind: 0, label: 'test2', matches: [] },
   ]
   const result = filterCompletionItems(items, 'xyz')
   expect(result).toHaveLength(0)

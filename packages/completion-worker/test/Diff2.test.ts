@@ -26,7 +26,7 @@ test('diff2 returns RenderEventListeners when version differs', () => {
 
 test('diff2 returns RenderItems when items differ', () => {
   const uid = 3
-  const item: CompletionItem = { label: 'test', kind: 1, flags: 0, matches: [] }
+  const item: CompletionItem = { flags: 0, kind: 1, label: 'test', matches: [] }
   const state1: CompletionState = createDefaultState()
   const state2: CompletionState = { ...createDefaultState(), items: [item] }
   CompletionStates.set(uid, state1, state2)
@@ -73,7 +73,7 @@ test('diff2 returns RenderBounds when bounds differ', () => {
 test('diff2 returns RenderBounds when x or y or height differ', () => {
   const uid = 8
   const state1: CompletionState = createDefaultState()
-  const state2: CompletionState = { ...createDefaultState(), x: 1, y: 2, height: 3 }
+  const state2: CompletionState = { ...createDefaultState(), height: 3, x: 1, y: 2 }
   CompletionStates.set(uid, state1, state2)
   const result = diff2(uid)
   expect(result).toContain(DiffType.RenderBounds)
@@ -100,7 +100,7 @@ test('diff2 returns RenderFocusContext when version differs', () => {
 test('diff2 returns multiple types when multiple properties differ', () => {
   const uid = 11
   const state1: CompletionState = createDefaultState()
-  const state2: CompletionState = { ...createDefaultState(), version: 1, focusedIndex: 1, width: 100 }
+  const state2: CompletionState = { ...createDefaultState(), focusedIndex: 1, version: 1, width: 100 }
   CompletionStates.set(uid, state1, state2)
   const result = diff2(uid)
   expect(result).toContain(DiffType.RenderEventListeners)
@@ -113,19 +113,19 @@ test('diff2 returns multiple types when multiple properties differ', () => {
 
 test('diff2 returns all types when all properties differ', () => {
   const uid = 12
-  const item: CompletionItem = { label: 'test', kind: 1, flags: 0, matches: [] }
+  const item: CompletionItem = { flags: 0, kind: 1, label: 'test', matches: [] }
   const state1: CompletionState = createDefaultState()
   const state2: CompletionState = {
     ...createDefaultState(),
-    version: 2,
-    items: [item],
     focusedIndex: 2,
-    minLineY: 1,
+    height: 1,
+    items: [item],
     maxLineY: 1,
+    minLineY: 1,
+    version: 2,
+    width: 1,
     x: 1,
     y: 1,
-    width: 1,
-    height: 1,
   }
   CompletionStates.set(uid, state1, state2)
   const result = diff2(uid)

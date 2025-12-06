@@ -5,7 +5,7 @@ import * as GetPositionAtCursor from '../GetPositionAtCursor/GetPositionAtCursor
 import * as GetWordAtOffset from '../GetWordAtOffset/GetWordAtOffset.ts'
 
 export const handleEditorDeleteLeft = async (state: CompletionState): Promise<CompletionState> => {
-  const { unfilteredItems, itemHeight, maxHeight, editorUid, maxItems } = state
+  const { editorUid, itemHeight, maxHeight, maxItems, unfilteredItems } = state
   const { x, y } = await GetPositionAtCursor.getPositionAtCursor(editorUid)
   const wordAtOffset = await GetWordAtOffset.getWordAtOffset(editorUid)
   if (!wordAtOffset) {
@@ -19,11 +19,11 @@ export const handleEditorDeleteLeft = async (state: CompletionState): Promise<Co
   const height = GetListHeight.getListHeight(items.length, itemHeight, maxHeight)
   return {
     ...state,
+    height,
     items,
+    leadingWord: wordAtOffset,
+    maxLineY: newMaxLineY,
     x,
     y,
-    maxLineY: newMaxLineY,
-    leadingWord: wordAtOffset,
-    height,
   }
 }

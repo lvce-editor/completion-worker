@@ -4,8 +4,8 @@ import * as WidgetId from '../WidgetId/WidgetId.ts'
 
 const getCommand = (shortId: string): any => {
   return {
-    command: 'Editor.executeWidgetCommand',
     args: ['Completions', `Completions.${shortId}`, 0, WidgetId.Completion],
+    command: 'Editor.executeWidgetCommand',
   }
 }
 

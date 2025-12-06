@@ -17,12 +17,12 @@ export const getVisibleIem = (
   relative: number,
 ): VisibleCompletionItem => {
   return {
+    deprecated: item.flags & CompletionItemFlags.Deprecated,
+    fileIcon: GetCompletionFileIcon.getCompletionFileIcon(item.kind),
+    focused: i === focusedIndex,
+    highlights: GetCompletionItemHighlights.getHighlights(item),
     label: getLabel(item),
     symbolName: EditorCompletionMap.getSymbolName(item.kind),
     top: getTop(i, minLineY, itemHeight, relative),
-    highlights: GetCompletionItemHighlights.getHighlights(item),
-    focused: i === focusedIndex,
-    deprecated: item.flags & CompletionItemFlags.Deprecated,
-    fileIcon: GetCompletionFileIcon.getCompletionFileIcon(item.kind),
   }
 }

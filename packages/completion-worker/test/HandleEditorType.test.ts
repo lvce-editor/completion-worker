@@ -5,17 +5,17 @@ import { handleEditorType } from '../src/parts/HandleEditorType/HandleEditorType
 
 test('handleEditorType - basic functionality', async () => {
   const mockPosition = {
+    columnIndex: 10,
+    rowIndex: 5,
     x: 100,
     y: 200,
-    rowIndex: 5,
-    columnIndex: 10,
   }
   const mockWord = 'test'
 
   const mockRpc = EditorWorker.registerMockRpc({
-    'FileSystem.readDirWithFileTypes': () => [],
     'Editor.getPositionAtCursor': () => mockPosition,
     'Editor.getWordBefore2': () => mockWord,
+    'FileSystem.readDirWithFileTypes': () => [],
   })
 
   const state = createDefaultState()
@@ -39,10 +39,10 @@ test('handleEditorType - basic functionality', async () => {
 
 test('handleEditorType - with position and word', async () => {
   const mockPosition = {
+    columnIndex: 10,
+    rowIndex: 5,
     x: 100,
     y: 200,
-    rowIndex: 5,
-    columnIndex: 10,
   }
   const mockWord = 'test'
 
@@ -66,16 +66,16 @@ test('handleEditorType - with position and word', async () => {
 
 test('handleEditorType - with filtered items', async () => {
   const mockPosition = {
+    columnIndex: 10,
+    rowIndex: 5,
     x: 100,
     y: 200,
-    rowIndex: 5,
-    columnIndex: 10,
   }
   const mockWord = 'test'
   const mockItems = [
-    { label: 'test1', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
-    { label: 'test2', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
-    { label: 'other', kind: 1, flags: 0, matches: [0, 1, 2, 3] },
+    { flags: 0, kind: 1, label: 'test1', matches: [0, 1, 2, 3] },
+    { flags: 0, kind: 1, label: 'test2', matches: [0, 1, 2, 3] },
+    { flags: 0, kind: 1, label: 'other', matches: [0, 1, 2, 3] },
   ]
 
   const mockRpc = EditorWorker.registerMockRpc({

@@ -11,57 +11,57 @@ import * as Ids from '../src/parts/Ids/Ids.ts'
 test('getCompletionVirtualDom returns correct structure with scrollbar', () => {
   const visibleItems: readonly VisibleCompletionItem[] = [
     {
+      deprecated: false,
+      fileIcon: '',
+      focused: false,
+      highlights: [0, 2, 2, 4], // [start1, end1, start2, end2]
       label: 'test',
       symbolName: 'test',
       top: 0,
-      highlights: [0, 2, 2, 4], // [start1, end1, start2, end2]
-      focused: false,
-      deprecated: false,
-      fileIcon: '',
     },
   ]
   const result = getCompletionVirtualDom(visibleItems, 100, 0)
   expect(result[0]).toEqual({
-    type: VirtualDomElements.Div,
+    childCount: 2,
     className: expect.any(String),
     id: Ids.Completions,
-    childCount: 2,
+    type: VirtualDomElements.Div,
   })
   expect(result[1]).toEqual({
-    type: VirtualDomElements.Div,
-    className: ClassNames.ListItems,
-    role: AriaRoles.ListBox,
     ariaLabel: EditorStrings.suggest(),
     childCount: 1,
+    className: ClassNames.ListItems,
     onWheel: DomEventListenerFunctions.HandleWheel,
+    role: AriaRoles.ListBox,
+    type: VirtualDomElements.Div,
   })
 })
 
 test('getCompletionVirtualDom returns correct structure without scrollbar', () => {
   const visibleItems: readonly VisibleCompletionItem[] = [
     {
+      deprecated: false,
+      fileIcon: '',
+      focused: false,
+      highlights: [0, 2, 2, 4], // [start1, end1, start2, end2]
       label: 'test',
       symbolName: 'test',
       top: 0,
-      highlights: [0, 2, 2, 4], // [start1, end1, start2, end2]
-      focused: false,
-      deprecated: false,
-      fileIcon: '',
     },
   ]
   const result = getCompletionVirtualDom(visibleItems, 0, 0)
   expect(result[0]).toEqual({
-    type: VirtualDomElements.Div,
+    childCount: 1,
     className: expect.any(String),
     id: Ids.Completions,
-    childCount: 1,
+    type: VirtualDomElements.Div,
   })
   expect(result[1]).toEqual({
-    type: VirtualDomElements.Div,
-    className: ClassNames.ListItems,
-    role: AriaRoles.ListBox,
     ariaLabel: EditorStrings.suggest(),
     childCount: 1,
+    className: ClassNames.ListItems,
     onWheel: DomEventListenerFunctions.HandleWheel,
+    role: AriaRoles.ListBox,
+    type: VirtualDomElements.Div,
   })
 })

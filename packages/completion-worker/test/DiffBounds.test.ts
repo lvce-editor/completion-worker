@@ -5,17 +5,17 @@ import { isEqual } from '../src/parts/DiffBounds/DiffBounds.ts'
 test('isEqual - same bounds', () => {
   const oldState = {
     ...createDefaultState(),
+    height: 400,
+    width: 300,
     x: 100,
     y: 200,
-    width: 300,
-    height: 400,
   }
   const newState = {
     ...createDefaultState(),
+    height: 400,
+    width: 300,
     x: 100,
     y: 200,
-    width: 300,
-    height: 400,
   }
 
   const result = isEqual(oldState, newState)
@@ -26,17 +26,17 @@ test('isEqual - same bounds', () => {
 test('isEqual - different bounds', () => {
   const oldState = {
     ...createDefaultState(),
+    height: 400,
+    width: 300,
     x: 100,
     y: 200,
-    width: 300,
-    height: 400,
   }
   const newState = {
     ...createDefaultState(),
+    height: 401,
+    width: 301,
     x: 101,
     y: 201,
-    width: 301,
-    height: 401,
   }
 
   const result = isEqual(oldState, newState)

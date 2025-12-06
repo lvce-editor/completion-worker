@@ -8,8 +8,8 @@ export const getIconDom = (fileIcon: string, symbolName: string): VirtualDomNode
     return GetFileIconVirtualDom.getFileIconVirtualDom(fileIcon)
   }
   return {
-    type: VirtualDomElements.Div,
-    className: `${ClassNames.ColoredMaskIcon} ${symbolName}`,
     childCount: 0,
+    className: `${ClassNames.ColoredMaskIcon} ${symbolName}`,
+    type: VirtualDomElements.Div,
   }
 }

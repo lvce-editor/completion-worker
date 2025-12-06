@@ -8,23 +8,23 @@ export const replaceRange = (lines: readonly string[], ranges: Uint32Array, repl
   for (let i = 0; i < rangesLength; i += 4) {
     const [selectionStartRow, selectionStartColumn, selectionEndRow, selectionEndColumn] = GetSelectionPairs.getSelectionPairs(ranges, i)
     const start = {
-      rowIndex: selectionStartRow,
       columnIndex: selectionStartColumn,
+      rowIndex: selectionStartRow,
     }
     const end: Range = {
-      rowIndex: selectionEndRow,
       columnIndex: selectionEndColumn,
+      rowIndex: selectionEndRow,
     }
     const selection = {
-      start,
       end,
+      start,
     }
     changes.push({
-      start: start,
+      deleted: GetSelectionText.getSelectionText(lines, selection),
       end: end,
       inserted: replacement,
-      deleted: GetSelectionText.getSelectionText(lines, selection),
       origin,
+      start: start,
     })
   }
   return changes

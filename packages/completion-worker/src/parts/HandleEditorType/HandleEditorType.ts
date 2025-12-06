@@ -5,8 +5,8 @@ import * as GetPositionAtCursor from '../GetPositionAtCursor/GetPositionAtCursor
 import * as GetWordBefore from '../GetWordBefore/GetWordBefore.ts'
 
 export const handleEditorType = async (state: CompletionState): Promise<CompletionState> => {
-  const { unfilteredItems, itemHeight, maxHeight, editorUid } = state
-  const { x, y, rowIndex, columnIndex } = await GetPositionAtCursor.getPositionAtCursor(editorUid)
+  const { editorUid, itemHeight, maxHeight, unfilteredItems } = state
+  const { columnIndex, rowIndex, x, y } = await GetPositionAtCursor.getPositionAtCursor(editorUid)
   const wordAtOffset = await GetWordBefore.getWordBefore(editorUid, rowIndex, columnIndex)
   const items = FilterCompletionItems.filterCompletionItems(unfilteredItems, wordAtOffset)
   const newMinLineY = 0
@@ -15,13 +15,13 @@ export const handleEditorType = async (state: CompletionState): Promise<Completi
   const finalDeltaY = items.length * itemHeight - height
   return {
     ...state,
+    finalDeltaY,
+    height,
     items,
+    leadingWord: wordAtOffset,
+    maxLineY: newMaxLineY,
+    minLineY: newMinLineY,
     x,
     y,
-    minLineY: newMinLineY,
-    maxLineY: newMaxLineY,
-    leadingWord: wordAtOffset,
-    height,
-    finalDeltaY,
   }
 }
