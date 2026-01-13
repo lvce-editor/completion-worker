@@ -1,0 +1,13 @@
+{
+  "id": "test.completion-filter-unicode",
+  "name": "Completion Filter Unicode",
+  "description": "",
+  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
+  "browser": "main.js",
+  "languages": [
+    {
+      "id": "xyz",
+      "extensions": [".xyz"]
+    }
+  ]
+}

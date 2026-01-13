@@ -1,0 +1,13 @@
+{
+  "id": "test.completion-mixed-unicode-ascii",
+  "name": "Completion Mixed Unicode ASCII",
+  "description": "",
+  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
+  "browser": "main.js",
+  "languages": [
+    {
+      "id": "xyz",
+      "extensions": [".xyz"]
+    }
+  ]
+}
