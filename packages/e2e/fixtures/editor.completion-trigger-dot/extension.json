@@ -1,0 +1,13 @@
+{
+  "id": "test.completion-trigger-dot",
+  "name": "Completion Trigger Dot",
+  "description": "",
+  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
+  "browser": "main.js",
+  "languages": [
+    {
+      "id": "xyz",
+      "extensions": [".xyz"]
+    }
+  ]
+}

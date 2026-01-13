@@ -1,0 +1,13 @@
+{
+  "id": "test.completion-invalid-return-value-undefined",
+  "name": "Completion Invalid Return Value Undefined",
+  "description": "",
+  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
+  "browser": "main.js",
+  "languages": [
+    {
+      "id": "xyz",
+      "extensions": [".xyz"]
+    }
+  ]
+}

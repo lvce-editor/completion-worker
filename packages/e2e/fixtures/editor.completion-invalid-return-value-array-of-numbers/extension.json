@@ -1,0 +1,13 @@
+{
+  "id": "test.completion-invalid-return-value-array-of-numbers",
+  "name": "Completion Invalid Return Value Array Of Numbers",
+  "description": "",
+  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
+  "browser": "main.js",
+  "languages": [
+    {
+      "id": "xyz",
+      "extensions": [".xyz"]
+    }
+  ]
+}

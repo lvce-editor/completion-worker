@@ -1,0 +1,13 @@
+{
+  "id": "test.completion-provider-throws-error",
+  "name": "Completion Provider Throws Error",
+  "description": "",
+  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
+  "browser": "main.js",
+  "languages": [
+    {
+      "id": "xyz",
+      "extensions": [".xyz"]
+    }
+  ]
+}

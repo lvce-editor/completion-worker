@@ -1,0 +1,13 @@
+{
+  "id": "test.completion-invalid-return-value-boolean",
+  "name": "Completion Invalid Return Value Boolean",
+  "description": "",
+  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
+  "browser": "main.js",
+  "languages": [
+    {
+      "id": "xyz",
+      "extensions": [".xyz"]
+    }
+  ]
+}
