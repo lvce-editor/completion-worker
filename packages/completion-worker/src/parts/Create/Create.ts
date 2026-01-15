@@ -1,5 +1,5 @@
 import type { CompletionState } from '../CompletionState/CompletionState.ts'
-import * as FindWidgetStates from '../CompletionStates/CompletionStates.ts'
+import * as CompletionStates from '../CompletionStates/CompletionStates.ts'
 
 export const create = (uid: number, x: number, y: number, width: number, height: number, editorUid: number, editorLanguageId: string): void => {
   const state: CompletionState = {
@@ -25,5 +25,5 @@ export const create = (uid: number, x: number, y: number, width: number, height:
     x: 0,
     y: 0,
   }
-  FindWidgetStates.set(uid, state, state)
+  CompletionStates.set(uid, state, state)
 }
