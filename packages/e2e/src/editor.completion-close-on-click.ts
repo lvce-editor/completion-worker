@@ -4,7 +4,7 @@ export const name = 'editor.completion-close-on-click'
 
 export const skip = 1
 
-export const test: Test = async ({ Command, Extension, FileSystem, Workspace, Main, Editor, Locator, expect }) => {
+export const test: Test = async ({ Command, Editor, expect, Extension, FileSystem, Locator, Main, Workspace }) => {
   // arrange
   const extensionUri = import.meta.resolve('../fixtures/editor.completion-one-result')
   await Extension.addWebExtension(extensionUri)
