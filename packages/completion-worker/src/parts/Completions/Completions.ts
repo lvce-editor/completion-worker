@@ -1,5 +1,5 @@
 import type { CompletionItem } from '../CompletionItem/CompletionItem.ts'
-import * as ExtensionHostCompletion from '../ExtensionHostCompletion/ExtensionHostCompletion.ts'
+import * as ExtensionManagementCompletion from '../ExtensionManagementCompletion/ExtensionManagementCompletion.ts'
 import * as GetOffsetAtCursor from '../GetOffsetAtCursor/GetOffsetAtCursor.ts'
 import * as Logger from '../Logger/Logger.ts'
 
@@ -7,7 +7,7 @@ import * as Logger from '../Logger/Logger.ts'
 export const getCompletions = async (editorUid: number, editorLanguageId: string): Promise<readonly CompletionItem[]> => {
   try {
     const offset = await GetOffsetAtCursor.getOffsetAtCursor(editorUid)
-    const completions = await ExtensionHostCompletion.executeCompletionProvider(editorUid, editorLanguageId, offset)
+    const completions = await ExtensionManagementCompletion.executeCompletionProvider(editorUid, editorLanguageId, offset)
     return completions
   } catch (error) {
     Logger.error(`Failed to get completions:`)

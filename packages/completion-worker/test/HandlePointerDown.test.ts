@@ -1,19 +1,29 @@
 import { expect, test } from '@jest/globals'
-import { EditorWorker } from '@lvce-editor/rpc-registry'
+import { EditorWorker, ExtensionManagementWorker } from '@lvce-editor/rpc-registry'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.js'
 import { handlePointerDown } from '../src/parts/HandlePointerDown/HandlePointerDown.js'
+
+const textDocument = {
+  documentId: 0,
+  languageId: 'typescript',
+  text: 'line1\nline2\nline3',
+  uri: 'file:///test.ts',
+}
 
 test('handlePointerDown - valid click on first item', async () => {
   using mockRpc = EditorWorker.registerMockRpc({
     'Editor.applyEdit2': () => undefined,
     'Editor.closeWidget2': () => undefined,
+    'Editor.getLanguageId': () => 'typescript',
     'Editor.getLines2': () => ['line1', 'line2', 'line3'],
     'Editor.getOffsetAtCursor': () => 5,
     'Editor.getSelections': () => [0, 5],
     'Editor.getSelections2': () => [0, 5],
-    'ExtensionHost.activateByEvent': () => undefined,
-    'ExtensionHost.invoke': () => undefined,
+    'Editor.getUri': () => 'file:///test.ts',
     'FileSystem.readDirWithFileTypes': () => [],
+  })
+  using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.executeResolveCompletionItemProvider': () => undefined,
   })
 
   const state = {
@@ -32,7 +42,9 @@ test('handlePointerDown - valid click on first item', async () => {
 
   expect(mockRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
-    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+    ['Editor.getLanguageId', 0],
+    ['Editor.getLines2', 0],
+    ['Editor.getUri', 0],
     ['Editor.getLines2', 0],
     ['Editor.getSelections2', 0],
     [
@@ -50,19 +62,25 @@ test('handlePointerDown - valid click on first item', async () => {
     ],
     ['Editor.closeWidget2', 0, 3, 'Completions', 9],
   ])
+  expect(mockExtensionManagementRpc.invocations).toEqual([
+    ['Extensions.executeResolveCompletionItemProvider', textDocument, 5, 'item1', { flags: 0, kind: 1, label: 'item1', matches: [0, 1, 2, 3] }],
+  ])
 })
 
 test('handlePointerDown - valid click on second item', async () => {
   using mockRpc = EditorWorker.registerMockRpc({
     'Editor.applyEdit2': () => undefined,
     'Editor.closeWidget2': () => undefined,
+    'Editor.getLanguageId': () => 'typescript',
     'Editor.getLines2': () => ['line1', 'line2', 'line3'],
     'Editor.getOffsetAtCursor': () => 5,
     'Editor.getSelections': () => [0, 5],
     'Editor.getSelections2': () => [0, 5],
-    'ExtensionHost.activateByEvent': () => undefined,
-    'ExtensionHost.invoke': () => undefined,
+    'Editor.getUri': () => 'file:///test.ts',
     'FileSystem.readDirWithFileTypes': () => [],
+  })
+  using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.executeResolveCompletionItemProvider': () => undefined,
   })
 
   const state = {
@@ -81,7 +99,9 @@ test('handlePointerDown - valid click on second item', async () => {
 
   expect(mockRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
-    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+    ['Editor.getLanguageId', 0],
+    ['Editor.getLines2', 0],
+    ['Editor.getUri', 0],
     ['Editor.getLines2', 0],
     ['Editor.getSelections2', 0],
     [
@@ -98,6 +118,9 @@ test('handlePointerDown - valid click on second item', async () => {
       ],
     ],
     ['Editor.closeWidget2', 0, 3, 'Completions', 9],
+  ])
+  expect(mockExtensionManagementRpc.invocations).toEqual([
+    ['Extensions.executeResolveCompletionItemProvider', textDocument, 5, 'item2', { flags: 0, kind: 1, label: 'item2', matches: [0, 1, 2, 3] }],
   ])
 })
 
@@ -137,13 +160,16 @@ test('handlePointerDown - click on last valid item', async () => {
   using mockRpc = EditorWorker.registerMockRpc({
     'Editor.applyEdit2': () => undefined,
     'Editor.closeWidget2': () => undefined,
+    'Editor.getLanguageId': () => 'typescript',
     'Editor.getLines2': () => ['line1', 'line2', 'line3'],
     'Editor.getOffsetAtCursor': () => 5,
     'Editor.getSelections': () => [0, 5],
     'Editor.getSelections2': () => [0, 5],
-    'ExtensionHost.activateByEvent': () => undefined,
-    'ExtensionHost.invoke': () => undefined,
+    'Editor.getUri': () => 'file:///test.ts',
     'FileSystem.readDirWithFileTypes': () => [],
+  })
+  using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.executeResolveCompletionItemProvider': () => undefined,
   })
 
   const state = {
@@ -162,7 +188,9 @@ test('handlePointerDown - click on last valid item', async () => {
 
   expect(mockRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
-    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+    ['Editor.getLanguageId', 0],
+    ['Editor.getLines2', 0],
+    ['Editor.getUri', 0],
     ['Editor.getLines2', 0],
     ['Editor.getSelections2', 0],
     [
@@ -179,6 +207,9 @@ test('handlePointerDown - click on last valid item', async () => {
       ],
     ],
     ['Editor.closeWidget2', 0, 3, 'Completions', 9],
+  ])
+  expect(mockExtensionManagementRpc.invocations).toEqual([
+    ['Extensions.executeResolveCompletionItemProvider', textDocument, 5, 'item3', { flags: 0, kind: 1, label: 'item3', matches: [0, 1, 2, 3] }],
   ])
 })
 
@@ -198,13 +229,16 @@ test('handlePointerDown - single item click', async () => {
   using mockRpc = EditorWorker.registerMockRpc({
     'Editor.applyEdit2': () => undefined,
     'Editor.closeWidget2': () => undefined,
+    'Editor.getLanguageId': () => 'typescript',
     'Editor.getLines2': () => ['line1', 'line2', 'line3'],
     'Editor.getOffsetAtCursor': () => 5,
     'Editor.getSelections': () => [0, 5],
     'Editor.getSelections2': () => [0, 5],
-    'ExtensionHost.activateByEvent': () => undefined,
-    'ExtensionHost.invoke': () => undefined,
+    'Editor.getUri': () => 'file:///test.ts',
     'FileSystem.readDirWithFileTypes': () => [],
+  })
+  using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.executeResolveCompletionItemProvider': () => undefined,
   })
 
   const state = {
@@ -219,7 +253,9 @@ test('handlePointerDown - single item click', async () => {
 
   expect(mockRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
-    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+    ['Editor.getLanguageId', 0],
+    ['Editor.getLines2', 0],
+    ['Editor.getUri', 0],
     ['Editor.getLines2', 0],
     ['Editor.getSelections2', 0],
     [
@@ -236,5 +272,14 @@ test('handlePointerDown - single item click', async () => {
       ],
     ],
     ['Editor.closeWidget2', 0, 3, 'Completions', 9],
+  ])
+  expect(mockExtensionManagementRpc.invocations).toEqual([
+    [
+      'Extensions.executeResolveCompletionItemProvider',
+      textDocument,
+      5,
+      'singleItem',
+      { flags: 0, kind: 1, label: 'singleItem', matches: [0, 1, 2, 3] },
+    ],
   ])
 })

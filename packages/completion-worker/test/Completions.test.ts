@@ -1,7 +1,13 @@
 import { expect, jest, test } from '@jest/globals'
-import { EditorWorker } from '@lvce-editor/rpc-registry'
-import { ExtensionHost } from '@lvce-editor/rpc-registry'
+import { EditorWorker, ExtensionHost, ExtensionManagementWorker } from '@lvce-editor/rpc-registry'
 import { getCompletions } from '../src/parts/Completions/Completions.ts'
+
+const textDocument = {
+  documentId: 1,
+  languageId: 'typescript',
+  text: 'const test = 1',
+  uri: 'file:///test.ts',
+}
 
 test('getCompletions returns completions successfully', async () => {
   const mockCompletions = [
@@ -13,14 +19,18 @@ test('getCompletions returns completions successfully', async () => {
     },
   ]
   const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
-    'Editor.getOffsetAtCursor': () => 0,
-    'ExtensionHostCompletion.execute': () => mockCompletions,
-    'GetOffsetAtCursor.getOffsetAtCursor': () => 10,
+    'ExtensionHostCompletion.execute': () => {
+      throw new Error('should not use extension host worker')
+    },
+  })
+  const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.executeCompletionProvider': () => mockCompletions,
   })
 
   const mockEditorRpc = EditorWorker.registerMockRpc({
-    'ActivateByEvent.activateByEvent': () => undefined,
+    'Editor.getLines2': () => ['const test = 1'],
     'Editor.getOffsetAtCursor': () => 0,
+    'Editor.getUri': () => 'file:///test.ts',
   })
 
   const result = await getCompletions(1, 'typescript')
@@ -28,25 +38,31 @@ test('getCompletions returns completions successfully', async () => {
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 1],
-    ['ActivateByEvent.activateByEvent', 'onCompletion:typescript'],
+    ['Editor.getLines2', 1],
+    ['Editor.getUri', 1],
   ])
-  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.execute', 1, 0]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 0]])
+  expect(mockExtensionHostRpc.invocations).toEqual([])
 })
 
 test('getCompletions returns empty array on error', async () => {
   // @ts-ignore
   const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
   const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
-    'Editor.getOffsetAtCursor': () => 0,
     'ExtensionHostCompletion.execute': () => {
+      throw new Error('should not use extension host worker')
+    },
+  })
+  const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.executeCompletionProvider': () => {
       throw new Error('test error')
     },
-    'GetOffsetAtCursor.getOffsetAtCursor': () => 10,
   })
 
   const mockEditorRpc = EditorWorker.registerMockRpc({
-    'ActivateByEvent.activateByEvent': () => undefined,
+    'Editor.getLines2': () => ['const test = 1'],
     'Editor.getOffsetAtCursor': () => 0,
+    'Editor.getUri': () => 'file:///test.ts',
   })
 
   const result = await getCompletions(1, 'typescript')
@@ -56,9 +72,11 @@ test('getCompletions returns empty array on error', async () => {
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 1],
-    ['ActivateByEvent.activateByEvent', 'onCompletion:typescript'],
+    ['Editor.getLines2', 1],
+    ['Editor.getUri', 1],
   ])
-  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.execute', 1, 0]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 0]])
+  expect(mockExtensionHostRpc.invocations).toEqual([])
 
   consoleErrorSpy.mockRestore()
 })
