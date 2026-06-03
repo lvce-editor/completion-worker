@@ -1,5 +1,7 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
+/* cspell:words שלום مرحبا */
+
 export const name = 'editor.completion-rtl-characters'
 
 export const test: Test = async ({ Editor, expect, Extension, FileSystem, Locator, Main, Workspace }) => {
