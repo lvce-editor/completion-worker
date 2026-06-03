@@ -1,3 +1,4 @@
+import type { VirtualDomNode } from '@lvce-editor/virtual-dom-worker'
 import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as GetIconVirtualDom from '../GetIconVirtualDom/GetIconVirtualDom.ts'
@@ -10,7 +11,15 @@ export const getIconButtonClassName = (disabled: boolean): string => {
   return ClassNames.IconButton
 }
 
-export const getIconButtonVirtualDom = (iconButton: any) => {
+interface IconButton {
+  readonly disabled: boolean
+  readonly icon: string
+  readonly label: string
+  readonly name: string
+  readonly onClick: string
+}
+
+export const getIconButtonVirtualDom = (iconButton: IconButton): readonly VirtualDomNode[] => {
   const { disabled, icon, label, name, onClick } = iconButton
   const className = getIconButtonClassName(disabled)
   return [
