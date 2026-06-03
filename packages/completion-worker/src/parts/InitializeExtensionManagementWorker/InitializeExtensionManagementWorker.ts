@@ -3,7 +3,6 @@ import { EditorWorker, ExtensionManagementWorker } from '@lvce-editor/rpc-regist
 import * as CommandMap from '../CommandMap/CommandMap.ts'
 
 const send = async (port: MessagePort): Promise<void> => {
-  // TODO
   await EditorWorker.sendMessagePortToExtensionManagementWorker(port)
 }
 
