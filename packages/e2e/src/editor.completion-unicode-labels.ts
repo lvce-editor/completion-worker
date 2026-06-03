@@ -1,8 +1,10 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
+/* cspell:words αβγδ */
+
 export const name = 'editor.completion-unicode-labels'
 
-export const test: Test = async ({ Extension, FileSystem, Workspace, Main, Editor, Locator, expect }) => {
+export const test: Test = async ({ Editor, expect, Extension, FileSystem, Locator, Main, Workspace }) => {
   // arrange
   const extensionUri = import.meta.resolve('../fixtures/editor.completion-unicode-labels')
   await Extension.addWebExtension(extensionUri)

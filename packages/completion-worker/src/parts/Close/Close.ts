@@ -1,5 +1,5 @@
+import { EditorWorker } from '@lvce-editor/rpc-registry'
 import type { CompletionState } from '../CompletionState/CompletionState.ts'
-import * as EditorWorker from '../EditorWorker/EditorWorker.ts'
 import * as WhenExpression from '../WhenExpression/WhenExpression.ts'
 import * as WidgetId from '../WidgetId/WidgetId.ts'
 

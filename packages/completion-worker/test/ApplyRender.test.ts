@@ -5,7 +5,7 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import * as DiffType from '../src/parts/DiffType/DiffType.ts'
 import * as GetRenderer from '../src/parts/GetRenderer/GetRenderer.ts'
 
-test.skip('applyRender should return empty array for empty diffResult', () => {
+test('applyRender should return empty array for empty diffResult', () => {
   const oldState = createDefaultState()
   const newState = createDefaultState()
   const diffResult: readonly number[] = []

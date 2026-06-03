@@ -5,16 +5,28 @@ import * as AriaRoles from '../AriaRoles/AriaRoles.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as GetCompletionItemIconVirtualDom from '../GetCompletionItemIconVirtualDom/GetCompletionItemIconVirtualDom.ts'
 import * as GetHighlightedLabelDom from '../GetHighlightedLabelDom/GetHighlightedLabelDom.ts'
+import * as MergeClassNames from '../MergeClassNames/MergeClassNames.ts'
+
+export const getCompletionItemClassName = (focused: boolean, deprecated: boolean | number): string => {
+  if (focused && deprecated) {
+    return MergeClassNames.mergeClassNames(
+      ClassNames.EditorCompletionItem,
+      ClassNames.EditorCompletionItemFocused,
+      ClassNames.EditorCompletionItemDeprecated,
+    )
+  }
+  if (focused) {
+    return MergeClassNames.mergeClassNames(ClassNames.EditorCompletionItem, ClassNames.EditorCompletionItemFocused)
+  }
+  if (deprecated) {
+    return MergeClassNames.mergeClassNames(ClassNames.EditorCompletionItem, ClassNames.EditorCompletionItemDeprecated)
+  }
+  return ClassNames.EditorCompletionItem
+}
 
 export const getCompletionItemVirtualDom = (visibleItem: VisibleCompletionItem): readonly VirtualDomNode[] => {
   const { deprecated, fileIcon, focused, highlights, label, symbolName, top } = visibleItem
-  let className = ClassNames.EditorCompletionItem
-  if (focused) {
-    className += ' ' + ClassNames.EditorCompletionItemFocused
-  }
-  if (deprecated) {
-    className += ' ' + ClassNames.EditorCompletionItemDeprecated
-  }
+  const className = getCompletionItemClassName(focused, deprecated)
   return [
     {
       childCount: 2,

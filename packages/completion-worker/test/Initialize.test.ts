@@ -4,7 +4,7 @@ import { ExtensionHost } from '@lvce-editor/rpc-registry'
 import { initialize } from '../src/parts/Initialize/Initialize.ts'
 
 test('initialize sets extension host worker rpc', async () => {
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'FileSystem.readDirWithFileTypes': () => [],
     'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker': () => undefined,
   })

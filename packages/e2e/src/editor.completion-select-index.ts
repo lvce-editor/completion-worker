@@ -2,7 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'editor.completion-select-index'
 
-export const test: Test = async ({ Extension, FileSystem, Workspace, Main, Editor, Locator, expect, EditorCompletion }) => {
+export const test: Test = async ({ Editor, EditorCompletion, expect, Extension, FileSystem, Locator, Main, Workspace }) => {
   // arrange
   const extensionUri = import.meta.resolve('../fixtures/editor.completion-click')
   await Extension.addWebExtension(extensionUri)

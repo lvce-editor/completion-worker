@@ -3,7 +3,7 @@ import { EditorWorker } from '@lvce-editor/rpc-registry'
 import { getWordBefore } from '../src/parts/GetWordBefore/GetWordBefore.ts'
 
 test('getWordBefore - returns word before cursor', async () => {
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'Editor.getWordBefore2': () => 'hello',
   })
 
@@ -13,7 +13,7 @@ test('getWordBefore - returns word before cursor', async () => {
 })
 
 test('getWordBefore - returns empty string when no word before', async () => {
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'Editor.getWordBefore2': () => '',
   })
 
