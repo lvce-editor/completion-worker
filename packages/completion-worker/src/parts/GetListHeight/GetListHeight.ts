@@ -1,6 +1,6 @@
 import * as Assert from '../Assert/Assert.ts'
 
-export const getListHeight = (itemsLength: number, itemHeight: number, maxHeight: number) => {
+export const getListHeight = (itemsLength: number, itemHeight: number, maxHeight: number): number => {
   Assert.number(itemsLength)
   Assert.number(itemHeight)
   Assert.number(maxHeight)

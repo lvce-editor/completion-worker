@@ -1,4 +1,4 @@
-export const getSelectionPairs = (selections: any, i: number) => {
+export const getSelectionPairs = (selections: ArrayLike<number>, i: number): readonly number[] => {
   const first = selections[i]
   const second = selections[i + 1]
   const third = selections[i + 2]

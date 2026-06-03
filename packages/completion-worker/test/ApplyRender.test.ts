@@ -1,9 +1,8 @@
-import { test, expect, jest } from '@jest/globals'
-import type { CompletionState } from '../src/parts/CompletionState/CompletionState.ts'
+import { test, expect } from '@jest/globals'
 import { applyRender } from '../src/parts/ApplyRender/ApplyRender.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as DiffType from '../src/parts/DiffType/DiffType.ts'
-import * as GetRenderer from '../src/parts/GetRenderer/GetRenderer.ts'
+import * as RenderMethod from '../src/parts/RenderMethod/RenderMethod.ts'
 
 test('applyRender should return empty array for empty diffResult', () => {
   const oldState = createDefaultState()
@@ -13,37 +12,30 @@ test('applyRender should return empty array for empty diffResult', () => {
   expect(result).toEqual([])
 })
 
-test.skip('applyRender should call getRenderer for each diff type', () => {
+test('applyRender should apply each diff type', () => {
   const oldState = createDefaultState()
   const newState = createDefaultState()
-  const mockRenderer = jest.fn((oldState: CompletionState, newState: CompletionState): readonly any[] => {
-    return ['mock command']
-  })
-  const getRendererSpy = jest.spyOn(GetRenderer, 'getRenderer').mockReturnValue(mockRenderer)
-
   const diffResult: readonly number[] = [DiffType.RenderContent, DiffType.RenderBounds]
   const result = applyRender(oldState, newState, diffResult)
 
-  expect(getRendererSpy).toHaveBeenCalledTimes(2)
-  expect(getRendererSpy).toHaveBeenCalledWith(DiffType.RenderContent)
-  expect(getRendererSpy).toHaveBeenCalledWith(DiffType.RenderBounds)
-  expect(result).toEqual([['mock command'], ['mock command']])
-
-  getRendererSpy.mockRestore()
+  expect(result).toEqual([
+    [RenderMethod.SetDom2, 0, []],
+    [RenderMethod.SetBounds, 0, 0, 0, 0, 0],
+  ])
 })
 
-test.skip('applyRender should pass oldState and newState to renderer', () => {
+test('applyRender should pass newState to renderer', () => {
   const oldState = createDefaultState()
-  const newState = createDefaultState()
-  const mockRenderer = jest.fn((oldState: CompletionState, newState: CompletionState): readonly any[] => {
-    return ['mock command']
-  })
-  const getRendererSpy = jest.spyOn(GetRenderer, 'getRenderer').mockReturnValue(mockRenderer)
+  const newState = {
+    ...createDefaultState(),
+    height: 40,
+    uid: 7,
+    width: 20,
+    x: 10,
+    y: 30,
+  }
+  const diffResult: readonly number[] = [DiffType.RenderBounds]
+  const result = applyRender(oldState, newState, diffResult)
 
-  const diffResult: readonly number[] = [DiffType.RenderContent]
-  applyRender(oldState, newState, diffResult)
-
-  expect(mockRenderer).toHaveBeenCalledWith(oldState, newState)
-
-  getRendererSpy.mockRestore()
+  expect(result).toEqual([[RenderMethod.SetBounds, 7, 10, 30, 20, 40]])
 })

@@ -5,7 +5,7 @@ export interface Bounds {
   readonly y: number
 }
 
-export const getCompletionDetailBounds = (completionBounds: Bounds, borderSize: number) => {
+export const getCompletionDetailBounds = (completionBounds: Bounds, borderSize: number): Bounds => {
   return {
     height: 100,
     width: 100,
