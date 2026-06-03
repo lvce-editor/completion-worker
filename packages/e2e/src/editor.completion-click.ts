@@ -4,7 +4,7 @@ export const name = 'editor.completion-click'
 
 export const skip = 1
 
-export const test: Test = async ({ Command, Extension, FileSystem, Workspace, Main, Editor, Locator, expect }) => {
+export const test: Test = async ({ Command, Editor, expect, Extension, FileSystem, Locator, Main, Workspace }) => {
   // arrange
   const extensionUri = import.meta.resolve('../fixtures/editor.completion-click')
   await Extension.addWebExtension(extensionUri)
