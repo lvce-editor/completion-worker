@@ -2,7 +2,7 @@ import { LazyTransferMessagePortRpcParent } from '@lvce-editor/rpc'
 import { EditorWorker, ExtensionManagementWorker } from '@lvce-editor/rpc-registry'
 import * as CommandMap from '../CommandMap/CommandMap.ts'
 
-const send = async (port: MessagePort) => {
+const send = async (port: MessagePort): Promise<void> => {
   // TODO
   await EditorWorker.sendMessagePortToExtensionHostWorker(port)
 }
