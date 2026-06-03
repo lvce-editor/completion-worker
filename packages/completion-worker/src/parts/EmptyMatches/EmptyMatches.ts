@@ -1,1 +1,1 @@
-export const EmptyMatches = []
+export const EmptyMatches: readonly number[] = []
