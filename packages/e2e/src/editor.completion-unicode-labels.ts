@@ -1,5 +1,7 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
+/* cspell:words αβγδ */
+
 export const name = 'editor.completion-unicode-labels'
 
 export const test: Test = async ({ Editor, expect, Extension, FileSystem, Locator, Main, Workspace }) => {

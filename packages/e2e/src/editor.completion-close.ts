@@ -1,4 +1,4 @@
-import { type Test, EditorCompletion } from '@lvce-editor/test-with-playwright'
+import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'editor.completion-close'
 
