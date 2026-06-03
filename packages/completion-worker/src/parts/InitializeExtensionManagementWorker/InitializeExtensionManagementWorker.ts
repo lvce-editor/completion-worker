@@ -4,7 +4,7 @@ import * as CommandMap from '../CommandMap/CommandMap.ts'
 
 const send = async (port: MessagePort): Promise<void> => {
   // TODO
-  await EditorWorker.sendMessagePortToExtensionHostWorker(port)
+  await EditorWorker.sendMessagePortToExtensionManagementWorker(port)
 }
 
 export const initializeExtensionManagementWorker = async (): Promise<void> => {
