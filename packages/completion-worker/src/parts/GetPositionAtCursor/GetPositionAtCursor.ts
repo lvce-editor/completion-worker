@@ -1,3 +1,3 @@
 import { EditorWorker } from '@lvce-editor/rpc-registry'
 
-export const { getPositionAtCursor } = EditorWorker
+export const getPositionAtCursor = EditorWorker.getPositionAtCursor as any
