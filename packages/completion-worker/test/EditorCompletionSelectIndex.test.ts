@@ -16,7 +16,7 @@ test('selectIndex - throws error when index is too large', async () => {
 })
 
 test('selectIndex - selects item at given index', async () => {
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'Editor.applyEdit2': () => undefined,
     'Editor.closeWidget2': () => undefined,
     'Editor.getEdits': () => [],

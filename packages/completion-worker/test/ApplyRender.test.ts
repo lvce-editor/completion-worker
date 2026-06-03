@@ -5,7 +5,7 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import * as DiffType from '../src/parts/DiffType/DiffType.ts'
 import * as GetRenderer from '../src/parts/GetRenderer/GetRenderer.ts'
 
-test.skip('applyRender should return empty array for empty diffResult', () => {
+test('applyRender should return empty array for empty diffResult', () => {
   const oldState = createDefaultState()
   const newState = createDefaultState()
   const diffResult: readonly number[] = []
@@ -13,7 +13,7 @@ test.skip('applyRender should return empty array for empty diffResult', () => {
   expect(result).toEqual([])
 })
 
-test.skip('applyRender should call getRenderer for each diff type', () => {
+test('applyRender should call getRenderer for each diff type', () => {
   const oldState = createDefaultState()
   const newState = createDefaultState()
   const mockRenderer = jest.fn((oldState: CompletionState, newState: CompletionState): readonly any[] => {
@@ -32,7 +32,7 @@ test.skip('applyRender should call getRenderer for each diff type', () => {
   getRendererSpy.mockRestore()
 })
 
-test.skip('applyRender should pass oldState and newState to renderer', () => {
+test('applyRender should pass oldState and newState to renderer', () => {
   const oldState = createDefaultState()
   const newState = createDefaultState()
   const mockRenderer = jest.fn((oldState: CompletionState, newState: CompletionState): readonly any[] => {

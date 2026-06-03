@@ -4,7 +4,7 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import { handlePointerDown } from '../src/parts/HandlePointerDown/HandlePointerDown.js'
 
 test('handlePointerDown - valid click on first item', async () => {
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'Editor.applyEdit2': () => undefined,
     'Editor.closeWidget2': () => undefined,
     'Editor.getLines2': () => ['line1', 'line2', 'line3'],
@@ -53,7 +53,7 @@ test('handlePointerDown - valid click on first item', async () => {
 })
 
 test('handlePointerDown - valid click on second item', async () => {
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'Editor.applyEdit2': () => undefined,
     'Editor.closeWidget2': () => undefined,
     'Editor.getLines2': () => ['line1', 'line2', 'line3'],
@@ -134,7 +134,7 @@ test('handlePointerDown - click after last item returns original state', async (
 })
 
 test('handlePointerDown - click on last valid item', async () => {
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'Editor.applyEdit2': () => undefined,
     'Editor.closeWidget2': () => undefined,
     'Editor.getLines2': () => ['line1', 'line2', 'line3'],
@@ -195,7 +195,7 @@ test('handlePointerDown - empty items array', async () => {
 })
 
 test('handlePointerDown - single item click', async () => {
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'Editor.applyEdit2': () => undefined,
     'Editor.closeWidget2': () => undefined,
     'Editor.getLines2': () => ['line1', 'line2', 'line3'],

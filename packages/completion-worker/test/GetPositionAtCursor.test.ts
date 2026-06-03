@@ -10,7 +10,7 @@ test('getPositionAtCursor - returns position at cursor', async () => {
     y: 200,
   }
 
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'Editor.getPositionAtCursor': () => mockPosition,
   })
 
@@ -27,7 +27,7 @@ test('getPositionAtCursor - returns position at start of document', async () => 
     y: 0,
   }
 
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'Editor.getPositionAtCursor': () => mockPosition,
   })
 

@@ -11,8 +11,9 @@ const createCompletionItem = (label: string): CompletionItem => ({
   matches: [],
 })
 
-test.skip('resolveCompletion returns resolved completion item', async () => {
+test('resolveCompletion returns resolved completion item', async () => {
   const mockEditorRpc = EditorWorker.registerMockRpc({
+    'ActivateByEvent.activateByEvent': () => undefined,
     'Editor.getOffsetAtCursor': () => 10,
   })
   const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
@@ -22,7 +23,10 @@ test.skip('resolveCompletion returns resolved completion item', async () => {
   const result = await resolveCompletion(1, 'test', createCompletionItem('test'))
   expect(result).toEqual({ resolved: true })
 
-  expect(mockEditorRpc.invocations).toEqual([['Editor.getOffsetAtCursor', 1]])
+  expect(mockEditorRpc.invocations).toEqual([
+    ['Editor.getOffsetAtCursor', 1],
+    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+  ])
   expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.executeResolve', 1, 10, 'test', createCompletionItem('test')]])
 })
 
