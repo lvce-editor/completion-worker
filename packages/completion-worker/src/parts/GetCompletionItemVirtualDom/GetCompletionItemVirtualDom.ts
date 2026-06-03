@@ -7,7 +7,7 @@ import * as GetCompletionItemIconVirtualDom from '../GetCompletionItemIconVirtua
 import * as GetHighlightedLabelDom from '../GetHighlightedLabelDom/GetHighlightedLabelDom.ts'
 import * as MergeClassNames from '../MergeClassNames/MergeClassNames.ts'
 
-export const getCompletionItemClassName = (focused: boolean, deprecated: boolean): string => {
+export const getCompletionItemClassName = (focused: boolean, deprecated: boolean | number): string => {
   if (focused && deprecated) {
     return MergeClassNames.mergeClassNames(
       ClassNames.EditorCompletionItem,
