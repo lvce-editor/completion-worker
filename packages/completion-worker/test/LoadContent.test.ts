@@ -1,13 +1,19 @@
 import { expect, jest, test } from '@jest/globals'
-import { EditorWorker } from '@lvce-editor/rpc-registry'
-import { ExtensionHost } from '@lvce-editor/rpc-registry'
+import { EditorWorker, ExtensionHost, ExtensionManagementWorker } from '@lvce-editor/rpc-registry'
 import type { CompletionState } from '../src/parts/CompletionState/CompletionState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { loadContent } from '../src/parts/LoadContent/LoadContent.ts'
 
+const textDocument = {
+  documentId: 0,
+  languageId: '',
+  text: 'line1\nline2',
+  uri: 'file:///test.txt',
+}
+
 test('loadContent', async () => {
   const mockEditorRpc = EditorWorker.registerMockRpc({
-    'ActivateByEvent.activateByEvent': () => undefined,
+    'Editor.getLines2': () => ['line1', 'line2'],
     'Editor.getOffsetAtCursor': () => 0,
     'Editor.getPositionAtCursor': () => ({
       columnIndex: 2,
@@ -15,11 +21,17 @@ test('loadContent', async () => {
       x: 100,
       y: 200,
     }),
+    'Editor.getUri': () => 'file:///test.txt',
     'Editor.getWordAtOffset': () => 'test',
     'Editor.getWordAtOffset2': () => 'test',
   })
   const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
-    'ExtensionHostCompletion.execute': () => [
+    'ExtensionHostCompletion.execute': () => {
+      throw new Error('should not use extension host worker')
+    },
+  })
+  const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.executeCompletionProvider': () => [
       {
         flags: 0,
         kind: 1,
@@ -51,16 +63,18 @@ test('loadContent', async () => {
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
-    ['ActivateByEvent.activateByEvent', 'onCompletion:'],
+    ['Editor.getLines2', 0],
+    ['Editor.getUri', 0],
     ['Editor.getWordAtOffset2', 0],
     ['Editor.getPositionAtCursor', 0],
   ])
-  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.execute', 0, 0]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 0]])
+  expect(mockExtensionHostRpc.invocations).toEqual([])
 })
 
 test('loadContent with completions', async () => {
   const mockEditorRpc = EditorWorker.registerMockRpc({
-    'ActivateByEvent.activateByEvent': () => undefined,
+    'Editor.getLines2': () => ['line1', 'line2'],
     'Editor.getOffsetAtCursor': () => 0,
     'Editor.getPositionAtCursor': () => ({
       columnIndex: 2,
@@ -68,11 +82,17 @@ test('loadContent with completions', async () => {
       x: 100,
       y: 200,
     }),
+    'Editor.getUri': () => 'file:///test.txt',
     'Editor.getWordAtOffset': () => 'test',
     'Editor.getWordAtOffset2': () => 'test',
   })
   const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
-    'ExtensionHostCompletion.execute': () => [
+    'ExtensionHostCompletion.execute': () => {
+      throw new Error('should not use extension host worker')
+    },
+  })
+  const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.executeCompletionProvider': () => [
       {
         flags: 0,
         kind: 1,
@@ -104,11 +124,13 @@ test('loadContent with completions', async () => {
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
-    ['ActivateByEvent.activateByEvent', 'onCompletion:'],
+    ['Editor.getLines2', 0],
+    ['Editor.getUri', 0],
     ['Editor.getWordAtOffset2', 0],
     ['Editor.getPositionAtCursor', 0],
   ])
-  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.execute', 0, 0]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 0]])
+  expect(mockExtensionHostRpc.invocations).toEqual([])
 })
 
 test('loadContent with no completions', async () => {
@@ -116,7 +138,7 @@ test('loadContent with no completions', async () => {
   const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
 
   const mockEditorRpc = EditorWorker.registerMockRpc({
-    'ActivateByEvent.activateByEvent': () => undefined,
+    'Editor.getLines2': () => ['line1', 'line2'],
     'Editor.getOffsetAtCursor': () => 0,
     'Editor.getPositionAtCursor': () => ({
       columnIndex: 2,
@@ -124,11 +146,17 @@ test('loadContent with no completions', async () => {
       x: 100,
       y: 200,
     }),
+    'Editor.getUri': () => 'file:///test.txt',
     'Editor.getWordAtOffset': () => 'test',
     'Editor.getWordAtOffset2': () => 'test',
   })
   const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
-    'ExtensionHostCompletion.execute': () => [],
+    'ExtensionHostCompletion.execute': () => {
+      throw new Error('should not use extension host worker')
+    },
+  })
+  const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.executeCompletionProvider': () => [],
   })
   EditorWorker.set(mockEditorRpc)
 
@@ -143,11 +171,13 @@ test('loadContent with no completions', async () => {
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
-    ['ActivateByEvent.activateByEvent', 'onCompletion:'],
+    ['Editor.getLines2', 0],
+    ['Editor.getUri', 0],
     ['Editor.getWordAtOffset2', 0],
     ['Editor.getPositionAtCursor', 0],
   ])
-  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.execute', 0, 0]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 0]])
+  expect(mockExtensionHostRpc.invocations).toEqual([])
 
   consoleErrorSpy.mockRestore()
 })
@@ -157,13 +187,17 @@ test('loadContent with error in getPositionAtCursor', async () => {
   const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
 
   const mockEditorRpc = EditorWorker.registerMockRpc({
-    'ActivateByEvent.activateByEvent': () => undefined,
+    'Editor.getLines2': () => ['line1', 'line2'],
     'Editor.getOffsetAtCursor': () => 0,
     'Editor.getPositionAtCursor': () => {
       throw new Error('Failed to get position')
     },
+    'Editor.getUri': () => 'file:///test.txt',
     'Editor.getWordAtOffset': () => 'test',
     'Editor.getWordAtOffset2': () => 'test',
+  })
+  const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.executeCompletionProvider': () => [],
   })
   EditorWorker.set(mockEditorRpc)
   const state = createDefaultState()
@@ -171,10 +205,12 @@ test('loadContent with error in getPositionAtCursor', async () => {
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
-    ['ActivateByEvent.activateByEvent', 'onCompletion:'],
+    ['Editor.getLines2', 0],
+    ['Editor.getUri', 0],
     ['Editor.getWordAtOffset2', 0],
     ['Editor.getPositionAtCursor', 0],
   ])
+  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 0]])
 
   consoleErrorSpy.mockRestore()
 })

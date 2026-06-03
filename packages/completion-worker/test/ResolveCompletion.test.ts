@@ -1,6 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { EditorWorker } from '@lvce-editor/rpc-registry'
-import { ExtensionHost } from '@lvce-editor/rpc-registry'
+import { EditorWorker, ExtensionHost, ExtensionManagementWorker } from '@lvce-editor/rpc-registry'
 import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.ts'
 import { resolveCompletion } from '../src/parts/ResolveCompletion/ResolveCompletion.ts'
 
@@ -11,13 +10,27 @@ const createCompletionItem = (label: string): CompletionItem => ({
   matches: [],
 })
 
+const textDocument = {
+  documentId: 1,
+  languageId: 'typescript',
+  text: 'const test = 1',
+  uri: 'file:///test.ts',
+}
+
 test('resolveCompletion returns resolved completion item', async () => {
   const mockEditorRpc = EditorWorker.registerMockRpc({
-    'ActivateByEvent.activateByEvent': () => undefined,
+    'Editor.getLanguageId': () => 'typescript',
+    'Editor.getLines2': () => ['const test = 1'],
     'Editor.getOffsetAtCursor': () => 10,
+    'Editor.getUri': () => 'file:///test.ts',
   })
   const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
-    'ExtensionHostCompletion.executeResolve': () => ({ resolved: true }),
+    'ExtensionHostCompletion.executeResolve': () => {
+      throw new Error('should not use extension host worker')
+    },
+  })
+  const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.executeResolveCompletionItemProvider': () => ({ resolved: true }),
   })
 
   const result = await resolveCompletion(1, 'test', createCompletionItem('test'))
@@ -25,18 +38,31 @@ test('resolveCompletion returns resolved completion item', async () => {
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 1],
-    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+    ['Editor.getLanguageId', 1],
+    ['Editor.getLines2', 1],
+    ['Editor.getUri', 1],
   ])
-  expect(mockExtensionHostRpc.invocations).toEqual([['ExtensionHostCompletion.executeResolve', 1, 10, 'test', createCompletionItem('test')]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([
+    ['Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'test', createCompletionItem('test')],
+  ])
+  expect(mockExtensionHostRpc.invocations).toEqual([])
 })
 
-test('resolveCompletion returns undefined when extension host fails', async () => {
+test('resolveCompletion returns undefined when extension management worker fails', async () => {
   const mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getLanguageId': () => 'typescript',
+    'Editor.getLines2': () => ['const test = 1'],
     'Editor.getOffsetAtCursor': () => 10,
+    'Editor.getUri': () => 'file:///test.ts',
   })
   const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'ExtensionHostEditor.execute': () => {
-      throw new Error('extension host error')
+      throw new Error('should not use extension host worker')
+    },
+  })
+  const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.executeResolveCompletionItemProvider': () => {
+      throw new Error('extension management worker error')
     },
   })
 
@@ -45,7 +71,12 @@ test('resolveCompletion returns undefined when extension host fails', async () =
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 1],
-    ['ActivateByEvent.activateByEvent', 'onCompletion:undefined'],
+    ['Editor.getLanguageId', 1],
+    ['Editor.getLines2', 1],
+    ['Editor.getUri', 1],
+  ])
+  expect(mockExtensionManagementRpc.invocations).toEqual([
+    ['Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'test', createCompletionItem('test')],
   ])
   expect(mockExtensionHostRpc.invocations).toEqual([])
 })

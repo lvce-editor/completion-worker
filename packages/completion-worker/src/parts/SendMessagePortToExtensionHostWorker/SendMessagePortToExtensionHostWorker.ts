@@ -1,3 +1,0 @@
-import { EditorWorker } from '@lvce-editor/rpc-registry'
-
-export const { sendMessagePortToExtensionHostWorker } = EditorWorker
