@@ -1,13 +1,18 @@
 import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as GetIconVirtualDom from '../GetIconVirtualDom/GetIconVirtualDom.ts'
+import * as MergeClassNames from '../MergeClassNames/MergeClassNames.ts'
+
+export const getIconButtonClassName = (disabled: boolean): string => {
+  if (disabled) {
+    return MergeClassNames.mergeClassNames(ClassNames.IconButton, ClassNames.IconButtonDisabled)
+  }
+  return ClassNames.IconButton
+}
 
 export const getIconButtonVirtualDom = (iconButton: any) => {
   const { disabled, icon, label, name, onClick } = iconButton
-  let className = ClassNames.IconButton
-  if (disabled) {
-    className += ' ' + ClassNames.IconButtonDisabled
-  }
+  const className = getIconButtonClassName(disabled)
   return [
     {
       ariaLabel: label,

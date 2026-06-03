@@ -1,3 +1,3 @@
-import * as EditorWorker from '../EditorWorker/EditorWorker.ts'
+import { EditorWorker } from '@lvce-editor/rpc-registry'
 
 export const getWordAtOffset = EditorWorker.getWordAtOffset2

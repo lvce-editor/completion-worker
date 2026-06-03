@@ -5,7 +5,7 @@ import { getLines } from '../src/parts/GetLines/GetLines.ts'
 test('getLines - returns document lines', async () => {
   const mockLines = ['line 1', 'line 2', 'line 3']
 
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'Editor.getLines2': () => mockLines,
   })
 
@@ -17,7 +17,7 @@ test('getLines - returns document lines', async () => {
 test('getLines - returns empty document', async () => {
   const mockLines: string[] = []
 
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'Editor.getLines2': () => mockLines,
   })
 

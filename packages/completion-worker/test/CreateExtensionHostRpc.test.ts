@@ -3,7 +3,7 @@ import { EditorWorker } from '@lvce-editor/rpc-registry'
 import { createExtensionHostRpc } from '../src/parts/CreateExtensionHostRpc/CreateExtensionHostRpc.ts'
 
 test('createExtensionHostRpc creates rpc successfully', async () => {
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker': () => undefined,
   })
 
@@ -15,7 +15,7 @@ test('createExtensionHostRpc creates rpc successfully', async () => {
 })
 
 test('createExtensionHostRpc throws VError when port creation fails', async () => {
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker': () => {
       throw new Error('Port creation failed')
     },

@@ -12,7 +12,7 @@ test('handleEditorType - basic functionality', async () => {
   }
   const mockWord = 'test'
 
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'Editor.getPositionAtCursor': () => mockPosition,
     'Editor.getWordBefore2': () => mockWord,
     'FileSystem.readDirWithFileTypes': () => [],
@@ -46,7 +46,7 @@ test('handleEditorType - with position and word', async () => {
   }
   const mockWord = 'test'
 
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'Editor.getPositionAtCursor': () => mockPosition,
     'Editor.getWordBefore2': () => mockWord,
   })
@@ -78,7 +78,7 @@ test('handleEditorType - with filtered items', async () => {
     { flags: 0, kind: 1, label: 'other', matches: [0, 1, 2, 3] },
   ]
 
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'Editor.getPositionAtCursor': () => mockPosition,
     'Editor.getWordBefore2': () => mockWord,
   })

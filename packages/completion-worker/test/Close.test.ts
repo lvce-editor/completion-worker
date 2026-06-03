@@ -6,7 +6,7 @@ import * as WhenExpression from '../src/parts/WhenExpression/WhenExpression.js'
 import * as WidgetId from '../src/parts/WidgetId/WidgetId.js'
 
 test('close - calls closeWidget2 with correct parameters', async () => {
-  const mockRpc = EditorWorker.registerMockRpc({
+  using mockRpc = EditorWorker.registerMockRpc({
     'Editor.closeWidget2': () => undefined,
   })
 
