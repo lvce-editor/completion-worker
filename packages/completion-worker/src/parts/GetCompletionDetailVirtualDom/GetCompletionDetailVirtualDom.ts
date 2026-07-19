@@ -1,13 +1,15 @@
 import type { VirtualDomNode } from '@lvce-editor/virtual-dom-worker'
 import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
+import * as AriaRoles from '../AriaRoles/AriaRoles.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
+import * as MergeClassNames from '../MergeClassNames/MergeClassNames.ts'
 
 export const getCompletionDetailVirtualDom = (content: string): readonly VirtualDomNode[] => {
   const dom: readonly VirtualDomNode[] = [
     {
       childCount: 2,
-      className: 'Viewlet EditorCompletionDetails',
+      className: MergeClassNames.mergeClassNames(ClassNames.Viewlet, ClassNames.EditorCompletionDetails),
       type: VirtualDomElements.Div,
     },
     {
@@ -20,11 +22,12 @@ export const getCompletionDetailVirtualDom = (content: string): readonly Virtual
       childCount: 1,
       className: ClassNames.CompletionDetailCloseButton,
       onClick: DomEventListenerFunctions.HandleClose,
+      role: AriaRoles.Button,
       type: VirtualDomElements.Div,
     },
     {
       childCount: 0,
-      className: `${ClassNames.MaskIcon} ${ClassNames.IconClose}`,
+      className: MergeClassNames.mergeClassNames(ClassNames.MaskIcon, ClassNames.IconClose),
       type: VirtualDomElements.Div,
     },
   ]

@@ -3,4 +3,17 @@ import * as actions from '@lvce-editor/eslint-plugin-github-actions'
 import * as regex from '@lvce-editor/eslint-plugin-regex'
 import * as tsconfig from '@lvce-editor/eslint-plugin-tsconfig'
 
-export default [...config.default, ...actions.default, ...tsconfig.default, ...regex.default]
+export default [
+  ...config.default,
+  ...config.recommendedVirtualDom,
+  ...actions.default,
+  ...tsconfig.default,
+  ...regex.default,
+  {
+    files: ['**/test/**/*.ts'],
+    rules: {
+      'virtual-dom/prefer-constants': 'off',
+      'virtual-dom/prefer-merge-class-names': 'off',
+    },
+  },
+]
