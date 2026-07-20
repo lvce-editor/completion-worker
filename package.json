@@ -11,7 +11,7 @@
     "dev": "node packages/build/src/dev.js",
     "e2e": "cd packages/e2e && npm run e2e:headless",
     "format": "prettier --write .",
-    "postinstall": "lerna bootstrap --ci",
+    "postinstall": "lerna bootstrap --ci --concurrency 1",
     "lint": "eslint .",
     "measure": "cd packages/memory && npm run measure",
     "test": "lerna run test",
