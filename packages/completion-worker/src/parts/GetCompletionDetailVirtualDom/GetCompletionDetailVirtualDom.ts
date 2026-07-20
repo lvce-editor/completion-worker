@@ -5,6 +5,20 @@ import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import * as MergeClassNames from '../MergeClassNames/MergeClassNames.ts'
 
+const completionDetailContentNode: VirtualDomNode = {
+  childCount: 1,
+  className: ClassNames.CompletionDetailContent,
+  type: VirtualDomElements.Div,
+}
+
+const completionDetailCloseButtonNode: VirtualDomNode = {
+  childCount: 1,
+  className: ClassNames.CompletionDetailCloseButton,
+  onClick: DomEventListenerFunctions.HandleClose,
+  role: AriaRoles.Button,
+  type: VirtualDomElements.Div,
+}
+
 export const getCompletionDetailVirtualDom = (content: string): readonly VirtualDomNode[] => {
   const dom: readonly VirtualDomNode[] = [
     {
@@ -12,19 +26,9 @@ export const getCompletionDetailVirtualDom = (content: string): readonly Virtual
       className: MergeClassNames.mergeClassNames(ClassNames.Viewlet, ClassNames.EditorCompletionDetails),
       type: VirtualDomElements.Div,
     },
-    {
-      childCount: 1,
-      className: ClassNames.CompletionDetailContent,
-      type: VirtualDomElements.Div,
-    },
+    completionDetailContentNode,
     text(content),
-    {
-      childCount: 1,
-      className: ClassNames.CompletionDetailCloseButton,
-      onClick: DomEventListenerFunctions.HandleClose,
-      role: AriaRoles.Button,
-      type: VirtualDomElements.Div,
-    },
+    completionDetailCloseButtonNode,
     {
       childCount: 0,
       className: MergeClassNames.mergeClassNames(ClassNames.MaskIcon, ClassNames.IconClose),

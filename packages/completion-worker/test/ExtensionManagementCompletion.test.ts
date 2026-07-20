@@ -115,7 +115,9 @@ test('executeResolveCompletionItem returns resolved completion item', async () =
     ['Editor.getLines2', 1],
     ['Editor.getUri', 1],
   ])
-  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'test', completionItem]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([
+    ['Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'test', completionItem],
+  ])
   expect(mockExtensionHostRpc.invocations).toEqual([])
 })
 
@@ -143,6 +145,8 @@ test('executeResolveCompletionItem returns undefined when no provider found', as
     ['Editor.getLines2', 1],
     ['Editor.getUri', 1],
   ])
-  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'test', completionItem]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([
+    ['Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'test', completionItem],
+  ])
   expect(mockExtensionHostRpc.invocations).toEqual([])
 })
