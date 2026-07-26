@@ -3,7 +3,7 @@ import { pathToFileURL } from 'node:url'
 import { root } from './root.js'
 import { cp } from 'node:fs/promises'
 
-const sharedProcessPath = join(root, 'packages', 'server', 'node_modules', '@lvce-editor', 'shared-process', 'index.js')
+const sharedProcessPath = join(root, 'node_modules', '@lvce-editor', 'shared-process', 'index.js')
 
 const sharedProcessUrl = pathToFileURL(sharedProcessPath).toString()
 

@@ -5,7 +5,7 @@ export const threshold = 470_000
 
 export const workerPath = join(root, '.tmp/dist/dist/completionWorkerMain.js')
 
-export const playwrightPath = new URL('../../e2e/node_modules/playwright/index.mjs', import.meta.url).toString()
+export const playwrightPath = new URL('../../../node_modules/playwright/index.mjs', import.meta.url).toString()
 
 export const instantiations = 350_000
 
