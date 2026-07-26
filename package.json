@@ -4,17 +4,19 @@
   "license": "MIT",
   "author": "Lvce Editor",
   "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build": "node packages/build/src/build.js",
     "build:static": "node packages/build/src/build-static.js",
-    "build:watch": "./packages/build/node_modules/.bin/esbuild --format=esm --bundle --external:node:buffer --external:electron --external:ws --external:node:worker_threads --watch packages/completion-worker/src/completionWorkerMain.ts --outfile=.tmp/dist/dist/completionWorkerMain.js",
+    "build:watch": "./node_modules/.bin/esbuild --format=esm --bundle --external:node:buffer --external:electron --external:ws --external:node:worker_threads --watch packages/completion-worker/src/completionWorkerMain.ts --outfile=.tmp/dist/dist/completionWorkerMain.js",
     "dev": "node packages/build/src/dev.js",
     "e2e": "cd packages/e2e && npm run e2e:headless",
     "format": "prettier --write .",
-    "postinstall": "lerna bootstrap --ci --concurrency 1",
     "lint": "eslint .",
     "measure": "cd packages/memory && npm run measure",
-    "test": "lerna run test",
+    "test": "npm test --workspaces --if-present",
     "type-check": "tsc -b"
   },
   "prettier": {
@@ -23,10 +25,8 @@
     "printWidth": 150
   },
   "devDependencies": {
-    "@lerna/legacy-package-management": "^8.2.4",
     "@lvce-editor/eslint-config": "^17.0.3",
     "eslint": "^10.7.0",
-    "lerna": "^8.2.4",
     "prettier": "^3.8.4",
     "typescript": "^6.0.3"
   }
