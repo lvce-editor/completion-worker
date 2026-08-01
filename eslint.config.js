@@ -1,12 +1,12 @@
+import { defineConfig } from 'eslint/config'
 import * as config from '@lvce-editor/eslint-config'
-import * as actions from '@lvce-editor/eslint-plugin-github-actions'
 import * as regex from '@lvce-editor/eslint-plugin-regex'
 import * as tsconfig from '@lvce-editor/eslint-plugin-tsconfig'
 
-export default [
+export default defineConfig([
   ...config.default,
   ...config.recommendedVirtualDom,
-  ...actions.default,
+  ...config.recommendedActions,
   ...tsconfig.default,
   ...regex.default,
   {
@@ -16,4 +16,4 @@ export default [
       'virtual-dom/prefer-merge-class-names': 'off',
     },
   },
-]
+])
