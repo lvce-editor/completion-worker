@@ -96,3 +96,61 @@ test('getEdits - returns changes when resolved item is undefined', async () => {
     ['Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'hello', mockCompletion],
   ])
 })
+
+test('getEdits - replaces a dotted prefix that matches the completion label', async () => {
+  const mockLines = ['v26.']
+  const mockSelections = [0, 4]
+  const mockCompletion = createCompletionItem('v26.7.0')
+
+  EditorWorker.registerMockRpc({
+    'Editor.getLanguageId': () => 'nvmrc',
+    'Editor.getLines2': () => mockLines,
+    'Editor.getOffsetAtCursor': () => 4,
+    'Editor.getSelections2': () => mockSelections,
+    'Editor.getUri': () => 'file:///test/.nvmrc',
+  })
+  ExtensionManagementWorker.registerMockRpc({
+    'Extensions.executeResolveCompletionItemProvider': () => undefined,
+  })
+
+  const result = await getEdits(1, '', mockCompletion)
+
+  expect(result).toEqual([
+    {
+      deleted: ['v26.'],
+      end: { columnIndex: 4, rowIndex: 0 },
+      inserted: ['v26.7.0'],
+      origin: '',
+      start: { columnIndex: 0, rowIndex: 0 },
+    },
+  ])
+})
+
+test('getEdits - keeps a non-matching dotted prefix', async () => {
+  const mockLines = ['object.']
+  const mockSelections = [0, 7]
+  const mockCompletion = createCompletionItem('property')
+
+  EditorWorker.registerMockRpc({
+    'Editor.getLanguageId': () => 'typescript',
+    'Editor.getLines2': () => mockLines,
+    'Editor.getOffsetAtCursor': () => 7,
+    'Editor.getSelections2': () => mockSelections,
+    'Editor.getUri': () => 'file:///test.ts',
+  })
+  ExtensionManagementWorker.registerMockRpc({
+    'Extensions.executeResolveCompletionItemProvider': () => undefined,
+  })
+
+  const result = await getEdits(1, '', mockCompletion)
+
+  expect(result).toEqual([
+    {
+      deleted: [''],
+      end: { columnIndex: 7, rowIndex: 0 },
+      inserted: ['property'],
+      origin: '',
+      start: { columnIndex: 7, rowIndex: 0 },
+    },
+  ])
+})

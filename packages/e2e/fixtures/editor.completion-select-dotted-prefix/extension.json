@@ -1,0 +1,13 @@
+{
+  "id": "test.completion-select-dotted-prefix",
+  "name": "Completion Select Dotted Prefix",
+  "description": "",
+  "activation": ["onLanguage:nvmrc", "onCompletion:nvmrc"],
+  "browser": "main.js",
+  "languages": [
+    {
+      "id": "nvmrc",
+      "extensions": [".nvmrc"]
+    }
+  ]
+}
