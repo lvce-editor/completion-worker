@@ -11,7 +11,7 @@ export const getEventListeners = (): readonly DomEventListener[] => {
     },
     {
       name: DomEventListenerFunctions.HandlePointerDown,
-      params: ['EditorCompletion.handlePoinerDown', EventExpression.ClientX, EventExpression.ClientY],
+      params: ['EditorCompletion.handlePointerDown', EventExpression.ClientX, EventExpression.ClientY],
       preventDefault: true,
     },
   ]
