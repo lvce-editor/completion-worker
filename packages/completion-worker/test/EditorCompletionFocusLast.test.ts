@@ -5,9 +5,17 @@ import { focusLast } from '../src/parts/EditorCompletionFocusLast/EditorCompleti
 test('focusLast', () => {
   const state = {
     ...createDefaultState(),
-    items: [{}, {}, {}],
+    finalDeltaY: 140,
+    height: 60,
+    items: Array.from({ length: 10 }, () => ({})),
+    maxLineY: 3,
   }
   const result = focusLast(state as any)
-  expect(result.focusedIndex).toBe(2)
-  expect(result.focused).toBe(true)
+  expect(result).toMatchObject({
+    deltaY: 140,
+    focused: true,
+    focusedIndex: 9,
+    maxLineY: 10,
+    minLineY: 7,
+  })
 })
