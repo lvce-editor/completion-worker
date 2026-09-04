@@ -28,6 +28,7 @@ export const getCompletionVirtualDom = (
       ariaLabel: EditorStrings.suggest(),
       childCount: 1,
       className: ClassNames.ListItems,
+      onPointerDown: DomEventListenerFunctions.HandlePointerDown,
       onWheel: DomEventListenerFunctions.HandleWheel,
       role: AriaRoles.ListBox,
       type: VirtualDomElements.Div,
