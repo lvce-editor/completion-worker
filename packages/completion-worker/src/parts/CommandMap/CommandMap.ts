@@ -6,6 +6,7 @@ import * as Diff2 from '../Diff2/Diff2.ts'
 import * as Dispose from '../Dispose/Dispose.ts'
 import * as FocusFirst from '../EditorCompletionFocusFirst/EditorCompletionFocusFirst.ts'
 import * as FocusIndex from '../EditorCompletionFocusIndex/EditorCompletionFocusIndex.ts'
+import * as FocusLast from '../EditorCompletionFocusLast/EditorCompletionFocusLast.ts'
 import * as EditorCompletionFocusNext from '../EditorCompletionFocusNext/EditorCompletionFocusNext.ts'
 import * as EditorCompletionFocusPrevious from '../EditorCompletionFocusPrevious/EditorCompletionFocusPrevious.ts'
 import * as EditorCompletionOpenDetails from '../EditorCompletionOpenDetails/EditorCompletionOpenDetails.ts'
@@ -28,6 +29,7 @@ export const commandMap = {
   'Completions.dispose': Dispose.dispose,
   'Completions.focusFirst': WrapCommand.wrapCommand(FocusFirst.focusFirst),
   'Completions.focusIndex': WrapCommand.wrapCommand(FocusIndex.focusIndex),
+  'Completions.focusLast': WrapCommand.wrapCommand(FocusLast.focusLast),
   'Completions.focusNext': WrapCommand.wrapCommand(EditorCompletionFocusNext.focusNext),
   'Completions.focusPrevious': WrapCommand.wrapCommand(EditorCompletionFocusPrevious.focusPrevious),
   'Completions.getCommandIds': GetCommandIds.getCommandIds,
