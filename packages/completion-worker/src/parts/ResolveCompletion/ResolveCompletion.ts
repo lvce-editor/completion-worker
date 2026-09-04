@@ -1,10 +1,15 @@
 import type { CompletionItem } from '../CompletionItem/CompletionItem.ts'
+import type { ResolvedCompletionItem } from '../ResolvedCompletionItem/ResolvedCompletionItem.ts'
 import * as Assert from '../Assert/Assert.ts'
 import * as ExtensionManagementCompletion from '../ExtensionManagementCompletion/ExtensionManagementCompletion.ts'
 import * as GetOffsetAtCursor from '../GetOffsetAtCursor/GetOffsetAtCursor.ts'
 
 // TODO don't send unnecessary parts of completion item like matches
-export const resolveCompletion = async (editorUid: number, name: string, completionItem: CompletionItem): Promise<any> => {
+export const resolveCompletion = async (
+  editorUid: number,
+  name: string,
+  completionItem: CompletionItem,
+): Promise<ResolvedCompletionItem | undefined> => {
   try {
     Assert.string(name)
     Assert.object(completionItem)

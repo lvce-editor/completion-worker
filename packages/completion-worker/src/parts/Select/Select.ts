@@ -6,7 +6,7 @@ import { getEdits } from '../GetEdits/GetEdits.ts'
 
 export const select = async (state: CompletionState, completionItem: CompletionItem): Promise<CompletionState> => {
   const { editorUid, leadingWord } = state
-  const changes = await getEdits(editorUid, leadingWord, completionItem)
-  await ApplyEdit.applyEdit(editorUid, changes)
+  const { changes, selectionChanges } = await getEdits(editorUid, leadingWord, completionItem)
+  await ApplyEdit.applyEdit(editorUid, changes, selectionChanges)
   return Close.close(state)
 }

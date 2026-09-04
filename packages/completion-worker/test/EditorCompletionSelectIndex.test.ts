@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { EditorWorker } from '@lvce-editor/rpc-registry'
+import { EditorWorker, ExtensionManagementWorker } from '@lvce-editor/rpc-registry'
 import type { CompletionState } from '../src/parts/CompletionState/CompletionState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.js'
 import { selectIndex } from '../src/parts/EditorCompletionSelectIndex/EditorCompletionSelectIndex.js'
@@ -52,4 +52,47 @@ test('selectIndex - selects item at given index', async () => {
     ],
     ['Editor.closeWidget2', 1, 3, 'Completions', 9],
   ])
+})
+
+test('selectIndex - applies a resolved post-completion selection', async () => {
+  using mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.applyEdit2': () => undefined,
+    'Editor.closeWidget2': () => undefined,
+    'Editor.getLanguageId': () => 'json',
+    'Editor.getLines2': () => ['ena'],
+    'Editor.getOffsetAtCursor': () => 3,
+    'Editor.getSelections2': () => [0, 3, 0, 3],
+    'Editor.getUri': () => 'file:///settings.json',
+  })
+  using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.executeResolveCompletionItemProvider': () => ({
+      selectionRange: { endOffset: 15, startOffset: 11 },
+      snippet: '"enabled": true',
+    }),
+  })
+  const state: CompletionState = {
+    ...createDefaultState(),
+    editorUid: 1,
+    items: [{ flags: 0, kind: 1, label: 'enabled', matches: [] }],
+    leadingWord: 'ena',
+  }
+
+  const result = await selectIndex(state, 0)
+
+  expect(result).toBe(state)
+  expect(mockEditorRpc.invocations).toContainEqual([
+    'Editor.applyEdit2',
+    1,
+    [
+      {
+        deleted: ['ena'],
+        end: { columnIndex: 3, rowIndex: 0 },
+        inserted: ['"enabled": true'],
+        origin: '',
+        start: { columnIndex: 0, rowIndex: 0 },
+      },
+    ],
+    new Uint32Array([0, 11, 0, 15]),
+  ])
+  expect(mockExtensionManagementRpc.invocations).toHaveLength(1)
 })
