@@ -4,10 +4,10 @@ import * as GetOffsetAtCursor from '../GetOffsetAtCursor/GetOffsetAtCursor.ts'
 import * as Logger from '../Logger/Logger.ts'
 
 // TODO possible to do this with events/state machine instead of promises -> enables canceling operations / concurrent calls
-export const getCompletions = async (editorUid: number, editorLanguageId: string): Promise<readonly CompletionItem[]> => {
+export const getCompletions = async (editorUid: number, editorLanguageId: string, applicationId?: string): Promise<readonly CompletionItem[]> => {
   try {
     const offset = await GetOffsetAtCursor.getOffsetAtCursor(editorUid)
-    const completions = await ExtensionManagementCompletion.executeCompletionProvider(editorUid, editorLanguageId, offset)
+    const completions = await ExtensionManagementCompletion.executeCompletionProvider(editorUid, editorLanguageId, offset, applicationId)
     return completions
   } catch (error) {
     Logger.error(`Failed to get completions:`)

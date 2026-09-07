@@ -8,9 +8,14 @@ import { resolveCompletion } from '../ResolveCompletion/ResolveCompletion.ts'
 
 const newLineRegex = /\r?\n/
 
-export const getEdits = async (editorUid: number, leadingWord: string, completionItem: CompletionItem): Promise<CompletionEdit> => {
+export const getEdits = async (
+  editorUid: number,
+  leadingWord: string,
+  completionItem: CompletionItem,
+  applicationId?: string,
+): Promise<CompletionEdit> => {
   const word = completionItem.label
-  const resolvedItem = await resolveCompletion(editorUid, word, completionItem)
+  const resolvedItem = await resolveCompletion(editorUid, word, completionItem, applicationId)
   const inserted = typeof resolvedItem?.snippet === 'string' ? resolvedItem.snippet : word
   const lines = await GetLines.getLines(editorUid)
   const selections = await GetSelections.getSelections(editorUid)
@@ -19,11 +24,6 @@ export const getEdits = async (editorUid: number, leadingWord: string, completio
   const replaceStartColumnIndex = startColumnIndex - leadingWordLength
   const replaceRange = new Uint32Array([startRowIndex, replaceStartColumnIndex, startRowIndex, startColumnIndex])
   const changes = ReplaceRange.replaceRange(lines, replaceRange, inserted.split(newLineRegex), '')
-  const selectionChanges = GetSelectionChanges.getSelectionChanges(
-    inserted,
-    startRowIndex,
-    replaceStartColumnIndex,
-    resolvedItem?.selectionRange,
-  )
+  const selectionChanges = GetSelectionChanges.getSelectionChanges(inserted, startRowIndex, replaceStartColumnIndex, resolvedItem?.selectionRange)
   return { changes, selectionChanges }
 }

@@ -5,8 +5,8 @@ import * as Close from '../Close/Close.ts'
 import { getEdits } from '../GetEdits/GetEdits.ts'
 
 export const select = async (state: CompletionState, completionItem: CompletionItem): Promise<CompletionState> => {
-  const { editorUid, leadingWord } = state
-  const { changes, selectionChanges } = await getEdits(editorUid, leadingWord, completionItem)
+  const { applicationId, editorUid, leadingWord } = state
+  const { changes, selectionChanges } = await getEdits(editorUid, leadingWord, completionItem, applicationId)
   await ApplyEdit.applyEdit(editorUid, changes, selectionChanges)
   return Close.close(state)
 }
