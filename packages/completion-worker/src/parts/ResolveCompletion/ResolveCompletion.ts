@@ -9,12 +9,19 @@ export const resolveCompletion = async (
   editorUid: number,
   name: string,
   completionItem: CompletionItem,
+  applicationId?: string,
 ): Promise<ResolvedCompletionItem | undefined> => {
   try {
     Assert.string(name)
     Assert.object(completionItem)
     const offset = await GetOffsetAtCursor.getOffsetAtCursor(editorUid)
-    const resolvedCompletionItem = await ExtensionManagementCompletion.executeResolveCompletionItem(editorUid, offset, name, completionItem)
+    const resolvedCompletionItem = await ExtensionManagementCompletion.executeResolveCompletionItem(
+      editorUid,
+      offset,
+      name,
+      completionItem,
+      applicationId,
+    )
     return resolvedCompletionItem
   } catch {
     return undefined

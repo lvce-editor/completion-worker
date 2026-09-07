@@ -23,13 +23,44 @@ const getTextDocument = async (editorUid: number, languageId: string): Promise<T
   }
 }
 
-export const executeCompletionProvider = async (editorUid: number, editorLanguageId: string, offset: number): Promise<readonly CompletionItem[]> => {
+export const executeCompletionProvider = async (
+  editorUid: number,
+  editorLanguageId: string,
+  offset: number,
+  applicationId?: string,
+): Promise<readonly CompletionItem[]> => {
   const textDocument = await getTextDocument(editorUid, editorLanguageId)
+  if (applicationId !== undefined) {
+    return ExtensionManagementWorker.invoke(
+      'Extensions.invokeForApplication',
+      applicationId,
+      'Extensions.executeCompletionProvider',
+      textDocument,
+      offset,
+    )
+  }
   return ExtensionManagementWorker.invoke('Extensions.executeCompletionProvider', textDocument, offset)
 }
 
-export const executeResolveCompletionItem = async (editorUid: number, offset: number, name: string, completionItem: CompletionItem): Promise<any> => {
+export const executeResolveCompletionItem = async (
+  editorUid: number,
+  offset: number,
+  name: string,
+  completionItem: CompletionItem,
+  applicationId?: string,
+): Promise<any> => {
   const editorLanguageId = await EditorWorker.getLanguageId(editorUid)
   const textDocument = await getTextDocument(editorUid, editorLanguageId)
+  if (applicationId !== undefined) {
+    return ExtensionManagementWorker.invoke(
+      'Extensions.invokeForApplication',
+      applicationId,
+      'Extensions.executeResolveCompletionItemProvider',
+      textDocument,
+      offset,
+      name,
+      completionItem,
+    )
+  }
   return ExtensionManagementWorker.invoke('Extensions.executeResolveCompletionItemProvider', textDocument, offset, name, completionItem)
 }

@@ -1,8 +1,18 @@
 import type { CompletionState } from '../CompletionState/CompletionState.ts'
 import * as CompletionStates from '../CompletionStates/CompletionStates.ts'
 
-export const create = (uid: number, x: number, y: number, width: number, height: number, editorUid: number, editorLanguageId: string): void => {
+export const create = (
+  uid: number,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  editorUid: number,
+  editorLanguageId: string,
+  applicationId?: string,
+): void => {
   const state: CompletionState = {
+    ...(applicationId === undefined ? {} : { applicationId }),
     deltaY: 0,
     editorLanguageId,
     editorUid,

@@ -7,8 +7,8 @@ import * as GetPositionAtCursor from '../GetPositionAtCursor/GetPositionAtCursor
 import * as GetWordAtOffset from '../GetWordAtOffset/GetWordAtOffset.ts'
 
 export const loadContent = async (state: CompletionState): Promise<CompletionState> => {
-  const { editorLanguageId, editorUid, itemHeight, maxHeight } = state
-  const unfilteredItems = await Completions.getCompletions(editorUid, editorLanguageId)
+  const { applicationId, editorLanguageId, editorUid, itemHeight, maxHeight } = state
+  const unfilteredItems = await Completions.getCompletions(editorUid, editorLanguageId, applicationId)
   const wordAtOffset = await GetWordAtOffset.getWordAtOffset(editorUid)
   const items = FilterCompletionItems.filterCompletionItems(unfilteredItems, wordAtOffset)
   const { columnIndex, rowIndex, x, y } = await GetPositionAtCursor.getPositionAtCursor(editorUid)
