@@ -19,7 +19,7 @@ test('completion discovery and resolution stay in the owning application', async
   })
   const extensionRpc = ExtensionManagementWorker.registerMockRpc({
     'Extensions.executeCompletionProvider': () => [],
-    'Extensions.invokeForApplication': (applicationId: string, command: string) => {
+    'Extensions.invokeForApplication': (applicationId: string, command: string): unknown => {
       expect(applicationId).toBe('preview')
       if (command === 'Extensions.executeCompletionProvider') return [{ label: 'green' }]
       expect(command).toBe('Extensions.executeResolveCompletionItemProvider')
@@ -28,8 +28,9 @@ test('completion discovery and resolution stay in the owning application', async
   })
   create(8, 0, 0, 0, 0, 7, 'plaintext', 'preview')
   const state = await loadContent(get(8).newState)
-  expect(state.items.map((item) => item.label)).toEqual(['green'])
-  await select(state, state.items[0])
+  const { items } = state
+  expect(items.map((item) => item.label)).toEqual(['green'])
+  await select(state, items[0])
   expect(extensionRpc.invocations.map((call) => call.slice(0, 3))).toEqual([
     ['Extensions.invokeForApplication', 'preview', 'Extensions.executeCompletionProvider'],
     ['Extensions.invokeForApplication', 'preview', 'Extensions.executeResolveCompletionItemProvider'],

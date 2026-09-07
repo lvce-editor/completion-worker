@@ -12,7 +12,7 @@ export const create = (
   applicationId?: string,
 ): void => {
   const state: CompletionState = {
-    ...(applicationId === undefined ? {} : { applicationId }),
+    ...(applicationId !== undefined && { applicationId }),
     deltaY: 0,
     editorLanguageId,
     editorUid,
