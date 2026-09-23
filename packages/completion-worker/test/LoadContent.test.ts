@@ -65,8 +65,8 @@ test('loadContent', async () => {
     ['Editor.getOffsetAtCursor', 0],
     ['Editor.getLines2', 0],
     ['Editor.getUri', 0],
-    ['Editor.getWordAtOffset2', 0],
     ['Editor.getPositionAtCursor', 0],
+    ['Editor.getWordAtOffset2', 0],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 0]])
   expect(mockExtensionHostRpc.invocations).toEqual([])
@@ -126,8 +126,8 @@ test('loadContent with completions', async () => {
     ['Editor.getOffsetAtCursor', 0],
     ['Editor.getLines2', 0],
     ['Editor.getUri', 0],
-    ['Editor.getWordAtOffset2', 0],
     ['Editor.getPositionAtCursor', 0],
+    ['Editor.getWordAtOffset2', 0],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 0]])
   expect(mockExtensionHostRpc.invocations).toEqual([])
@@ -173,8 +173,8 @@ test('loadContent with no completions', async () => {
     ['Editor.getOffsetAtCursor', 0],
     ['Editor.getLines2', 0],
     ['Editor.getUri', 0],
-    ['Editor.getWordAtOffset2', 0],
     ['Editor.getPositionAtCursor', 0],
+    ['Editor.getWordAtOffset2', 0],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 0]])
   expect(mockExtensionHostRpc.invocations).toEqual([])
@@ -207,7 +207,6 @@ test('loadContent with error in getPositionAtCursor', async () => {
     ['Editor.getOffsetAtCursor', 0],
     ['Editor.getLines2', 0],
     ['Editor.getUri', 0],
-    ['Editor.getWordAtOffset2', 0],
     ['Editor.getPositionAtCursor', 0],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 0]])
