@@ -1,13 +1,13 @@
 import type { CompletionState } from '../CompletionState/CompletionState.ts'
 import * as FilterCompletionItems from '../FilterCompletionItems/FilterCompletionItems.ts'
+import * as GetCompletionWord from '../GetCompletionWord/GetCompletionWord.ts'
 import * as GetListHeight from '../GetListHeight/GetListHeight.ts'
 import * as GetPositionAtCursor from '../GetPositionAtCursor/GetPositionAtCursor.ts'
-import * as GetWordAtOffset from '../GetWordAtOffset/GetWordAtOffset.ts'
 
 export const handleEditorDeleteLeft = async (state: CompletionState): Promise<CompletionState> => {
-  const { editorUid, itemHeight, maxHeight, maxItems, unfilteredItems } = state
-  const { x, y } = await GetPositionAtCursor.getPositionAtCursor(editorUid)
-  const wordAtOffset = await GetWordAtOffset.getWordAtOffset(editorUid)
+  const { editorLanguageId, editorUid, itemHeight, maxHeight, maxItems, unfilteredItems } = state
+  const { columnIndex, rowIndex, x, y } = await GetPositionAtCursor.getPositionAtCursor(editorUid)
+  const wordAtOffset = await GetCompletionWord.getCompletionWord(editorUid, editorLanguageId, rowIndex, columnIndex)
   if (!wordAtOffset) {
     return {
       ...state,

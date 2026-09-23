@@ -28,6 +28,15 @@ test('filterCompletionItems filters items based on fuzzy search', () => {
   expect(result[1].label).toBe('test2')
 })
 
+test('filterCompletionItems matches a dotted JSON property prefix', () => {
+  const items: readonly CompletionItem[] = [
+    { flags: CompletionItemFlags.None, kind: 0, label: 'simpleBrowser.workflows', matches: [] },
+    { flags: CompletionItemFlags.None, kind: 0, label: 'chat2.backendUrl', matches: [] },
+  ]
+  const result = filterCompletionItems(items, 'simpleBrowser.')
+  expect(result.map(({ label }) => label)).toEqual(['simpleBrowser.workflows'])
+})
+
 test('filterCompletionItems puts deprecated items at the end', () => {
   const items = [
     { flags: CompletionItemFlags.Deprecated, kind: 0, label: 'test1', matches: [] },

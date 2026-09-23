@@ -95,6 +95,35 @@ test('getEdits - returns changes and selection from a resolved completion', asyn
   expect(mockExtensionManagementRpc.invocations).toHaveLength(1)
 })
 
+test('getEdits - replaces a complete dotted JSON property prefix', async () => {
+  using mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getLanguageId': () => 'json',
+    'Editor.getLines2': () => ['  simpleBrowser.wo'],
+    'Editor.getOffsetAtCursor': () => 18,
+    'Editor.getSelections2': () => [0, 18],
+    'Editor.getUri': () => 'file:///settings.json',
+  })
+  using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.executeResolveCompletionItemProvider': () => ({
+      snippet: '"simpleBrowser.workflows"',
+    }),
+  })
+
+  const result = await getEdits(1, 'simpleBrowser.wo', createCompletionItem('simpleBrowser.workflows'))
+
+  expect(result.changes).toEqual([
+    {
+      deleted: ['simpleBrowser.wo'],
+      end: { columnIndex: 18, rowIndex: 0 },
+      inserted: ['"simpleBrowser.workflows"'],
+      origin: '',
+      start: { columnIndex: 2, rowIndex: 0 },
+    },
+  ])
+  expect(mockEditorRpc.invocations).toHaveLength(6)
+  expect(mockExtensionManagementRpc.invocations).toHaveLength(1)
+})
+
 test('getEdits - splits multiline snippets and maps multiline selections', async () => {
   const mockCompletion = createCompletionItem('block')
 
