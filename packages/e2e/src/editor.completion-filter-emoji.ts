@@ -2,6 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'editor.completion-filter-emoji'
 
+// Skipped: migrate this fixture to the isolated Extension API before enabling it.
 export const skip = 1
 
 export const test: Test = async ({ Editor, expect, Extension, FileSystem, Locator, Main, Workspace }) => {
@@ -10,7 +11,7 @@ export const test: Test = async ({ Editor, expect, Extension, FileSystem, Locato
   await Extension.addWebExtension(extensionUri)
   const tmpDir = await FileSystem.getTmpDir()
   await FileSystem.writeFile(`${tmpDir}/file1.xyz`, 'rock')
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.openUri(`${tmpDir}/file1.xyz`)
   await Editor.setCursor(0, 4)
 

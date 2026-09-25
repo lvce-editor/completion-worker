@@ -10,6 +10,8 @@ import * as GetScrollBarVirtualDom from '../GetScrollBarVirtualDom/GetScrollBarV
 import * as Ids from '../Ids/Ids.ts'
 import * as MergeClassNames from '../MergeClassNames/MergeClassNames.ts'
 
+const EditorCompletionClassName = MergeClassNames.mergeClassNames(ClassNames.Viewlet, ClassNames.EditorCompletion)
+
 export const getCompletionVirtualDom = (
   visibleItems: readonly VisibleCompletionItem[],
   scrollBarHeight: number,
@@ -20,7 +22,7 @@ export const getCompletionVirtualDom = (
   return [
     {
       childCount: childCount,
-      className: MergeClassNames.mergeClassNames(ClassNames.Viewlet, ClassNames.EditorCompletion),
+      className: EditorCompletionClassName,
       id: Ids.Completions,
       type: VirtualDomElements.Div,
     },

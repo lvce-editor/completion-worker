@@ -1,7 +1,10 @@
+import { activate as activateExtensionApi, registerCompletionProvider } from '@lvce-editor/api'
+
 const provider = {
+  id: 'completionManyResults',
   languageId: 'xyz',
   provideCompletions(textDocument, offset) {
-    const count = 100_000
+    const count = 1_000_000
     const completions = []
     for (let i = 0; i < count; i++) {
       completions.push({
@@ -16,7 +19,5 @@ const provider = {
   },
 }
 
-export const activate = () => {
-  // @ts-ignore
-  vscode.registerCompletionProvider(provider)
-}
+await activateExtensionApi()
+registerCompletionProvider(provider)

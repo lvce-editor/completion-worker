@@ -1,6 +1,7 @@
 import { execa } from 'execa'
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
+import { buildE2eExtensions } from './buildE2eExtensions.ts'
 import { bundleJs } from './bundleJs.ts'
 import { root } from './root.ts'
 
@@ -53,6 +54,7 @@ await rm(dist, { recursive: true, force: true })
 await mkdir(dist, { recursive: true })
 
 await bundleJs()
+await buildE2eExtensions()
 
 const version = await getVersion()
 
