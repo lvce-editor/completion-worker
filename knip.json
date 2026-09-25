@@ -27,7 +27,8 @@
     },
     "packages/e2e": {
       "entry": [
-        "src/**/*.ts"
+        "src/**/*.ts",
+        "fixtures/editor.completion-many-results/main.js"
       ],
       "project": [
         "src/**/*.ts"
