@@ -2,8 +2,14 @@
   "id": "test.completion-many-results",
   "name": "Completion Many Results",
   "description": "",
-  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
-  "browser": "main.js",
+  "isolated": true,
+  "browser": "dist/main.js",
+  "completionProviders": [
+    {
+      "id": "completionManyResults",
+      "languageId": "xyz"
+    }
+  ],
   "languages": [
     {
       "id": "xyz",
