@@ -11,6 +11,7 @@
   "license": "MIT",
   "devDependencies": {
     "@lvce-editor/api": "^9.35.6",
-    "@lvce-editor/test-with-playwright": "^22.38.6"
+    "@lvce-editor/test-with-playwright": "^22.38.6",
+    "playwright": "1.63.0"
   }
 }

@@ -1,23 +1,19 @@
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as MergeClassNames from '../MergeClassNames/MergeClassNames.ts'
 
-const EditorCompletionItemFocused = MergeClassNames.mergeClassNames(ClassNames.EditorCompletionItem, ClassNames.EditorCompletionItemFocused)
-const EditorCompletionItemDeprecated = MergeClassNames.mergeClassNames(ClassNames.EditorCompletionItem, ClassNames.EditorCompletionItemDeprecated)
-const EditorCompletionItemFocusedDeprecated = MergeClassNames.mergeClassNames(
-  ClassNames.EditorCompletionItem,
-  ClassNames.EditorCompletionItemFocused,
-  ClassNames.EditorCompletionItemDeprecated,
-)
-
 export const getCompletionItemClassName = (focused: boolean, deprecated: boolean | number): string => {
   if (focused && deprecated) {
-    return EditorCompletionItemFocusedDeprecated
+    return MergeClassNames.mergeClassNames(
+      ClassNames.EditorCompletionItem,
+      ClassNames.EditorCompletionItemFocused,
+      ClassNames.EditorCompletionItemDeprecated,
+    )
   }
   if (focused) {
-    return EditorCompletionItemFocused
+    return MergeClassNames.mergeClassNames(ClassNames.EditorCompletionItem, ClassNames.EditorCompletionItemFocused)
   }
   if (deprecated) {
-    return EditorCompletionItemDeprecated
+    return MergeClassNames.mergeClassNames(ClassNames.EditorCompletionItem, ClassNames.EditorCompletionItemDeprecated)
   }
   return ClassNames.EditorCompletionItem
 }
