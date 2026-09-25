@@ -1,4 +1,7 @@
+import { activate as activateExtensionApi, registerCompletionProvider } from '@lvce-editor/api'
+
 const provider = {
+  id: 'editor.completion-type-error-provider',
   languageId: 'xyz',
   provideCompletions(textDocument, offset) {
     throw new TypeError('x is not a function')
@@ -8,7 +11,5 @@ const provider = {
   },
 }
 
-export const activate = () => {
-  // @ts-ignore
-  vscode.registerCompletionProvider(provider)
-}
+await activateExtensionApi()
+registerCompletionProvider(provider)

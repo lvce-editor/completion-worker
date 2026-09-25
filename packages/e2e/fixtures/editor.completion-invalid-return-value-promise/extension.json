@@ -2,12 +2,20 @@
   "id": "test.completion-invalid-return-value-null",
   "name": "Completion Invalid Return Value null",
   "description": "",
-  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
-  "browser": "main.js",
+  "browser": "dist/main.js",
   "languages": [
     {
       "id": "xyz",
-      "extensions": [".xyz"]
+      "extensions": [
+        ".xyz"
+      ]
+    }
+  ],
+  "isolated": true,
+  "completionProviders": [
+    {
+      "id": "editor.completion-invalid-return-value-promise-provider",
+      "languageId": "xyz"
     }
   ]
 }

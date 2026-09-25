@@ -2,12 +2,20 @@
   "id": "test.completion-provider-throws-error",
   "name": "Completion Provider Throws Error",
   "description": "",
-  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
-  "browser": "main.js",
+  "browser": "dist/main.js",
   "languages": [
     {
       "id": "xyz",
-      "extensions": [".xyz"]
+      "extensions": [
+        ".xyz"
+      ]
+    }
+  ],
+  "isolated": true,
+  "completionProviders": [
+    {
+      "id": "editor.completion-provider-throws-error-provider",
+      "languageId": "xyz"
     }
   ]
 }

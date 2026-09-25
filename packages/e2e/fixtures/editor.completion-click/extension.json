@@ -2,12 +2,20 @@
   "id": "test.completion-one-result",
   "name": "Completion One Result",
   "description": "",
-  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
-  "browser": "main.js",
+  "browser": "dist/main.js",
   "languages": [
     {
       "id": "xyz",
-      "extensions": [".xyz"]
+      "extensions": [
+        ".xyz"
+      ]
+    }
+  ],
+  "isolated": true,
+  "completionProviders": [
+    {
+      "id": "editor.completion-click-provider",
+      "languageId": "xyz"
     }
   ]
 }

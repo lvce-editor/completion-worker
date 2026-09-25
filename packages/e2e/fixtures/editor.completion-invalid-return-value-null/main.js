@@ -1,4 +1,7 @@
+import { activate as activateExtensionApi, registerCompletionProvider } from '@lvce-editor/api'
+
 const provider = {
+  id: 'editor.completion-invalid-return-value-null-provider',
   languageId: 'xyz',
   provideCompletions(textDocument, offset) {
     return null
@@ -8,7 +11,5 @@ const provider = {
   },
 }
 
-export const activate = () => {
-  // @ts-ignore
-  vscode.registerCompletionProvider(provider)
-}
+await activateExtensionApi()
+registerCompletionProvider(provider)

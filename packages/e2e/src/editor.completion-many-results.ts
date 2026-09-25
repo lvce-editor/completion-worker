@@ -8,7 +8,7 @@ export const test: Test = async ({ Editor, EditorCompletion, expect, Extension, 
   await Extension.addWebExtension(extensionUri)
   const tmpDir = await FileSystem.getTmpDir()
   await FileSystem.writeFile(`${tmpDir}/file1.xyz`, ' ')
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.openUri(`${tmpDir}/file1.xyz`)
   await Editor.setCursor(0, 0)
 
