@@ -2,6 +2,7 @@ import type { CompletionState } from '../CompletionState/CompletionState.ts'
 import * as Completions from '../Completions/Completions.ts'
 import * as FilterCompletionItems from '../FilterCompletionItems/FilterCompletionItems.ts'
 import * as GetCompletionWord from '../GetCompletionWord/GetCompletionWord.ts'
+import * as GetCompletionWidth from '../GetCompletionWidth/GetCompletionWidth.ts'
 import * as GetFinalDeltaY from '../GetFinalDeltaY/GetFinalDeltaY.ts'
 import * as GetListHeight from '../GetListHeight/GetListHeight.ts'
 import * as GetPositionAtCursor from '../GetPositionAtCursor/GetPositionAtCursor.ts'
@@ -17,6 +18,7 @@ export const loadContent = async (state: CompletionState): Promise<CompletionSta
   const newFocusedIndex = itemsLength === 0 ? -1 : 0
   const total = items.length
   const height = GetListHeight.getListHeight(items.length, itemHeight, maxHeight)
+  const width = GetCompletionWidth.getCompletionWidth(items)
   const finalDeltaY = GetFinalDeltaY.getFinalDeltaY(height, itemHeight, total)
   return {
     ...state,
@@ -31,7 +33,7 @@ export const loadContent = async (state: CompletionState): Promise<CompletionSta
     rowIndex,
     unfilteredItems,
     version: 1,
-    width: 200,
+    width,
     x,
     y,
   }

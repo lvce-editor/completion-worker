@@ -75,7 +75,9 @@ test('handleEditorType - with filtered items', async () => {
   const mockItems = [
     { flags: 0, kind: 1, label: 'test1', matches: [0, 1, 2, 3] },
     { flags: 0, kind: 1, label: 'test2', matches: [0, 1, 2, 3] },
+    { flags: 0, kind: 1, label: 'test-completion-label-long', matches: [0, 1, 2, 3] },
     { flags: 0, kind: 1, label: 'other', matches: [0, 1, 2, 3] },
+    { flags: 0, kind: 1, label: 'other-completion-label-that-is-even-longer', matches: [0, 1, 2, 3] },
   ]
 
   using mockRpc = EditorWorker.registerMockRpc({
@@ -89,9 +91,10 @@ test('handleEditorType - with filtered items', async () => {
   }
   const result = await handleEditorType(state)
 
-  expect(result.items).toHaveLength(2)
+  expect(result.items).toHaveLength(3)
   expect(result.items[0].label).toBe('test1')
   expect(result.items[1].label).toBe('test2')
+  expect(result.width).toBe(341)
 
   expect(mockRpc.invocations).toEqual([
     ['Editor.getPositionAtCursor', 0],
