@@ -11,12 +11,14 @@ const textDocument = {
   uri: 'file:///test.txt',
 }
 
-test('loadContent', async () => {
+test('loadContent clamps completion width to a narrow editor pane', async () => {
   const mockEditorRpc = EditorWorker.registerMockRpc({
     'Editor.getLines2': () => ['line1', 'line2'],
     'Editor.getOffsetAtCursor': () => 0,
     'Editor.getPositionAtCursor': () => ({
       columnIndex: 2,
+      editorWidth: 180,
+      editorX: 80,
       rowIndex: 1,
       x: 100,
       y: 200,
@@ -54,12 +56,12 @@ test('loadContent', async () => {
   expect(newState.items).toHaveLength(2)
   expect(newState.unfilteredItems).toHaveLength(2)
   expect(newState.leadingWord).toBe('test')
-  expect(newState.x).toBe(100)
+  expect(newState.x).toBe(80)
   expect(newState.y).toBe(200)
   expect(newState.focusedIndex).toBe(0)
   expect(newState.maxLineY).toBe(2)
   expect(newState.version).toBe(1)
-  expect(newState.width).toBe(200)
+  expect(newState.width).toBe(180)
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
