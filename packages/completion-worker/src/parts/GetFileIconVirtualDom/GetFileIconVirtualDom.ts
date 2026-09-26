@@ -5,6 +5,7 @@ import * as ClassNames from '../ClassNames/ClassNames.ts'
 
 export const getFileIconVirtualDom = (icon: any): VirtualDomNode => {
   return {
+    alt: '',
     childCount: 0,
     className: ClassNames.FileIcon,
     role: AriaRoles.None,

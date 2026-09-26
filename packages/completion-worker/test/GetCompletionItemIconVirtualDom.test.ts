@@ -15,6 +15,7 @@ test('getIconDom - fileIcon', () => {
   const fileIcon = '/test/xyz.svg'
   const symbolName = ''
   expect(GetCompletionItemIconVirtualDom.getIconDom(fileIcon, symbolName)).toEqual({
+    alt: '',
     childCount: 0,
     className: 'FileIcon',
     role: 'none',
