@@ -3,7 +3,7 @@ import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import * as AriaRoles from '../AriaRoles/AriaRoles.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 
-export const getFileIconVirtualDom = (icon: any): VirtualDomNode => {
+export const getFileIconVirtualDom = (icon: string): VirtualDomNode => {
   return {
     alt: '',
     childCount: 0,
