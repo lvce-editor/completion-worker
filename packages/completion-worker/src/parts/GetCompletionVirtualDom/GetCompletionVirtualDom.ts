@@ -35,6 +35,5 @@ export const getCompletionVirtualDom = (
     },
     ...GetCompletionItemsVirtualDom.getCompletionItemsVirtualDom(visibleItems),
     ...scrollBarDom,
-    // TODO render scrollbar
   ]
 }
