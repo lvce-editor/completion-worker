@@ -4,9 +4,10 @@ const minWidth = 200
 const maxWidth = 600
 const fontSize = 15
 const padding = 48
+const wideCharacterRegExp = /\p{Script=Han}|\p{Script=Hiragana}|\p{Script=Katakana}|\p{Extended_Pictographic}/u
 
 const getCharacterWidth = (character: string): number => {
-  if (/\p{Script=Han}|\p{Script=Hiragana}|\p{Script=Katakana}|\p{Extended_Pictographic}/u.test(character)) {
+  if (wideCharacterRegExp.test(character)) {
     return fontSize
   }
   if (character === ' ') {

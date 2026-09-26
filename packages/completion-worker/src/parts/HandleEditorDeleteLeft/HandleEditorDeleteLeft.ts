@@ -1,7 +1,7 @@
 import type { CompletionState } from '../CompletionState/CompletionState.ts'
 import * as FilterCompletionItems from '../FilterCompletionItems/FilterCompletionItems.ts'
-import * as GetCompletionWord from '../GetCompletionWord/GetCompletionWord.ts'
 import * as GetCompletionWidth from '../GetCompletionWidth/GetCompletionWidth.ts'
+import * as GetCompletionWord from '../GetCompletionWord/GetCompletionWord.ts'
 import * as GetListHeight from '../GetListHeight/GetListHeight.ts'
 import * as GetPositionAtCursor from '../GetPositionAtCursor/GetPositionAtCursor.ts'
 
