@@ -1,0 +1,21 @@
+{
+  "id": "test.completion-edge-cases",
+  "name": "Completion Edge Cases",
+  "description": "",
+  "browser": "dist/main.js",
+  "languages": [
+    {
+      "id": "xyz",
+      "extensions": [
+        ".xyz"
+      ]
+    }
+  ],
+  "isolated": true,
+  "completionProviders": [
+    {
+      "id": "editor.completion-edge-cases-provider",
+      "languageId": "xyz"
+    }
+  ]
+}
