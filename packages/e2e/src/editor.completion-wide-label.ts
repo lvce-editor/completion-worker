@@ -1,0 +1,25 @@
+import type { Test } from '@lvce-editor/test-with-playwright'
+
+export const name = 'editor.completion-wide-label'
+
+export const test: Test = async ({ Editor, expect, Extension, FileSystem, Locator, Main, Workspace }) => {
+  // arrange
+  const extensionUri = import.meta.resolve('../fixtures/editor.completion-wide-label')
+  await Extension.addWebExtension(extensionUri)
+  const tmpDir = await FileSystem.getTmpDir()
+  await FileSystem.writeFile(`${tmpDir}/file1.xyz`, 'content 1')
+  await Workspace.setUri(tmpDir)
+  await Main.openUri(`${tmpDir}/file1.xyz`)
+  await Editor.setCursor(0, 0)
+
+  // act
+  await Editor.openCompletion()
+
+  // assert
+  const completions = Locator('.EditorCompletion')
+  await expect(completions).toBeVisible()
+  await expect(completions).toHaveCSS('width', '273px')
+  const items = Locator('.EditorCompletionItem')
+  await expect(items).toHaveCount(1)
+  await expect(items).toHaveText('window.titleBarStyle')
+}

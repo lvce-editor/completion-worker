@@ -11,6 +11,8 @@ test('handleEditorDeleteLeft returns state with updated items when focused item 
     ...createDefaultState(),
     focusedIndex: 0,
     items: [item],
+    unfilteredItems: [item],
+    width: 400,
   }
   using mockRpc = EditorWorker.registerMockRpc({
     'Editor.getPositionAtCursor': () => ({ x: 100, y: 200 }),
@@ -19,6 +21,7 @@ test('handleEditorDeleteLeft returns state with updated items when focused item 
 
   const result = await handleEditorDeleteLeft(state)
   expect(result.items).toBeDefined()
+  expect(result.width).toBe(200)
 
   expect(mockRpc.invocations).toEqual([
     ['Editor.getPositionAtCursor', 0],
