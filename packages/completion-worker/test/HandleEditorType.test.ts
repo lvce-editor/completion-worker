@@ -6,6 +6,8 @@ import { handleEditorType } from '../src/parts/HandleEditorType/HandleEditorType
 test('handleEditorType - basic functionality', async () => {
   const mockPosition = {
     columnIndex: 10,
+    editorWidth: 180,
+    editorX: 80,
     rowIndex: 5,
     x: 100,
     y: 200,
@@ -23,7 +25,8 @@ test('handleEditorType - basic functionality', async () => {
 
   expect(result).toBeDefined()
   expect(result.items).toBeDefined()
-  expect(result.x).toBeDefined()
+  expect(result.x).toBe(80)
+  expect(result.width).toBe(180)
   expect(result.y).toBeDefined()
   expect(result.minLineY).toBe(0)
   expect(result.maxLineY).toBeLessThanOrEqual(8)

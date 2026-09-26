@@ -1,7 +1,7 @@
 import type { CompletionState } from '../CompletionState/CompletionState.ts'
 import * as Completions from '../Completions/Completions.ts'
 import * as FilterCompletionItems from '../FilterCompletionItems/FilterCompletionItems.ts'
-import * as GetCompletionWidth from '../GetCompletionWidth/GetCompletionWidth.ts'
+import * as GetCompletionHorizontalBounds from '../GetCompletionHorizontalBounds/GetCompletionHorizontalBounds.ts'
 import * as GetCompletionWord from '../GetCompletionWord/GetCompletionWord.ts'
 import * as GetFinalDeltaY from '../GetFinalDeltaY/GetFinalDeltaY.ts'
 import * as GetListHeight from '../GetListHeight/GetListHeight.ts'
@@ -10,7 +10,7 @@ import * as GetPositionAtCursor from '../GetPositionAtCursor/GetPositionAtCursor
 export const loadContent = async (state: CompletionState): Promise<CompletionState> => {
   const { applicationId, editorLanguageId, editorUid, itemHeight, maxHeight } = state
   const unfilteredItems = await Completions.getCompletions(editorUid, editorLanguageId, applicationId)
-  const { columnIndex, rowIndex, x, y } = await GetPositionAtCursor.getPositionAtCursor(editorUid)
+  const { columnIndex, editorWidth, editorX, rowIndex, x: cursorX, y } = await GetPositionAtCursor.getPositionAtCursor(editorUid)
   const wordAtOffset = await GetCompletionWord.getCompletionWord(editorUid, editorLanguageId, rowIndex, columnIndex)
   const items = FilterCompletionItems.filterCompletionItems(unfilteredItems, wordAtOffset)
   const newMaxLineY = Math.min(items.length, 8)
@@ -18,7 +18,7 @@ export const loadContent = async (state: CompletionState): Promise<CompletionSta
   const newFocusedIndex = itemsLength === 0 ? -1 : 0
   const total = items.length
   const height = GetListHeight.getListHeight(items.length, itemHeight, maxHeight)
-  const width = GetCompletionWidth.getCompletionWidth(items)
+  const { width, x } = GetCompletionHorizontalBounds.getCompletionHorizontalBounds(items, cursorX, editorX, editorWidth)
   const finalDeltaY = GetFinalDeltaY.getFinalDeltaY(height, itemHeight, total)
   return {
     ...state,
