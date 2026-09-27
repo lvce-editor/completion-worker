@@ -4,9 +4,9 @@ import { renderContent } from '../src/parts/RenderContent/RenderContent.ts'
 import * as RenderMethod from '../src/parts/RenderMethod/RenderMethod.ts'
 
 test('renderContent', () => {
-  const oldState = createDefaultState()
+  const oldState = createDefaultState('test-application')
   const newState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     uid: 1,
   }
 

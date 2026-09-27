@@ -5,7 +5,7 @@ import { isEqual } from '../src/parts/DiffItems/DiffItems.ts'
 
 test('isEqual - same items and focusedIndex', () => {
   const oldState: CompletionState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     focusedIndex: 1,
     items: ['item1', 'item2'] as any[],
   }
@@ -21,12 +21,12 @@ test('isEqual - same items and focusedIndex', () => {
 
 test('isEqual - different items', () => {
   const oldState: CompletionState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     focusedIndex: 1,
     items: ['item1', 'item2'] as any,
   }
   const newState: CompletionState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     focusedIndex: 1,
     items: ['item1', 'item3'] as any,
   }
@@ -38,12 +38,12 @@ test('isEqual - different items', () => {
 
 test('isEqual - different focusedIndex', () => {
   const oldState: CompletionState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     focusedIndex: 1,
     items: ['item1', 'item2'] as any,
   }
   const newState: CompletionState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     focusedIndex: 0,
     items: ['item1', 'item2'] as any,
   }

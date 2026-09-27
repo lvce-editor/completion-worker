@@ -30,10 +30,10 @@ test('getEdits - returns changes for simple completion', async () => {
     'Editor.getUri': () => 'file:///test.ts',
   })
   const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeResolveCompletionItemProvider': () => undefined,
+    'Extensions.invokeForApplication': () => undefined,
   })
 
-  const result = await getEdits(1, 'hel', mockCompletion)
+  const result = await getEdits(1, 'hel', mockCompletion, 'test-application')
   expect(result).toEqual({
     changes: [
       {
@@ -56,7 +56,7 @@ test('getEdits - returns changes for simple completion', async () => {
     ['Editor.getSelections2', 1],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([
-    ['Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'hello', mockCompletion],
+    ['Extensions.invokeForApplication', 'test-application', 'Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'hello', mockCompletion],
   ])
 })
 
@@ -73,13 +73,13 @@ test('getEdits - returns changes and selection from a resolved completion', asyn
     'Editor.getUri': () => 'file:///settings.json',
   })
   using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeResolveCompletionItemProvider': () => ({
+    'Extensions.invokeForApplication': () => ({
       selectionRange: { endOffset: 15, startOffset: 11 },
       snippet: '"enabled": true',
     }),
   })
 
-  await expect(getEdits(1, 'ena', mockCompletion)).resolves.toEqual({
+  await expect(getEdits(1, 'ena', mockCompletion, 'test-application')).resolves.toEqual({
     changes: [
       {
         deleted: ['ena'],
@@ -104,12 +104,12 @@ test('getEdits - replaces a complete dotted JSON property prefix', async () => {
     'Editor.getUri': () => 'file:///settings.json',
   })
   using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeResolveCompletionItemProvider': () => ({
+    'Extensions.invokeForApplication': () => ({
       snippet: '"simpleBrowser.workflows"',
     }),
   })
 
-  const result = await getEdits(1, 'simpleBrowser.wo', createCompletionItem('simpleBrowser.workflows'))
+  const result = await getEdits(1, 'simpleBrowser.wo', createCompletionItem('simpleBrowser.workflows'), 'test-application')
 
   expect(result.changes).toEqual([
     {
@@ -135,13 +135,13 @@ test('getEdits - splits multiline snippets and maps multiline selections', async
     'Editor.getUri': () => 'file:///test.xyz',
   })
   using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeResolveCompletionItemProvider': () => ({
+    'Extensions.invokeForApplication': () => ({
       selectionRange: { endOffset: 12, startOffset: 6 },
       snippet: 'first\nsecond\nthird',
     }),
   })
 
-  await expect(getEdits(1, 'blo', mockCompletion)).resolves.toEqual({
+  await expect(getEdits(1, 'blo', mockCompletion, 'test-application')).resolves.toEqual({
     changes: [
       {
         deleted: ['blo'],
@@ -170,10 +170,10 @@ test('getEdits - returns changes when resolved item is undefined', async () => {
     'Editor.getUri': () => 'file:///test.ts',
   })
   const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeResolveCompletionItemProvider': () => undefined,
+    'Extensions.invokeForApplication': () => undefined,
   })
 
-  const result = await getEdits(1, 'hel', mockCompletion)
+  const result = await getEdits(1, 'hel', mockCompletion, 'test-application')
   expect(result).toEqual({
     changes: [
       {
@@ -196,6 +196,6 @@ test('getEdits - returns changes when resolved item is undefined', async () => {
     ['Editor.getSelections2', 1],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([
-    ['Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'hello', mockCompletion],
+    ['Extensions.invokeForApplication', 'test-application', 'Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'hello', mockCompletion],
   ])
 })

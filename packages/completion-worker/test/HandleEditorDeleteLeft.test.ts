@@ -8,7 +8,7 @@ import { handleEditorDeleteLeft } from '../src/parts/HandleEditorDeleteLeft/Hand
 test('handleEditorDeleteLeft returns state with updated items when focused item has matches', async () => {
   const item: CompletionItem = { flags: 0, kind: 1, label: 'test', matches: [0, 1, 2] }
   const state: CompletionState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     focusedIndex: 0,
     items: [item],
     unfilteredItems: [item],
@@ -33,7 +33,7 @@ test('handleEditorDeleteLeft returns state with updated items when focused item 
 test('handleEditorDeleteLeft returns state with updated items when focused item has no matches', async () => {
   const item: CompletionItem = { flags: 0, kind: 1, label: 'test', matches: [] }
   const state: CompletionState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     focusedIndex: 0,
     items: [item],
   }
@@ -54,7 +54,7 @@ test('handleEditorDeleteLeft returns state with updated items when focused item 
 test('handleEditorDeleteLeft returns state unchanged when focusedIndex is -1', async () => {
   const item: CompletionItem = { flags: 0, kind: 1, label: 'test', matches: [0, 1, 2] }
   const state: CompletionState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     focusedIndex: -1,
     items: [item],
   }

@@ -4,11 +4,11 @@ import { isEqual } from '../src/parts/DiffParentUid/DiffParentUid.ts'
 
 test('isEqual returns true when versions match', () => {
   const state1 = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     version: 1,
   }
   const state2 = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     version: 1,
   }
   expect(isEqual(state1, state2)).toBe(true)
@@ -16,11 +16,11 @@ test('isEqual returns true when versions match', () => {
 
 test('isEqual returns false when versions do not match', () => {
   const state1 = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     version: 1,
   }
   const state2 = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     version: 2,
   }
   expect(isEqual(state1, state2)).toBe(false)

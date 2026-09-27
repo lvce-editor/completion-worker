@@ -11,7 +11,7 @@ test('close - calls closeWidget2 with correct parameters', async () => {
   })
 
   const state = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     editorUid: 1,
   }
   const result = await close(state)

@@ -3,7 +3,7 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import * as EditorCompletionSelectCurrent from '../src/parts/EditorCompletionSelectCurrent/EditorCompletionSelectCurrent.ts'
 
 test('selectCurrent calls selectIndex with focusedIndex', async () => {
-  const state = createDefaultState()
+  const state = createDefaultState('test-application')
   const result = await EditorCompletionSelectCurrent.selectCurrent(state)
   expect(result).toBeDefined()
 })

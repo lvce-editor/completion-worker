@@ -4,9 +4,9 @@ import * as RenderMethod from '../src/parts/RenderMethod/RenderMethod.ts'
 import { renderUid } from '../src/parts/RenderUid/RenderUid.ts'
 
 test('renderUid', () => {
-  const oldState = createDefaultState()
+  const oldState = createDefaultState('test-application')
   const newState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     editorUid: 456,
     uid: 123,
   }

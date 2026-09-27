@@ -21,17 +21,17 @@ test('executeCompletionProvider returns empty array when no completions', async 
     },
   })
   const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeCompletionProvider': () => [],
+    'Extensions.invokeForApplication': () => [],
   })
 
-  const result: readonly CompletionItem[] = await executeCompletionProvider(1, 'typescript', 10)
+  const result: readonly CompletionItem[] = await executeCompletionProvider(1, 'typescript', 10, 'test-application')
   expect(result).toEqual([])
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getLines2', 1],
     ['Editor.getUri', 1],
   ])
-  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 10]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.invokeForApplication', 'test-application', 'Extensions.executeCompletionProvider', textDocument, 10]])
   expect(mockExtensionHostRpc.invocations).toEqual([])
 })
 
@@ -50,17 +50,17 @@ test('executeCompletionProvider returns completion items when available', async 
     },
   })
   const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeCompletionProvider': () => mockCompletions,
+    'Extensions.invokeForApplication': () => mockCompletions,
   })
 
-  const result: readonly CompletionItem[] = await executeCompletionProvider(1, 'typescript', 10)
+  const result: readonly CompletionItem[] = await executeCompletionProvider(1, 'typescript', 10, 'test-application')
   expect(result).toEqual(mockCompletions)
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getLines2', 1],
     ['Editor.getUri', 1],
   ])
-  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 10]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.invokeForApplication', 'test-application', 'Extensions.executeCompletionProvider', textDocument, 10]])
   expect(mockExtensionHostRpc.invocations).toEqual([])
 })
 
@@ -75,18 +75,18 @@ test('executeCompletionProvider handles error from extension management worker',
     },
   })
   const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeCompletionProvider': () => {
+    'Extensions.invokeForApplication': () => {
       throw new Error('Extension management worker error')
     },
   })
 
-  await expect(executeCompletionProvider(1, 'typescript', 10)).rejects.toThrow('Extension management worker error')
+  await expect(executeCompletionProvider(1, 'typescript', 10, 'test-application')).rejects.toThrow('Extension management worker error')
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getLines2', 1],
     ['Editor.getUri', 1],
   ])
-  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 10]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.invokeForApplication', 'test-application', 'Extensions.executeCompletionProvider', textDocument, 10]])
   expect(mockExtensionHostRpc.invocations).toEqual([])
 })
 
@@ -144,11 +144,11 @@ test('executeResolveCompletionItem returns resolved completion item', async () =
     },
   })
   const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeResolveCompletionItemProvider': () => mockResolvedItem,
+    'Extensions.invokeForApplication': () => mockResolvedItem,
   })
 
   const completionItem: CompletionItem = { flags: 0, kind: 1, label: 'test', matches: [] }
-  const result = await executeResolveCompletionItem(1, 10, 'test', completionItem)
+  const result = await executeResolveCompletionItem(1, 10, 'test', completionItem, 'test-application')
   expect(result).toEqual(mockResolvedItem)
 
   expect(mockEditorRpc.invocations).toEqual([
@@ -157,7 +157,7 @@ test('executeResolveCompletionItem returns resolved completion item', async () =
     ['Editor.getUri', 1],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([
-    ['Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'test', completionItem],
+    ['Extensions.invokeForApplication', 'test-application', 'Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'test', completionItem],
   ])
   expect(mockExtensionHostRpc.invocations).toEqual([])
 })
@@ -174,11 +174,11 @@ test('executeResolveCompletionItem returns undefined when no provider found', as
     },
   })
   const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeResolveCompletionItemProvider': () => undefined,
+    'Extensions.invokeForApplication': () => undefined,
   })
 
   const completionItem: CompletionItem = { flags: 0, kind: 1, label: 'test', matches: [] }
-  const result = await executeResolveCompletionItem(1, 10, 'test', completionItem)
+  const result = await executeResolveCompletionItem(1, 10, 'test', completionItem, 'test-application')
   expect(result).toBeUndefined()
 
   expect(mockEditorRpc.invocations).toEqual([
@@ -187,7 +187,7 @@ test('executeResolveCompletionItem returns undefined when no provider found', as
     ['Editor.getUri', 1],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([
-    ['Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'test', completionItem],
+    ['Extensions.invokeForApplication', 'test-application', 'Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'test', completionItem],
   ])
   expect(mockExtensionHostRpc.invocations).toEqual([])
 })

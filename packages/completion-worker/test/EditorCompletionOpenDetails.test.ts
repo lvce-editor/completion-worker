@@ -7,7 +7,7 @@ import { openDetails } from '../src/parts/EditorCompletionOpenDetails/EditorComp
 test('openDetails returns state with focused item details opened', async () => {
   const item: CompletionItem = { flags: 0, kind: 1, label: 'test', matches: [] }
   const state: CompletionState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     focusedIndex: 0,
     items: [item],
   }
@@ -16,7 +16,7 @@ test('openDetails returns state with focused item details opened', async () => {
 })
 
 test('openDetails returns state when no items', async () => {
-  const state: CompletionState = createDefaultState()
+  const state: CompletionState = createDefaultState('test-application')
   const result = await openDetails(state)
   expect(result).toBe(state)
 })
@@ -24,7 +24,7 @@ test('openDetails returns state when no items', async () => {
 test('openDetails returns state when focusedIndex is -1', async () => {
   const item: CompletionItem = { flags: 0, kind: 1, label: 'test', matches: [] }
   const state: CompletionState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     focusedIndex: -1,
     items: [item],
   }
@@ -35,7 +35,7 @@ test('openDetails returns state when focusedIndex is -1', async () => {
 test('openDetails returns state when focusedIndex is out of bounds', async () => {
   const item: CompletionItem = { flags: 0, kind: 1, label: 'test', matches: [] }
   const state: CompletionState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     focusedIndex: 5,
     items: [item],
   }

@@ -6,9 +6,9 @@ import { renderItems } from '../src/parts/RenderItems/RenderItems.ts'
 
 test('renderItems returns virtual dom for items', async () => {
   const item: CompletionItem = { flags: 0, kind: 1, label: 'test', matches: [0, 1, 2] }
-  const oldState: CompletionState = createDefaultState()
+  const oldState: CompletionState = createDefaultState('test-application')
   const newState: CompletionState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     focusedIndex: 0,
     items: [item],
   }
@@ -17,9 +17,9 @@ test('renderItems returns virtual dom for items', async () => {
 })
 
 test('renderItems returns virtual dom for empty items', async () => {
-  const oldState: CompletionState = createDefaultState()
+  const oldState: CompletionState = createDefaultState('test-application')
   const newState: CompletionState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     focusedIndex: -1,
     items: [],
   }

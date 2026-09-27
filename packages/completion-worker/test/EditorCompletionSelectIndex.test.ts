@@ -5,13 +5,13 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import { selectIndex } from '../src/parts/EditorCompletionSelectIndex/EditorCompletionSelectIndex.js'
 
 test('selectIndex - returns same state when index is -1', async () => {
-  const state = createDefaultState()
+  const state = createDefaultState('test-application')
   const result = await selectIndex(state, -1)
   expect(result).toBe(state)
 })
 
 test('selectIndex - throws error when index is too large', async () => {
-  const state = createDefaultState()
+  const state = createDefaultState('test-application')
   await expect(selectIndex(state, 100)).rejects.toThrow('index too large')
 })
 
@@ -25,7 +25,7 @@ test('selectIndex - selects item at given index', async () => {
   })
 
   const state: CompletionState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     editorUid: 1,
     items: [{ label: 'item1' }, { label: 'item2' }] as any,
     leadingWord: '',
@@ -65,13 +65,13 @@ test('selectIndex - applies a resolved post-completion selection', async () => {
     'Editor.getUri': () => 'file:///settings.json',
   })
   using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeResolveCompletionItemProvider': () => ({
+    'Extensions.invokeForApplication': () => ({
       selectionRange: { endOffset: 15, startOffset: 11 },
       snippet: '"enabled": true',
     }),
   })
   const state: CompletionState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     editorUid: 1,
     items: [{ flags: 0, kind: 1, label: 'enabled', matches: [] }],
     leadingWord: 'ena',

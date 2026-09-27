@@ -9,10 +9,13 @@ export const create = (
   height: number,
   editorUid: number,
   editorLanguageId: string,
-  applicationId?: string,
+  applicationId: string,
 ): void => {
+  if (typeof applicationId !== 'string') {
+    throw new TypeError('applicationId is required')
+  }
   const state: CompletionState = {
-    ...(applicationId !== undefined && { applicationId }),
+    applicationId,
     deltaY: 0,
     editorLanguageId,
     editorUid,

@@ -4,7 +4,7 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import { dispose } from '../src/parts/Dispose/Dispose.ts'
 
 test('dispose', async () => {
-  const state = createDefaultState()
+  const state = createDefaultState('test-application')
   CompletionStates.set(123, state, state)
   dispose(123)
   expect(CompletionStates.get(123)).toBeUndefined()

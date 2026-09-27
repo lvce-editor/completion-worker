@@ -33,7 +33,7 @@ test('loadContent clamps completion width to a narrow editor pane', async () => 
     },
   })
   const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeCompletionProvider': () => [
+    'Extensions.invokeForApplication': () => [
       {
         flags: 0,
         kind: 1,
@@ -50,7 +50,7 @@ test('loadContent clamps completion width to a narrow editor pane', async () => 
   })
   EditorWorker.set(mockEditorRpc)
 
-  const state: CompletionState = createDefaultState()
+  const state: CompletionState = createDefaultState('test-application')
   const newState = await loadContent(state)
 
   expect(newState.items).toHaveLength(2)
@@ -70,7 +70,7 @@ test('loadContent clamps completion width to a narrow editor pane', async () => 
     ['Editor.getPositionAtCursor', 0],
     ['Editor.getWordAtOffset2', 0],
   ])
-  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 0]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.invokeForApplication', 'test-application', 'Extensions.executeCompletionProvider', textDocument, 0]])
   expect(mockExtensionHostRpc.invocations).toEqual([])
 })
 
@@ -94,7 +94,7 @@ test('loadContent with completions', async () => {
     },
   })
   const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeCompletionProvider': () => [
+    'Extensions.invokeForApplication': () => [
       {
         flags: 0,
         kind: 1,
@@ -111,7 +111,7 @@ test('loadContent with completions', async () => {
   })
   EditorWorker.set(mockEditorRpc)
 
-  const state = createDefaultState()
+  const state = createDefaultState('test-application')
   const newState = await loadContent(state)
 
   expect(newState.items).toHaveLength(2)
@@ -131,7 +131,7 @@ test('loadContent with completions', async () => {
     ['Editor.getPositionAtCursor', 0],
     ['Editor.getWordAtOffset2', 0],
   ])
-  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 0]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.invokeForApplication', 'test-application', 'Extensions.executeCompletionProvider', textDocument, 0]])
   expect(mockExtensionHostRpc.invocations).toEqual([])
 })
 
@@ -158,11 +158,11 @@ test('loadContent with no completions', async () => {
     },
   })
   const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeCompletionProvider': () => [],
+    'Extensions.invokeForApplication': () => [],
   })
   EditorWorker.set(mockEditorRpc)
 
-  const state = createDefaultState()
+  const state = createDefaultState('test-application')
   const newState = await loadContent(state)
 
   expect(newState.items).toHaveLength(0)
@@ -178,7 +178,7 @@ test('loadContent with no completions', async () => {
     ['Editor.getPositionAtCursor', 0],
     ['Editor.getWordAtOffset2', 0],
   ])
-  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 0]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.invokeForApplication', 'test-application', 'Extensions.executeCompletionProvider', textDocument, 0]])
   expect(mockExtensionHostRpc.invocations).toEqual([])
 
   consoleErrorSpy.mockRestore()
@@ -199,10 +199,10 @@ test('loadContent with error in getPositionAtCursor', async () => {
     'Editor.getWordAtOffset2': () => 'test',
   })
   const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeCompletionProvider': () => [],
+    'Extensions.invokeForApplication': () => [],
   })
   EditorWorker.set(mockEditorRpc)
-  const state = createDefaultState()
+  const state = createDefaultState('test-application')
   await expect(loadContent(state)).rejects.toThrow('Failed to get position')
 
   expect(mockEditorRpc.invocations).toEqual([
@@ -211,7 +211,7 @@ test('loadContent with error in getPositionAtCursor', async () => {
     ['Editor.getUri', 0],
     ['Editor.getPositionAtCursor', 0],
   ])
-  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 0]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.invokeForApplication', 'test-application', 'Extensions.executeCompletionProvider', textDocument, 0]])
 
   consoleErrorSpy.mockRestore()
 })

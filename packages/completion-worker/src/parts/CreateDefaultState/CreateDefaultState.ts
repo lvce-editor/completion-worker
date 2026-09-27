@@ -1,7 +1,8 @@
 import type { CompletionState } from '../CompletionState/CompletionState.ts'
 
-export const createDefaultState = (): CompletionState => {
+export const createDefaultState = (applicationId: string): CompletionState => {
   return {
+    applicationId,
     deltaY: 0,
     editorLanguageId: '',
     editorUid: 0,

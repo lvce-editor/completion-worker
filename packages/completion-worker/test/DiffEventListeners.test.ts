@@ -4,11 +4,11 @@ import { isEqual } from '../src/parts/DiffEventListeners/DiffEventListeners.ts'
 
 test('isEqual - same version', () => {
   const oldState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     version: 1,
   }
   const newState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     version: 1,
   }
 
@@ -19,11 +19,11 @@ test('isEqual - same version', () => {
 
 test('isEqual - different version', () => {
   const oldState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     version: 1,
   }
   const newState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     version: 2,
   }
 

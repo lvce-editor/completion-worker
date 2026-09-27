@@ -4,7 +4,7 @@ import { focusLast } from '../src/parts/EditorCompletionFocusLast/EditorCompleti
 
 test('focusLast', () => {
   const state = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     finalDeltaY: 140,
     height: 60,
     items: Array.from({ length: 10 }, () => ({})),

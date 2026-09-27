@@ -23,11 +23,11 @@ test('handlePointerDown - valid click on first item', async () => {
     'FileSystem.readDirWithFileTypes': () => [],
   })
   using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeResolveCompletionItemProvider': () => undefined,
+    'Extensions.invokeForApplication': () => undefined,
   })
 
   const state = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     itemHeight: 20,
     items: [
       { flags: 0, kind: 1, label: 'item1', matches: [0, 1, 2, 3] },
@@ -63,7 +63,7 @@ test('handlePointerDown - valid click on first item', async () => {
     ['Editor.closeWidget2', 0, 3, 'Completions', 9],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([
-    ['Extensions.executeResolveCompletionItemProvider', textDocument, 5, 'item1', { flags: 0, kind: 1, label: 'item1', matches: [0, 1, 2, 3] }],
+    ['Extensions.invokeForApplication', 'test-application', 'Extensions.executeResolveCompletionItemProvider', textDocument, 5, 'item1', { flags: 0, kind: 1, label: 'item1', matches: [0, 1, 2, 3] }],
   ])
 })
 
@@ -80,11 +80,11 @@ test('handlePointerDown - valid click on second item', async () => {
     'FileSystem.readDirWithFileTypes': () => [],
   })
   using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeResolveCompletionItemProvider': () => undefined,
+    'Extensions.invokeForApplication': () => undefined,
   })
 
   const state = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     itemHeight: 20,
     items: [
       { flags: 0, kind: 1, label: 'item1', matches: [0, 1, 2, 3] },
@@ -120,13 +120,13 @@ test('handlePointerDown - valid click on second item', async () => {
     ['Editor.closeWidget2', 0, 3, 'Completions', 9],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([
-    ['Extensions.executeResolveCompletionItemProvider', textDocument, 5, 'item2', { flags: 0, kind: 1, label: 'item2', matches: [0, 1, 2, 3] }],
+    ['Extensions.invokeForApplication', 'test-application', 'Extensions.executeResolveCompletionItemProvider', textDocument, 5, 'item2', { flags: 0, kind: 1, label: 'item2', matches: [0, 1, 2, 3] }],
   ])
 })
 
 test('handlePointerDown - click before first item returns original state', async () => {
   const state = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     itemHeight: 20,
     items: [
       { flags: 0, kind: 1, label: 'item1', matches: [0, 1, 2, 3] },
@@ -142,7 +142,7 @@ test('handlePointerDown - click before first item returns original state', async
 
 test('handlePointerDown - click after last item returns original state', async () => {
   const state = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     itemHeight: 20,
     items: [
       { flags: 0, kind: 1, label: 'item1', matches: [0, 1, 2, 3] },
@@ -169,11 +169,11 @@ test('handlePointerDown - click on last valid item', async () => {
     'FileSystem.readDirWithFileTypes': () => [],
   })
   using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeResolveCompletionItemProvider': () => undefined,
+    'Extensions.invokeForApplication': () => undefined,
   })
 
   const state = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     itemHeight: 20,
     items: [
       { flags: 0, kind: 1, label: 'item1', matches: [0, 1, 2, 3] },
@@ -209,13 +209,13 @@ test('handlePointerDown - click on last valid item', async () => {
     ['Editor.closeWidget2', 0, 3, 'Completions', 9],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([
-    ['Extensions.executeResolveCompletionItemProvider', textDocument, 5, 'item3', { flags: 0, kind: 1, label: 'item3', matches: [0, 1, 2, 3] }],
+    ['Extensions.invokeForApplication', 'test-application', 'Extensions.executeResolveCompletionItemProvider', textDocument, 5, 'item3', { flags: 0, kind: 1, label: 'item3', matches: [0, 1, 2, 3] }],
   ])
 })
 
 test('handlePointerDown - empty items array', async () => {
   const state = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     itemHeight: 20,
     items: [],
     y: 100,
@@ -238,11 +238,11 @@ test('handlePointerDown - single item click', async () => {
     'FileSystem.readDirWithFileTypes': () => [],
   })
   using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeResolveCompletionItemProvider': () => undefined,
+    'Extensions.invokeForApplication': () => undefined,
   })
 
   const state = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     itemHeight: 20,
     items: [{ flags: 0, kind: 1, label: 'singleItem', matches: [0, 1, 2, 3] }],
     y: 100,
@@ -275,6 +275,8 @@ test('handlePointerDown - single item click', async () => {
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([
     [
+      'Extensions.invokeForApplication',
+      'test-application',
       'Extensions.executeResolveCompletionItemProvider',
       textDocument,
       5,

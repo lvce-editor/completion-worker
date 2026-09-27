@@ -20,7 +20,7 @@ test('handleEditorType - basic functionality', async () => {
     'FileSystem.readDirWithFileTypes': () => [],
   })
 
-  const state = createDefaultState()
+  const state = createDefaultState('test-application')
   const result = await handleEditorType(state)
 
   expect(result).toBeDefined()
@@ -54,7 +54,7 @@ test('handleEditorType - with position and word', async () => {
     'Editor.getWordBefore2': () => mockWord,
   })
 
-  const state = createDefaultState()
+  const state = createDefaultState('test-application')
   const result = await handleEditorType(state)
 
   expect(result.x).toBe(mockPosition.x)
@@ -89,7 +89,7 @@ test('handleEditorType - with filtered items', async () => {
   })
 
   const state = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     unfilteredItems: mockItems,
   }
   const result = await handleEditorType(state)

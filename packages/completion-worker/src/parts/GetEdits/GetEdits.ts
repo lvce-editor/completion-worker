@@ -12,7 +12,7 @@ export const getEdits = async (
   editorUid: number,
   leadingWord: string,
   completionItem: CompletionItem,
-  applicationId?: string,
+  applicationId: string,
 ): Promise<CompletionEdit> => {
   const word = completionItem.label
   const resolvedItem = await resolveCompletion(editorUid, word, completionItem, applicationId)

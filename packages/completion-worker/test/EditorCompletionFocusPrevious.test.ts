@@ -4,7 +4,7 @@ import { focusPrevious } from '../src/parts/EditorCompletionFocusPrevious/Editor
 
 test('focusPrevious', () => {
   const state = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     focusedIndex: 2,
   }
   const result = focusPrevious(state)

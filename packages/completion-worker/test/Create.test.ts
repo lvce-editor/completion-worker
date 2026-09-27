@@ -10,6 +10,10 @@ test('create - creates and sets completion state', () => {
   const height = 400
   const editorUid = 2
   const editorLanguageId = 'typescript'
-  create(uid, x, y, width, height, editorUid, editorLanguageId)
-  expect(FindWidgetStates.get(uid)).toBeDefined()
+  create(uid, x, y, width, height, editorUid, editorLanguageId, 'test-application')
+  expect(FindWidgetStates.get(uid)?.newState.applicationId).toBe('test-application')
+})
+
+test('create requires an application id', () => {
+  expect(() => create(1, 0, 0, 0, 0, 2, 'typescript', undefined as unknown as string)).toThrow('applicationId is required')
 })

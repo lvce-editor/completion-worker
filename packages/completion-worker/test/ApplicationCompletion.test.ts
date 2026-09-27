@@ -18,21 +18,26 @@ test('completion discovery and resolution stay in the owning application', async
     'Editor.getWordAtOffset2': () => 'gr',
   })
   const extensionRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeCompletionProvider': () => [],
     'Extensions.invokeForApplication': (applicationId: string, command: string): unknown => {
-      expect(applicationId).toBe('preview')
-      if (command === 'Extensions.executeCompletionProvider') return [{ label: 'green' }]
+      if (command === 'Extensions.executeCompletionProvider') {
+        return applicationId === 'preview' ? [{ label: 'green' }] : [{ label: 'grass' }]
+      }
       expect(command).toBe('Extensions.executeResolveCompletionItemProvider')
-      return { snippet: 'green-resolved' }
+      return { snippet: applicationId === 'preview' ? 'green-resolved' : 'blue-resolved' }
     },
   })
   create(8, 0, 0, 0, 0, 7, 'plaintext', 'preview')
-  const state = await loadContent(get(8).newState)
-  const { items } = state
-  expect(items.map((item) => item.label)).toEqual(['green'])
-  await select(state, items[0])
+  create(9, 0, 0, 0, 0, 7, 'plaintext', 'other-application')
+  const previewState = await loadContent(get(8).newState)
+  const otherState = await loadContent(get(9).newState)
+  expect(previewState.applicationId).toBe('preview')
+  expect(otherState.applicationId).toBe('other-application')
+  expect(previewState.items.map((item) => item.label)).toEqual(['green'])
+  expect(otherState.items.map((item) => item.label)).toEqual(['grass'])
+  await select(previewState, previewState.items[0])
   expect(extensionRpc.invocations.map((call) => call.slice(0, 3))).toEqual([
     ['Extensions.invokeForApplication', 'preview', 'Extensions.executeCompletionProvider'],
+    ['Extensions.invokeForApplication', 'other-application', 'Extensions.executeCompletionProvider'],
     ['Extensions.invokeForApplication', 'preview', 'Extensions.executeResolveCompletionItemProvider'],
   ])
   const applied = editorRpc.invocations.find((call) => call[0] === 'Editor.applyEdit2')
