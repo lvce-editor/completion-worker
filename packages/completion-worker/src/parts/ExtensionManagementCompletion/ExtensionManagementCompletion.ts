@@ -1,12 +1,5 @@
-import { EditorWorker, ExtensionManagementWorker } from '@lvce-editor/rpc-registry'
+import { EditorWorker, ExtensionManagementWorker, type TextDocument } from '@lvce-editor/rpc-registry'
 import type { CompletionItem } from '../CompletionItem/CompletionItem.ts'
-
-interface TextDocument {
-  readonly documentId: number
-  readonly languageId: string
-  readonly text: string
-  readonly uri: string
-}
 
 const getText = async (editorUid: number): Promise<string> => {
   const lines = await EditorWorker.getLines(editorUid)
@@ -30,16 +23,7 @@ export const executeCompletionProvider = async (
   applicationId?: string,
 ): Promise<readonly CompletionItem[]> => {
   const textDocument = await getTextDocument(editorUid, editorLanguageId)
-  if (applicationId !== undefined) {
-    return ExtensionManagementWorker.invoke(
-      'Extensions.invokeForApplication',
-      applicationId,
-      'Extensions.executeCompletionProvider',
-      textDocument,
-      offset,
-    )
-  }
-  return ExtensionManagementWorker.invoke('Extensions.executeCompletionProvider', textDocument, offset)
+  return ExtensionManagementWorker.executeCompletionProvider<CompletionItem>(textDocument, offset, applicationId)
 }
 
 export const executeResolveCompletionItem = async (
@@ -51,16 +35,5 @@ export const executeResolveCompletionItem = async (
 ): Promise<any> => {
   const editorLanguageId = await EditorWorker.getLanguageId(editorUid)
   const textDocument = await getTextDocument(editorUid, editorLanguageId)
-  if (applicationId !== undefined) {
-    return ExtensionManagementWorker.invoke(
-      'Extensions.invokeForApplication',
-      applicationId,
-      'Extensions.executeResolveCompletionItemProvider',
-      textDocument,
-      offset,
-      name,
-      completionItem,
-    )
-  }
-  return ExtensionManagementWorker.invoke('Extensions.executeResolveCompletionItemProvider', textDocument, offset, name, completionItem)
+  return ExtensionManagementWorker.executeResolveCompletionItemProvider(textDocument, offset, name, completionItem, applicationId)
 }
