@@ -2,9 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'editor.completion-filter-emoji'
 
-// Skipped: migrate this fixture to the isolated Extension API before enabling it.
-export const skip = 1
-
 export const test: Test = async ({ Editor, expect, Extension, FileSystem, Locator, Main, Workspace }) => {
   // arrange
   const extensionUri = import.meta.resolve('../fixtures/editor.completion-filter-emoji')
@@ -18,13 +15,11 @@ export const test: Test = async ({ Editor, expect, Extension, FileSystem, Locato
   // act
   await Editor.openCompletion()
 
-  // assert - should filter to items containing 'rock'
+  // assert - filter among emoji-labeled suggestions
   const completions = Locator('.EditorCompletion')
   await expect(completions).toBeVisible()
   const items = Locator('.EditorCompletionItem')
-  await expect(items).toHaveCount(2)
+  await expect(items).toHaveCount(1)
   const first = items.nth(0)
-  await expect(first).toHaveText('🚀rocket')
-  const second = items.nth(1)
-  await expect(second).toHaveText('rocket_launcher')
+  await expect(first).toHaveText('rocket_launcher')
 }

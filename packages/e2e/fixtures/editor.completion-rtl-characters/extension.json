@@ -2,12 +2,18 @@
   "id": "test.completion-rtl-characters",
   "name": "Completion RTL Characters",
   "description": "",
-  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
-  "browser": "main.js",
+  "browser": "main.ts",
   "languages": [
     {
       "id": "xyz",
       "extensions": [".xyz"]
+    }
+  ],
+  "isolated": true,
+  "completionProviders": [
+    {
+      "id": "editor.completion-rtl-characters-provider",
+      "languageId": "xyz"
     }
   ]
 }

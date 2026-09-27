@@ -2,12 +2,18 @@
   "id": "test.completion-emoji-labels",
   "name": "Completion Emoji Labels",
   "description": "",
-  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
-  "browser": "main.js",
+  "browser": "main.ts",
   "languages": [
     {
       "id": "xyz",
       "extensions": [".xyz"]
+    }
+  ],
+  "isolated": true,
+  "completionProviders": [
+    {
+      "id": "editor.completion-emoji-labels-provider",
+      "languageId": "xyz"
     }
   ]
 }

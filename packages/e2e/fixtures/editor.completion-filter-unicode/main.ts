@@ -1,6 +1,9 @@
-const provider = {
+import { activate as activateExtensionApi, registerCompletionProvider, type CompletionProvider } from '@lvce-editor/api'
+
+const provider: CompletionProvider = {
+  id: 'editor.completion-filter-unicode-provider',
   languageId: 'xyz',
-  provideCompletions(textDocument, offset) {
+  provideCompletions(_textDocument, _offset) {
     return [
       {
         type: 1,
@@ -36,12 +39,10 @@ const provider = {
       },
     ]
   },
-  resolveCompletionItem(textDocument, offset, name, completionItem) {
+  resolveCompletionItem(_textDocument, _offset, _name, _completionItem) {
     return undefined
   },
 }
 
-export const activate = () => {
-  // @ts-ignore
-  vscode.registerCompletionProvider(provider)
-}
+await activateExtensionApi()
+registerCompletionProvider(provider)

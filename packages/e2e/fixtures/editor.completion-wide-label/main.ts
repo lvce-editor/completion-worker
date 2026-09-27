@@ -1,6 +1,6 @@
-import { activate as activateExtensionApi, registerCompletionProvider } from '@lvce-editor/api'
+import { activate as activateExtensionApi, registerCompletionProvider, type CompletionProvider } from '@lvce-editor/api'
 
-const provider = {
+const provider: CompletionProvider = {
   id: 'editor.completion-wide-label-provider',
   languageId: 'xyz',
   provideCompletions() {

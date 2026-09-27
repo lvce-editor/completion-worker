@@ -2,12 +2,18 @@
   "id": "test.completion-editor-emoji-content",
   "name": "Completion Editor Emoji Content",
   "description": "",
-  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
-  "browser": "main.js",
+  "browser": "main.ts",
   "languages": [
     {
       "id": "xyz",
       "extensions": [".xyz"]
+    }
+  ],
+  "isolated": true,
+  "completionProviders": [
+    {
+      "id": "editor.completion-editor-emoji-content-provider",
+      "languageId": "xyz"
     }
   ]
 }

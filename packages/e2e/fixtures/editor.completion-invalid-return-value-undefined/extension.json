@@ -2,13 +2,11 @@
   "id": "test.completion-invalid-return-value-undefined",
   "name": "Completion Invalid Return Value Undefined",
   "description": "",
-  "browser": "dist/main.js",
+  "browser": "main.ts",
   "languages": [
     {
       "id": "xyz",
-      "extensions": [
-        ".xyz"
-      ]
+      "extensions": [".xyz"]
     }
   ],
   "isolated": true,

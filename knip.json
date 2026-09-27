@@ -29,10 +29,11 @@
     "packages/e2e": {
       "entry": [
         "src/**/*.ts",
-        "fixtures/editor.completion-many-results/main.js"
+        "fixtures/**/main.ts"
       ],
       "project": [
-        "src/**/*.ts"
+        "src/**/*.ts",
+        "fixtures/**/*.ts"
       ]
     },
     "packages/server": {
