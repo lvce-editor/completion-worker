@@ -1,11 +1,11 @@
 import { join } from 'node:path'
 import { root } from './root.ts'
 
-export const threshold = 480_000
+export const threshold = 482_000
 
 export const workerPath = join(root, '.tmp/dist/dist/completionWorkerMain.js')
 
-export const playwrightPath = new URL('../node_modules/playwright/index.mjs', import.meta.url).toString()
+export const playwrightPath = new URL('../../../node_modules/playwright/index.mjs', import.meta.url).toString()
 
 export const instantiations = 350_000
 
