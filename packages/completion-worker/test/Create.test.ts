@@ -14,6 +14,11 @@ test('create - creates and sets completion state', () => {
   expect(FindWidgetStates.get(uid)?.newState.applicationId).toBe('test-application')
 })
 
-test('create requires an application id', () => {
-  expect(() => create(1, 0, 0, 0, 0, 2, 'typescript', undefined as unknown as string)).toThrow('applicationId is required')
+test('create retains an undefined application id for global completion providers', () => {
+  create(2, 0, 0, 0, 0, 3, 'typescript', undefined)
+  expect(FindWidgetStates.get(2)?.newState).toHaveProperty('applicationId', undefined)
+})
+
+test('create rejects non-string application ids', () => {
+  expect(() => create(3, 0, 0, 0, 0, 4, 'typescript', 123 as unknown as string)).toThrow('applicationId must be a string when provided')
 })

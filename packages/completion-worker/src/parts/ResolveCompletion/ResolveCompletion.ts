@@ -9,7 +9,7 @@ export const resolveCompletion = async (
   editorUid: number,
   name: string,
   completionItem: CompletionItem,
-  applicationId: string,
+  applicationId: string | undefined,
 ): Promise<ResolvedCompletionItem | undefined> => {
   try {
     Assert.string(name)
