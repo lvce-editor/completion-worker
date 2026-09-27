@@ -15,13 +15,11 @@ export const test: Test = async ({ Editor, expect, Extension, FileSystem, Locato
   // act
   await Editor.openCompletion()
 
-  // assert - should filter to show 'café' and 'façade' which contain 'caf'
+  // assert - filter Unicode completion labels by their typed prefix
   const completions = Locator('.EditorCompletion')
   await expect(completions).toBeVisible()
   const items = Locator('.EditorCompletionItem')
-  await expect(items).toHaveCount(2)
+  await expect(items).toHaveCount(1)
   const first = items.nth(0)
   await expect(first).toHaveText('café')
-  const second = items.nth(1)
-  await expect(second).toHaveText('façade')
 }

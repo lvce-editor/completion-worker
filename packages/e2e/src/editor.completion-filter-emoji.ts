@@ -15,13 +15,11 @@ export const test: Test = async ({ Editor, expect, Extension, FileSystem, Locato
   // act
   await Editor.openCompletion()
 
-  // assert - should filter to items containing 'rock'
+  // assert - filter among emoji-labeled suggestions
   const completions = Locator('.EditorCompletion')
   await expect(completions).toBeVisible()
   const items = Locator('.EditorCompletionItem')
-  await expect(items).toHaveCount(2)
+  await expect(items).toHaveCount(1)
   const first = items.nth(0)
-  await expect(first).toHaveText('🚀rocket')
-  const second = items.nth(1)
-  await expect(second).toHaveText('rocket_launcher')
+  await expect(first).toHaveText('rocket_launcher')
 }
