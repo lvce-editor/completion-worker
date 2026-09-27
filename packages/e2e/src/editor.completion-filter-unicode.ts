@@ -2,9 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'editor.completion-filter-unicode'
 
-// Skipped: migrate this fixture to the isolated Extension API before enabling it.
-export const skip = 1
-
 export const test: Test = async ({ Editor, expect, Extension, FileSystem, Locator, Main, Workspace }) => {
   // arrange
   const extensionUri = import.meta.resolve('../fixtures/editor.completion-filter-unicode')

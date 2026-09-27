@@ -2,12 +2,18 @@
   "id": "test.completion-filter-unicode",
   "name": "Completion Filter Unicode",
   "description": "",
-  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
-  "browser": "main.js",
+  "browser": "main.ts",
   "languages": [
     {
       "id": "xyz",
       "extensions": [".xyz"]
+    }
+  ],
+  "isolated": true,
+  "completionProviders": [
+    {
+      "id": "editor.completion-filter-unicode-provider",
+      "languageId": "xyz"
     }
   ]
 }

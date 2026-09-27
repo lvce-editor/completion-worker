@@ -22,5 +22,5 @@
     "exactOptionalPropertyTypes": true,
     "noUnusedParameters": true
   },
-  "include": ["src", "test"]
+  "include": ["src", "test", "fixtures"]
 }

@@ -2,13 +2,11 @@
   "id": "test.completion-type-error",
   "name": "Completion Type Error",
   "description": "",
-  "browser": "dist/main.js",
+  "browser": "main.ts",
   "languages": [
     {
       "id": "xyz",
-      "extensions": [
-        ".xyz"
-      ]
+      "extensions": [".xyz"]
     }
   ],
   "isolated": true,

@@ -2,12 +2,18 @@
   "id": "test.completion-filter-emoji",
   "name": "Completion Filter Emoji",
   "description": "",
-  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
-  "browser": "main.js",
+  "browser": "main.ts",
   "languages": [
     {
       "id": "xyz",
       "extensions": [".xyz"]
+    }
+  ],
+  "isolated": true,
+  "completionProviders": [
+    {
+      "id": "editor.completion-filter-emoji-provider",
+      "languageId": "xyz"
     }
   ]
 }

@@ -2,13 +2,11 @@
   "id": "test.completion-edge-cases",
   "name": "Completion Edge Cases",
   "description": "",
-  "browser": "dist/main.js",
+  "browser": "main.ts",
   "languages": [
     {
       "id": "xyz",
-      "extensions": [
-        ".xyz"
-      ]
+      "extensions": [".xyz"]
     }
   ],
   "isolated": true,

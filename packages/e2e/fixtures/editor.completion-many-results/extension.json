@@ -3,7 +3,7 @@
   "name": "Completion Many Results",
   "description": "",
   "isolated": true,
-  "browser": "dist/main.js",
+  "browser": "main.ts",
   "completionProviders": [
     {
       "id": "completionManyResults",

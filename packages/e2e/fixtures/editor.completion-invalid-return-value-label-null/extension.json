@@ -2,13 +2,11 @@
   "id": "test.completion-invalid-return-value-label-null",
   "name": "Completion Invalid Return Value label null",
   "description": "",
-  "browser": "dist/main.js",
+  "browser": "main.ts",
   "languages": [
     {
       "id": "xyz",
-      "extensions": [
-        ".xyz"
-      ]
+      "extensions": [".xyz"]
     }
   ],
   "isolated": true,

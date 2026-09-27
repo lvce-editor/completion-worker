@@ -2,12 +2,18 @@
   "id": "test.completion-unicode-labels",
   "name": "Completion Unicode Labels",
   "description": "",
-  "activation": ["onLanguage:xyz", "onCompletion:xyz"],
-  "browser": "main.js",
+  "browser": "main.ts",
   "languages": [
     {
       "id": "xyz",
       "extensions": [".xyz"]
+    }
+  ],
+  "isolated": true,
+  "completionProviders": [
+    {
+      "id": "editor.completion-unicode-labels-provider",
+      "languageId": "xyz"
     }
   ]
 }
