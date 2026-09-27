@@ -4,7 +4,7 @@ import { focusNext } from '../src/parts/EditorCompletionFocusNext/EditorCompleti
 
 test('focusNext', () => {
   const state = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     focusedIndex: 1,
   }
   const result = focusNext(state)

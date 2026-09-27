@@ -3,7 +3,7 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import { focusFirst } from '../src/parts/EditorCompletionFocusFirst/EditorCompletionFocusFirst.ts'
 
 test('focusFirst', () => {
-  const state = createDefaultState()
+  const state = createDefaultState('test-application')
   const result = focusFirst(state)
   expect(result.focusedIndex).toBe(0)
   expect(result.focused).toBe(true)

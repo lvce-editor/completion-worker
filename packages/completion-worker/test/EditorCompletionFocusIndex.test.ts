@@ -3,7 +3,7 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import { focusIndex } from '../src/parts/EditorCompletionFocusIndex/EditorCompletionFocusIndex.ts'
 
 test('focusIndex', () => {
-  const state = createDefaultState()
+  const state = createDefaultState('test-application')
   const result = focusIndex(state, 5)
   expect(result.focusedIndex).toBe(5)
   expect(result.focused).toBe(true)
@@ -11,7 +11,7 @@ test('focusIndex', () => {
 
 test('focusIndex scrolls down to reveal the focused item', () => {
   const state = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     finalDeltaY: 140,
     height: 60,
     items: Array.from({ length: 10 }, () => ({})),
@@ -29,7 +29,7 @@ test('focusIndex scrolls down to reveal the focused item', () => {
 
 test('focusIndex scrolls up to reveal the focused item', () => {
   const state = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     deltaY: 140,
     finalDeltaY: 140,
     height: 60,

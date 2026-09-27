@@ -20,7 +20,7 @@ export const executeCompletionProvider = async (
   editorUid: number,
   editorLanguageId: string,
   offset: number,
-  applicationId?: string,
+  applicationId: string | undefined,
 ): Promise<readonly CompletionItem[]> => {
   const textDocument = await getTextDocument(editorUid, editorLanguageId)
   return ExtensionManagementWorker.executeCompletionProvider<CompletionItem>(textDocument, offset, applicationId)
@@ -31,7 +31,7 @@ export const executeResolveCompletionItem = async (
   offset: number,
   name: string,
   completionItem: CompletionItem,
-  applicationId?: string,
+  applicationId: string | undefined,
 ): Promise<any> => {
   const editorLanguageId = await EditorWorker.getLanguageId(editorUid)
   const textDocument = await getTextDocument(editorUid, editorLanguageId)

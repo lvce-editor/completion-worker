@@ -5,16 +5,16 @@ import * as DiffType from '../src/parts/DiffType/DiffType.ts'
 import * as RenderMethod from '../src/parts/RenderMethod/RenderMethod.ts'
 
 test('applyRender should return empty array for empty diffResult', () => {
-  const oldState = createDefaultState()
-  const newState = createDefaultState()
+  const oldState = createDefaultState('test-application')
+  const newState = createDefaultState('test-application')
   const diffResult: readonly number[] = []
   const result = applyRender(oldState, newState, diffResult)
   expect(result).toEqual([])
 })
 
 test('applyRender should apply each diff type', () => {
-  const oldState = createDefaultState()
-  const newState = createDefaultState()
+  const oldState = createDefaultState('test-application')
+  const newState = createDefaultState('test-application')
   const diffResult: readonly number[] = [DiffType.RenderContent, DiffType.RenderBounds]
   const result = applyRender(oldState, newState, diffResult)
 
@@ -25,9 +25,9 @@ test('applyRender should apply each diff type', () => {
 })
 
 test('applyRender should pass newState to renderer', () => {
-  const oldState = createDefaultState()
+  const oldState = createDefaultState('test-application')
   const newState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     height: 40,
     uid: 7,
     width: 20,

@@ -7,7 +7,7 @@ import * as RenderMethod from '../src/parts/RenderMethod/RenderMethod.ts'
 
 test('renderEventListeners', () => {
   const state: CompletionState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     uid: 1,
   }
   const result = renderEventListeners(state)

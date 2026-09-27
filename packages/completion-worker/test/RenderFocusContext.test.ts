@@ -4,8 +4,8 @@ import { renderFocusContext } from '../src/parts/RenderFocusContext/RenderFocusC
 import * as WhenExpression from '../src/parts/WhenExpression/WhenExpression.ts'
 
 test('renderFocusContext', () => {
-  const oldState = createDefaultState()
-  const newState = createDefaultState()
+  const oldState = createDefaultState('test-application')
+  const newState = createDefaultState('test-application')
 
   const result = renderFocusContext(oldState, newState)
 

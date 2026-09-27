@@ -3,7 +3,7 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import { setDeltaY } from '../src/parts/SetDeltaY/SetDeltaY.ts'
 
 test('setDeltaY should update state with new deltaY when modified', () => {
-  const state = createDefaultState()
+  const state = createDefaultState('test-application')
   const newState = setDeltaY(state, 100)
   expect(newState.deltaY).toBe(0)
   expect(newState.minLineY).toBeDefined()
@@ -11,7 +11,7 @@ test('setDeltaY should update state with new deltaY when modified', () => {
 })
 
 test('setDeltaY should return same state when not modified', () => {
-  const state = createDefaultState()
+  const state = createDefaultState('test-application')
   const newState = setDeltaY(state, 0)
   expect(newState).toBe(state)
 })

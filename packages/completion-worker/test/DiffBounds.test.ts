@@ -4,14 +4,14 @@ import { isEqual } from '../src/parts/DiffBounds/DiffBounds.ts'
 
 test('isEqual - same bounds', () => {
   const oldState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     height: 400,
     width: 300,
     x: 100,
     y: 200,
   }
   const newState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     height: 400,
     width: 300,
     x: 100,
@@ -25,14 +25,14 @@ test('isEqual - same bounds', () => {
 
 test('isEqual - different bounds', () => {
   const oldState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     height: 400,
     width: 300,
     x: 100,
     y: 200,
   }
   const newState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     height: 401,
     width: 301,
     x: 101,

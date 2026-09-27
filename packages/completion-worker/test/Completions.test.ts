@@ -24,7 +24,7 @@ test('getCompletions returns completions successfully', async () => {
     },
   })
   const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeCompletionProvider': () => mockCompletions,
+    'Extensions.invokeForApplication': () => mockCompletions,
   })
 
   const mockEditorRpc = EditorWorker.registerMockRpc({
@@ -33,7 +33,7 @@ test('getCompletions returns completions successfully', async () => {
     'Editor.getUri': () => 'file:///test.ts',
   })
 
-  const result = await getCompletions(1, 'typescript')
+  const result = await getCompletions(1, 'typescript', 'test-application')
   expect(result).toEqual(mockCompletions)
 
   expect(mockEditorRpc.invocations).toEqual([
@@ -41,7 +41,7 @@ test('getCompletions returns completions successfully', async () => {
     ['Editor.getLines2', 1],
     ['Editor.getUri', 1],
   ])
-  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 0]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.invokeForApplication', 'test-application', 'Extensions.executeCompletionProvider', textDocument, 0]])
   expect(mockExtensionHostRpc.invocations).toEqual([])
 })
 
@@ -54,7 +54,7 @@ test('getCompletions returns empty array on error', async () => {
     },
   })
   const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeCompletionProvider': () => {
+    'Extensions.invokeForApplication': () => {
       throw new Error('test error')
     },
   })
@@ -65,7 +65,7 @@ test('getCompletions returns empty array on error', async () => {
     'Editor.getUri': () => 'file:///test.ts',
   })
 
-  const result = await getCompletions(1, 'typescript')
+  const result = await getCompletions(1, 'typescript', 'test-application')
   expect(result).toEqual([])
   expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to get completions:')
   expect(consoleErrorSpy).toHaveBeenCalledWith(new Error('test error'))
@@ -75,7 +75,7 @@ test('getCompletions returns empty array on error', async () => {
     ['Editor.getLines2', 1],
     ['Editor.getUri', 1],
   ])
-  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.executeCompletionProvider', textDocument, 0]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.invokeForApplication', 'test-application', 'Extensions.executeCompletionProvider', textDocument, 0]])
   expect(mockExtensionHostRpc.invocations).toEqual([])
 
   consoleErrorSpy.mockRestore()

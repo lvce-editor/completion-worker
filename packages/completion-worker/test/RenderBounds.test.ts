@@ -4,9 +4,9 @@ import { renderBounds } from '../src/parts/RenderBounds/RenderBounds.ts'
 import * as RenderMethod from '../src/parts/RenderMethod/RenderMethod.ts'
 
 test('renderBounds', () => {
-  const oldState = createDefaultState()
+  const oldState = createDefaultState('test-application')
   const newState = {
-    ...createDefaultState(),
+    ...createDefaultState('test-application'),
     height: 400,
     uid: 1,
     width: 300,

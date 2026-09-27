@@ -30,10 +30,10 @@ test('resolveCompletion returns resolved completion item', async () => {
     },
   })
   const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeResolveCompletionItemProvider': () => ({ resolved: true }),
+    'Extensions.invokeForApplication': () => ({ resolved: true }),
   })
 
-  const result = await resolveCompletion(1, 'test', createCompletionItem('test'))
+  const result = await resolveCompletion(1, 'test', createCompletionItem('test'), 'test-application')
   expect(result).toEqual({ resolved: true })
 
   expect(mockEditorRpc.invocations).toEqual([
@@ -43,7 +43,7 @@ test('resolveCompletion returns resolved completion item', async () => {
     ['Editor.getUri', 1],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([
-    ['Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'test', createCompletionItem('test')],
+    ['Extensions.invokeForApplication', 'test-application', 'Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'test', createCompletionItem('test')],
   ])
   expect(mockExtensionHostRpc.invocations).toEqual([])
 })
@@ -61,12 +61,12 @@ test('resolveCompletion returns undefined when extension management worker fails
     },
   })
   const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
-    'Extensions.executeResolveCompletionItemProvider': () => {
+    'Extensions.invokeForApplication': () => {
       throw new Error('extension management worker error')
     },
   })
 
-  const result = await resolveCompletion(1, 'test', createCompletionItem('test'))
+  const result = await resolveCompletion(1, 'test', createCompletionItem('test'), 'test-application')
   expect(result).toBeUndefined()
 
   expect(mockEditorRpc.invocations).toEqual([
@@ -76,7 +76,7 @@ test('resolveCompletion returns undefined when extension management worker fails
     ['Editor.getUri', 1],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([
-    ['Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'test', createCompletionItem('test')],
+    ['Extensions.invokeForApplication', 'test-application', 'Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'test', createCompletionItem('test')],
   ])
   expect(mockExtensionHostRpc.invocations).toEqual([])
 })
@@ -88,7 +88,7 @@ test('resolveCompletion returns undefined when getOffsetAtCursor fails', async (
     },
   })
 
-  const result = await resolveCompletion(1, 'test', createCompletionItem('test'))
+  const result = await resolveCompletion(1, 'test', createCompletionItem('test'), 'test-application')
   expect(result).toBeUndefined()
 
   expect(mockEditorRpc.invocations).toEqual([['Editor.getOffsetAtCursor', 1]])
@@ -97,7 +97,7 @@ test('resolveCompletion returns undefined when getOffsetAtCursor fails', async (
 test('resolveCompletion returns undefined when name is not a string', async () => {
   const mockEditorRpc = EditorWorker.registerMockRpc({})
 
-  const result = await resolveCompletion(1, 123 as any, createCompletionItem('test'))
+  const result = await resolveCompletion(1, 123 as any, createCompletionItem('test'), 'test-application')
   expect(result).toBeUndefined()
 
   expect(mockEditorRpc.invocations).toEqual([])
@@ -106,7 +106,7 @@ test('resolveCompletion returns undefined when name is not a string', async () =
 test('resolveCompletion returns undefined when completionItem is not an object', async () => {
   const mockEditorRpc = EditorWorker.registerMockRpc({})
 
-  const result = await resolveCompletion(1, 'test', 'not an object' as any)
+  const result = await resolveCompletion(1, 'test', 'not an object' as any, 'test-application')
   expect(result).toBeUndefined()
 
   expect(mockEditorRpc.invocations).toEqual([])

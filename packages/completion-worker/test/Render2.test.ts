@@ -5,7 +5,7 @@ import * as DiffType from '../src/parts/DiffType/DiffType.ts'
 import { render2 } from '../src/parts/Render2/Render2.ts'
 
 test('render2 returns commands from applyRender', () => {
-  const oldState = createDefaultState()
+  const oldState = createDefaultState('test-application')
   const diffResult = [DiffType.RenderItems]
   const uid = 1
 
