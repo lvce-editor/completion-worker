@@ -15,7 +15,7 @@
     "e2e": "cd packages/e2e && npm run e2e:headless",
     "format": "prettier --write .",
     "lint": "eslint . && knip --no-config-hints",
-    "measure": "cd packages/memory && npm run measure",
+    "measure": "npm run measure --workspace=packages/build",
     "test": "npm test --workspaces --if-present",
     "type-check": "tsc -b"
   },

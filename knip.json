@@ -12,7 +12,8 @@
       ],
       "ignoreDependencies": [
         "@lvce-editor/verror",
-        "esbuild"
+        "esbuild",
+        "playwright"
       ]
     },
     "packages/completion-worker": {
@@ -30,11 +31,6 @@
         "src/**/*.ts",
         "fixtures/editor.completion-many-results/main.js"
       ],
-      "project": [
-        "src/**/*.ts"
-      ]
-    },
-    "packages/memory": {
       "project": [
         "src/**/*.ts"
       ]

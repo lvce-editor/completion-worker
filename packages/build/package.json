@@ -8,6 +8,7 @@
   "license": "MIT",
   "devDependencies": {
     "@babel/preset-typescript": "^7.29.7",
+    "@lvce-editor/measure-memory": "3.1.0",
     "@lvce-editor/verror": "^1.7.0",
     "@rollup/plugin-babel": "^7.1.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
@@ -15,5 +16,9 @@
     "esbuild": "^0.28.1",
     "execa": "^9.6.1",
     "rollup": "^4.46.3"
+  },
+  "scripts": {
+    "measure": "node --experimental-strip-types src/measureMemory.ts",
+    "measure:visible": "node --experimental-strip-types src/measureMemory.ts --no-headless"
   }
 }
