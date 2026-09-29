@@ -10,7 +10,7 @@ export const test: Test = async ({ Command, Editor, expect, Extension, FileSyste
   await Main.openUri(`${tmpDir}/file.xyz`)
   const popup = Locator('.EditorCompletion')
   const resize = async (width: number): Promise<void> => {
-    await Command.execute('Editor.resize', { x: 100, y: 100, width, height: 400 })
+    await Command.execute('Editor.resize', { height: 400, width, x: 100, y: 100 })
   }
 
   await resize(800)
