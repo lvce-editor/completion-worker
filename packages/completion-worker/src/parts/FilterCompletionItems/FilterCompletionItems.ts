@@ -9,7 +9,8 @@ export const filterCompletionItems = (completionItems: readonly CompletionItem[]
   if (word === Character.EmptyString) {
     return completionItems.map(addEmptyMatch)
   }
-  const filteredCompletions: CompletionItem[] = []
+  const prefixMatches: CompletionItem[] = []
+  const fuzzyMatches: CompletionItem[] = []
   const deprecated: CompletionItem[] = []
   for (const completionItem of completionItems) {
     const { flags, label } = completionItem
@@ -24,10 +25,15 @@ export const filterCompletionItems = (completionItems: readonly CompletionItem[]
         // TODO avoid mutation
         // @ts-ignore
         completionItem.matches = result
-        filteredCompletions.push(completionItem)
+        if (label.toLowerCase().startsWith(word.toLowerCase())) {
+          prefixMatches.push(completionItem)
+        } else {
+          fuzzyMatches.push(completionItem)
+        }
       }
     }
   }
+  const filteredCompletions = [...prefixMatches, ...fuzzyMatches]
   if (deprecated.length > 0) {
     filteredCompletions.push(...deprecated)
   }

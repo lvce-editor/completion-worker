@@ -28,6 +28,17 @@ test('filterCompletionItems filters items based on fuzzy search', () => {
   expect(result[1].label).toBe('test2')
 })
 
+test('filterCompletionItems prioritizes prefix matches over internal fuzzy matches', () => {
+  const items: readonly CompletionItem[] = [
+    { flags: CompletionItemFlags.None, kind: 0, label: 'column-gap', matches: [] },
+    { flags: CompletionItemFlags.None, kind: 0, label: 'gap', matches: [] },
+    { flags: CompletionItemFlags.None, kind: 0, label: 'row-gap', matches: [] },
+  ]
+  const result = filterCompletionItems(items, 'ga')
+  expect(result.map(({ label }) => label)).toEqual(['gap', 'column-gap', 'row-gap'])
+  expect(result[0].matches).toEqual(expect.any(Array))
+})
+
 test('filterCompletionItems matches a dotted JSON property prefix', () => {
   const items: readonly CompletionItem[] = [
     { flags: CompletionItemFlags.None, kind: 0, label: 'simpleBrowser.workflows', matches: [] },
