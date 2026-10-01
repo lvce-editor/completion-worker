@@ -3,4 +3,5 @@ export interface CompletionItem {
   readonly kind: number
   readonly label: string
   readonly matches: readonly number[]
+  readonly snippet?: string
 }
