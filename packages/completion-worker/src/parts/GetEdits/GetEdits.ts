@@ -16,7 +16,8 @@ export const getEdits = async (
 ): Promise<CompletionEdit> => {
   const word = completionItem.label
   const resolvedItem = await resolveCompletion(editorUid, word, completionItem, applicationId)
-  const inserted = typeof resolvedItem?.snippet === 'string' ? resolvedItem.snippet : word
+  const inserted =
+    typeof resolvedItem?.snippet === 'string' ? resolvedItem.snippet : typeof completionItem.snippet === 'string' ? completionItem.snippet : word
   const lines = await GetLines.getLines(editorUid)
   const selections = await GetSelections.getSelections(editorUid)
   const [startRowIndex, startColumnIndex] = selections

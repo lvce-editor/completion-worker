@@ -3,11 +3,12 @@ import { EditorWorker, ExtensionManagementWorker } from '@lvce-editor/rpc-regist
 import type { CompletionItem } from '../src/parts/CompletionItem/CompletionItem.ts'
 import { getEdits } from '../src/parts/GetEdits/GetEdits.ts'
 
-const createCompletionItem = (label: string): CompletionItem => ({
+const createCompletionItem = (label: string, snippet?: string): CompletionItem => ({
   flags: 0,
   kind: 1,
   label,
   matches: [],
+  ...(snippet ? { snippet } : {}),
 })
 
 const textDocument = {
@@ -56,14 +57,22 @@ test('getEdits - returns changes for simple completion', async () => {
     ['Editor.getSelections2', 1],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([
-    ['Extensions.invokeForApplication', 'test-application', 'Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'hello', mockCompletion],
+    [
+      'Extensions.invokeForApplication',
+      'test-application',
+      'Extensions.executeResolveCompletionItemProvider',
+      textDocument,
+      10,
+      'hello',
+      mockCompletion,
+    ],
   ])
 })
 
 test('getEdits - returns changes and selection from a resolved completion', async () => {
   const mockLines = ['  ena']
   const mockSelections = [0, 5]
-  const mockCompletion = createCompletionItem('enabled')
+  const mockCompletion = createCompletionItem('enabled', 'enabled original')
 
   using mockEditorRpc = EditorWorker.registerMockRpc({
     'Editor.getLanguageId': () => 'json',
@@ -196,6 +205,44 @@ test('getEdits - returns changes when resolved item is undefined', async () => {
     ['Editor.getSelections2', 1],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([
-    ['Extensions.invokeForApplication', 'test-application', 'Extensions.executeResolveCompletionItemProvider', textDocument, 10, 'hello', mockCompletion],
+    [
+      'Extensions.invokeForApplication',
+      'test-application',
+      'Extensions.executeResolveCompletionItemProvider',
+      textDocument,
+      10,
+      'hello',
+      mockCompletion,
+    ],
   ])
+})
+
+test('getEdits - returns changes with original snippet when unresolved', async () => {
+  const mockCompletion = createCompletionItem('display', 'display: ')
+
+  using mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getLanguageId': () => 'css',
+    'Editor.getLines2': () => ['h1 { displ'],
+    'Editor.getOffsetAtCursor': () => 10,
+    'Editor.getSelections2': () => [0, 10],
+    'Editor.getUri': () => 'file:///test.css',
+  })
+  using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.invokeForApplication': () => undefined,
+  })
+
+  await expect(getEdits(1, 'displ', mockCompletion, 'test-application')).resolves.toEqual({
+    changes: [
+      {
+        deleted: ['displ'],
+        end: { columnIndex: 10, rowIndex: 0 },
+        inserted: ['display: '],
+        origin: '',
+        start: { columnIndex: 5, rowIndex: 0 },
+      },
+    ],
+    selectionChanges: undefined,
+  })
+  expect(mockEditorRpc.invocations).toHaveLength(6)
+  expect(mockExtensionManagementRpc.invocations).toHaveLength(1)
 })
