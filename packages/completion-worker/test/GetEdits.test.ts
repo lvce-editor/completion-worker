@@ -8,7 +8,7 @@ const createCompletionItem = (label: string, snippet?: string): CompletionItem =
   kind: 1,
   label,
   matches: [],
-  ...(snippet ? { snippet } : {}),
+  ...(snippet && { snippet }),
 })
 
 const textDocument = {
@@ -222,20 +222,20 @@ test('getEdits - returns changes with original snippet when unresolved', async (
 
   using mockEditorRpc = EditorWorker.registerMockRpc({
     'Editor.getLanguageId': () => 'css',
-    'Editor.getLines2': () => ['h1 { displ'],
-    'Editor.getOffsetAtCursor': () => 10,
-    'Editor.getSelections2': () => [0, 10],
+    'Editor.getLines2': () => ['h1 { display'],
+    'Editor.getOffsetAtCursor': () => 12,
+    'Editor.getSelections2': () => [0, 12],
     'Editor.getUri': () => 'file:///test.css',
   })
   using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
     'Extensions.invokeForApplication': () => undefined,
   })
 
-  await expect(getEdits(1, 'displ', mockCompletion, 'test-application')).resolves.toEqual({
+  await expect(getEdits(1, 'display', mockCompletion, 'test-application')).resolves.toEqual({
     changes: [
       {
-        deleted: ['displ'],
-        end: { columnIndex: 10, rowIndex: 0 },
+        deleted: ['display'],
+        end: { columnIndex: 12, rowIndex: 0 },
         inserted: ['display: '],
         origin: '',
         start: { columnIndex: 5, rowIndex: 0 },
