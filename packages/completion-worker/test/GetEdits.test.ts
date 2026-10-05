@@ -69,6 +69,242 @@ test('getEdits - returns changes for simple completion', async () => {
   ])
 })
 
+test('getEdits - replaces the identifier suffix after the cursor', async () => {
+  const identifier = 'closeAllEditors'
+  const line = `Main.${identifier}${identifier.slice(10)}()`
+  const cursorColumn = 'Main.closeAllEditors'.length
+  const completionItem = createCompletionItem('closeAllEditors')
+
+  using mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getLanguageId': () => 'typescript',
+    'Editor.getLines2': () => [line],
+    'Editor.getOffsetAtCursor': () => cursorColumn,
+    'Editor.getSelections2': () => [0, cursorColumn],
+    'Editor.getUri': () => 'file:///test.ts',
+  })
+  using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.invokeForApplication': () => undefined,
+  })
+
+  await expect(getEdits(1, 'closeAllEditors', completionItem, 'test-application')).resolves.toEqual({
+    changes: [
+      {
+        deleted: [`${identifier}${identifier.slice(10)}`],
+        end: { columnIndex: line.indexOf('()'), rowIndex: 0 },
+        inserted: ['closeAllEditors'],
+        origin: '',
+        start: { columnIndex: 'Main.'.length, rowIndex: 0 },
+      },
+    ],
+    selectionChanges: undefined,
+  })
+  expect(mockEditorRpc.invocations).toHaveLength(6)
+  expect(mockExtensionManagementRpc.invocations).toHaveLength(1)
+})
+
+test('getEdits - replaces the identifier at its end and preserves existing call parentheses', async () => {
+  const line = 'Main.closeAllEditor()'
+  const cursorColumn = line.indexOf('()')
+  const completionItem = createCompletionItem('closeAllEditors')
+
+  using mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getLanguageId': () => 'typescript',
+    'Editor.getLines2': () => [line],
+    'Editor.getOffsetAtCursor': () => cursorColumn,
+    'Editor.getSelections2': () => [0, cursorColumn],
+    'Editor.getUri': () => 'file:///test.ts',
+  })
+  using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.invokeForApplication': () => ({ snippet: 'closeAllEditors()' }),
+  })
+
+  await expect(getEdits(1, 'closeAllEditor', completionItem, 'test-application')).resolves.toEqual({
+    changes: [
+      {
+        deleted: ['closeAllEditor'],
+        end: { columnIndex: cursorColumn, rowIndex: 0 },
+        inserted: ['closeAllEditors'],
+        origin: '',
+        start: { columnIndex: 'Main.'.length, rowIndex: 0 },
+      },
+    ],
+    selectionChanges: undefined,
+  })
+  expect(mockEditorRpc.invocations).toHaveLength(6)
+  expect(mockExtensionManagementRpc.invocations).toHaveLength(1)
+})
+
+test('getEdits - uses a provider replacement range when supplied', async () => {
+  const line = 'Main.closeAllEditors()'
+  const cursorColumn = line.indexOf('()')
+  const completionItem: CompletionItem = {
+    ...createCompletionItem('closeAllEditors'),
+    replacementRange: {
+      endOffset: cursorColumn,
+      startOffset: 'Main.'.length,
+    },
+  }
+
+  using mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getLanguageId': () => 'typescript',
+    'Editor.getLines2': () => [line],
+    'Editor.getOffsetAtCursor': () => cursorColumn,
+    'Editor.getSelections2': () => [0, cursorColumn],
+    'Editor.getUri': () => 'file:///test.ts',
+  })
+  using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.invokeForApplication': () => undefined,
+  })
+
+  await expect(getEdits(1, 'close', completionItem, 'test-application')).resolves.toEqual({
+    changes: [
+      {
+        deleted: ['closeAllEditors'],
+        end: { columnIndex: cursorColumn, rowIndex: 0 },
+        inserted: ['closeAllEditors'],
+        origin: '',
+        start: { columnIndex: 'Main.'.length, rowIndex: 0 },
+      },
+    ],
+    selectionChanges: undefined,
+  })
+  expect(mockEditorRpc.invocations).toHaveLength(6)
+  expect(mockExtensionManagementRpc.invocations).toHaveLength(1)
+})
+
+test('getEdits - converts a provider replacement range across lines', async () => {
+  const lines = ['const closeAll', 'Editors()']
+  const cursorColumn = 7
+  const completionItem: CompletionItem = {
+    ...createCompletionItem('closeAllEditors'),
+    replacementRange: { endOffset: 22, startOffset: 6 },
+  }
+
+  using mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getLanguageId': () => 'typescript',
+    'Editor.getLines2': () => lines,
+    'Editor.getOffsetAtCursor': () => 22,
+    'Editor.getSelections2': () => [1, cursorColumn],
+    'Editor.getUri': () => 'file:///test.ts',
+  })
+  using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.invokeForApplication': () => undefined,
+  })
+
+  await expect(getEdits(1, 'Editors', completionItem, 'test-application')).resolves.toEqual({
+    changes: [
+      {
+        deleted: ['closeAll', 'Editors'],
+        end: { columnIndex: cursorColumn, rowIndex: 1 },
+        inserted: ['closeAllEditors'],
+        origin: '',
+        start: { columnIndex: 6, rowIndex: 0 },
+      },
+    ],
+    selectionChanges: undefined,
+  })
+  expect(mockEditorRpc.invocations).toHaveLength(6)
+  expect(mockExtensionManagementRpc.invocations).toHaveLength(1)
+})
+
+test('getEdits - ignores an invalid provider range and replaces the identifier suffix', async () => {
+  const identifier = 'closeAllEditors'
+  const line = `Main.${identifier}${identifier.slice(10)}()`
+  const cursorColumn = 'Main.closeAllEditors'.length
+  const completionItem: CompletionItem = {
+    ...createCompletionItem('closeAllEditors'),
+    replacementRange: { endOffset: cursorColumn - 1, startOffset: cursorColumn + 1 },
+  }
+
+  using mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getLanguageId': () => 'typescript',
+    'Editor.getLines2': () => [line],
+    'Editor.getOffsetAtCursor': () => cursorColumn,
+    'Editor.getSelections2': () => [0, cursorColumn],
+    'Editor.getUri': () => 'file:///test.ts',
+  })
+  using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.invokeForApplication': () => undefined,
+  })
+
+  await expect(getEdits(1, 'closeAllEditors', completionItem, 'test-application')).resolves.toMatchObject({
+    changes: [
+      {
+        deleted: [`${identifier}${identifier.slice(10)}`],
+        end: { columnIndex: line.indexOf('()'), rowIndex: 0 },
+        start: { columnIndex: 'Main.'.length, rowIndex: 0 },
+      },
+    ],
+  })
+  expect(mockEditorRpc.invocations).toHaveLength(6)
+  expect(mockExtensionManagementRpc.invocations).toHaveLength(1)
+})
+
+test('getEdits - replaces astral Unicode identifier continuations', async () => {
+  const letter = '𐐀'
+  const identifier = 'closeAllEditors'
+  const completionLabel = `${letter}${identifier}`
+  const line = `${completionLabel}${letter}()`
+  const cursorColumn = completionLabel.length
+  const completionItem = createCompletionItem(completionLabel)
+
+  using mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getLanguageId': () => 'typescript',
+    'Editor.getLines2': () => [line],
+    'Editor.getOffsetAtCursor': () => cursorColumn,
+    'Editor.getSelections2': () => [0, cursorColumn],
+    'Editor.getUri': () => 'file:///test.ts',
+  })
+  using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.invokeForApplication': () => undefined,
+  })
+
+  await expect(getEdits(1, completionLabel, completionItem, 'test-application')).resolves.toMatchObject({
+    changes: [
+      {
+        deleted: [`${letter}closeAllEditors${letter}`],
+        end: { columnIndex: line.indexOf('()'), rowIndex: 0 },
+        inserted: [completionLabel],
+        start: { columnIndex: 0, rowIndex: 0 },
+      },
+    ],
+  })
+  expect(mockEditorRpc.invocations).toHaveLength(6)
+  expect(mockExtensionManagementRpc.invocations).toHaveLength(1)
+})
+
+test('getEdits - falls back when a provider range extends beyond the document', async () => {
+  const line = 'const hello'
+  const completionItem: CompletionItem = {
+    ...createCompletionItem('helloThere'),
+    replacementRange: { endOffset: 100, startOffset: 6 },
+  }
+
+  using mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getLanguageId': () => 'typescript',
+    'Editor.getLines2': () => [line],
+    'Editor.getOffsetAtCursor': () => line.length,
+    'Editor.getSelections2': () => [0, line.length],
+    'Editor.getUri': () => 'file:///test.ts',
+  })
+  using mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.invokeForApplication': () => undefined,
+  })
+
+  await expect(getEdits(1, 'hello', completionItem, 'test-application')).resolves.toMatchObject({
+    changes: [
+      {
+        deleted: ['hello'],
+        end: { columnIndex: line.length, rowIndex: 0 },
+        inserted: ['helloThere'],
+        start: { columnIndex: 6, rowIndex: 0 },
+      },
+    ],
+  })
+  expect(mockEditorRpc.invocations).toHaveLength(6)
+  expect(mockExtensionManagementRpc.invocations).toHaveLength(1)
+})
+
 test('getEdits - returns changes and selection from a resolved completion', async () => {
   const mockLines = ['  ena']
   const mockSelections = [0, 5]
