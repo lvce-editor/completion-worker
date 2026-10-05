@@ -17,10 +17,6 @@ interface PositionRange {
 
 const isIdentifierPart = (value: string): boolean => identifierPartRegex.test(value)
 
-const getCodePointLength = (line: string, index: number): number => {
-  return String.fromCodePoint(line.codePointAt(index)!).length
-}
-
 const getPositionAtOffset = (lines: readonly string[], offset: number): readonly [number, number] | undefined => {
   let remainingOffset = offset
   for (let rowIndex = 0; rowIndex < lines.length; rowIndex++) {
@@ -77,7 +73,7 @@ const getReplacementRange = (
     if (!isIdentifierPart(value)) {
       break
     }
-    endColumn += getCodePointLength(line, endColumn)
+    endColumn += value.length
   }
   return {
     end: { columnIndex: endColumn, rowIndex: cursorRow },
