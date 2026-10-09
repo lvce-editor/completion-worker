@@ -117,3 +117,85 @@ test('handleEditorType preserves dotted JSON completion prefixes from the curren
   expect(result.leadingWord).toBe('simpleBrowser.wo')
   expect(mockRpc.invocations).toEqual([['Editor.getCompletionContext', 0, true]])
 })
+
+test('handleEditorType falls back when the editor worker does not have the completion context command', async () => {
+  using mockRpc = EditorWorker.registerMockRpc({
+    'Editor.getPositionAtCursor': () => ({
+      columnIndex: 4,
+      editorWidth: 180,
+      editorX: 80,
+      rowIndex: 0,
+      x: 100,
+      y: 200,
+    }),
+    'Editor.getWordBefore2': () => 'test',
+  })
+
+  const result = await handleEditorType(createDefaultState('test-application'))
+
+  expect(result.leadingWord).toBe('test')
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getCompletionContext', 0, false],
+    ['Editor.getPositionAtCursor', 0],
+    ['Editor.getWordBefore2', 0, 0, 4],
+  ])
+})
+
+test('handleEditorType falls back to the current line for JSON when the editor worker lacks the context command', async () => {
+  using mockRpc = EditorWorker.registerMockRpc({
+    'Editor.getLines2': () => ['  simpleBrowser.wo'],
+    'Editor.getPositionAtCursor': () => ({
+      columnIndex: 18,
+      editorWidth: 180,
+      editorX: 80,
+      rowIndex: 0,
+      x: 100,
+      y: 200,
+    }),
+  })
+
+  const state = { ...createDefaultState('test-application'), editorLanguageId: 'json' }
+  const result = await handleEditorType(state)
+
+  expect(result.leadingWord).toBe('simpleBrowser.wo')
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getCompletionContext', 0, true],
+    ['Editor.getPositionAtCursor', 0],
+    ['Editor.getLines2', 0],
+  ])
+})
+
+test('handleEditorType handles an empty JSON line through the legacy editor worker commands', async () => {
+  using mockRpc = EditorWorker.registerMockRpc({
+    'Editor.getLines2': () => [],
+    'Editor.getPositionAtCursor': () => ({
+      columnIndex: 0,
+      editorWidth: 180,
+      editorX: 80,
+      rowIndex: 0,
+      x: 100,
+      y: 200,
+    }),
+  })
+
+  const state = { ...createDefaultState('test-application'), editorLanguageId: 'json' }
+  const result = await handleEditorType(state)
+
+  expect(result.leadingWord).toBe('')
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.getCompletionContext', 0, true],
+    ['Editor.getPositionAtCursor', 0],
+    ['Editor.getLines2', 0],
+  ])
+})
+
+test('handleEditorType propagates editor context errors other than an unknown command', async () => {
+  using mockRpc = EditorWorker.registerMockRpc({
+    'Editor.getCompletionContext': () => {
+      throw new Error('editor worker unavailable')
+    },
+  })
+
+  await expect(handleEditorType(createDefaultState('test-application'))).rejects.toThrow('editor worker unavailable')
+  expect(mockRpc.invocations).toEqual([['Editor.getCompletionContext', 0, false]])
+})
