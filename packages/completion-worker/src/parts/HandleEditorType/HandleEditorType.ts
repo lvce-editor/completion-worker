@@ -1,20 +1,21 @@
 import type { CompletionState } from '../CompletionState/CompletionState.ts'
 import * as FilterCompletionItems from '../FilterCompletionItems/FilterCompletionItems.ts'
+import * as GetCompletionContext from '../GetCompletionContext/GetCompletionContext.ts'
 import * as GetCompletionHorizontalBounds from '../GetCompletionHorizontalBounds/GetCompletionHorizontalBounds.ts'
 import * as GetCompletionWord from '../GetCompletionWord/GetCompletionWord.ts'
 import * as GetListHeight from '../GetListHeight/GetListHeight.ts'
-import * as GetPositionAtCursor from '../GetPositionAtCursor/GetPositionAtCursor.ts'
-import * as GetWordBefore from '../GetWordBefore/GetWordBefore.ts'
 
 export const handleEditorType = async (state: CompletionState): Promise<CompletionState> => {
   const { editorLanguageId, editorUid, itemHeight, maxHeight, unfilteredItems } = state
-  const { columnIndex, editorWidth, editorX, rowIndex, x: cursorX, y } = await GetPositionAtCursor.getPositionAtCursor(editorUid)
+  const context = await GetCompletionContext.getCompletionContext(editorUid, editorLanguageId === 'json' || editorLanguageId === 'jsonc')
+  const { columnIndex, editorWidth, editorX, line, rowIndex, wordBefore, x: cursorX, y } = context
   const wordAtOffset = await GetCompletionWord.getCompletionWord(
     editorUid,
     editorLanguageId,
     rowIndex,
     columnIndex,
-    () => GetWordBefore.getWordBefore(editorUid, rowIndex, columnIndex),
+    () => Promise.resolve(wordBefore || ''),
+    line,
   )
   const items = FilterCompletionItems.filterCompletionItems(unfilteredItems, wordAtOffset)
   const newMinLineY = 0
