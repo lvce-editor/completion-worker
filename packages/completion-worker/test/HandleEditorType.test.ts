@@ -15,8 +15,7 @@ test('handleEditorType - basic functionality', async () => {
   const mockWord = 'test'
 
   using mockRpc = EditorWorker.registerMockRpc({
-    'Editor.getPositionAtCursor': () => mockPosition,
-    'Editor.getWordBefore2': () => mockWord,
+    'Editor.getCompletionContext': () => ({ ...mockPosition, wordBefore: mockWord }),
     'FileSystem.readDirWithFileTypes': () => [],
   })
 
@@ -35,8 +34,7 @@ test('handleEditorType - basic functionality', async () => {
   expect(result.finalDeltaY).toBeDefined()
 
   expect(mockRpc.invocations).toEqual([
-    ['Editor.getPositionAtCursor', 0],
-    ['Editor.getWordBefore2', 0, 5, 10],
+    ['Editor.getCompletionContext', 0, false],
   ])
 })
 
@@ -50,8 +48,7 @@ test('handleEditorType - with position and word', async () => {
   const mockWord = 'test'
 
   using mockRpc = EditorWorker.registerMockRpc({
-    'Editor.getPositionAtCursor': () => mockPosition,
-    'Editor.getWordBefore2': () => mockWord,
+    'Editor.getCompletionContext': () => ({ ...mockPosition, wordBefore: mockWord }),
   })
 
   const state = createDefaultState('test-application')
@@ -62,8 +59,7 @@ test('handleEditorType - with position and word', async () => {
   expect(result.leadingWord).toBe(mockWord)
 
   expect(mockRpc.invocations).toEqual([
-    ['Editor.getPositionAtCursor', 0],
-    ['Editor.getWordBefore2', 0, 5, 10],
+    ['Editor.getCompletionContext', 0, false],
   ])
 })
 
@@ -84,8 +80,7 @@ test('handleEditorType - with filtered items', async () => {
   ]
 
   using mockRpc = EditorWorker.registerMockRpc({
-    'Editor.getPositionAtCursor': () => mockPosition,
-    'Editor.getWordBefore2': () => mockWord,
+    'Editor.getCompletionContext': () => ({ ...mockPosition, wordBefore: mockWord }),
   })
 
   const state = {
@@ -100,7 +95,25 @@ test('handleEditorType - with filtered items', async () => {
   expect(result.width).toBe(341)
 
   expect(mockRpc.invocations).toEqual([
-    ['Editor.getPositionAtCursor', 0],
-    ['Editor.getWordBefore2', 0, 5, 10],
+    ['Editor.getCompletionContext', 0, false],
   ])
+})
+
+test('handleEditorType preserves dotted JSON completion prefixes from the current line', async () => {
+  using mockRpc = EditorWorker.registerMockRpc({
+    'Editor.getCompletionContext': () => ({
+      columnIndex: 18,
+      editorWidth: 180,
+      editorX: 80,
+      line: '  simpleBrowser.wo',
+      rowIndex: 0,
+      x: 100,
+      y: 200,
+    }),
+  })
+  const state = { ...createDefaultState('test-application'), editorLanguageId: 'json' }
+  const result = await handleEditorType(state)
+
+  expect(result.leadingWord).toBe('simpleBrowser.wo')
+  expect(mockRpc.invocations).toEqual([['Editor.getCompletionContext', 0, true]])
 })
