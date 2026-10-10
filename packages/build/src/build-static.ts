@@ -10,14 +10,14 @@ const sharedProcessUrl = pathToFileURL(sharedProcessPath).toString()
 const sharedProcess = await import(sharedProcessUrl)
 
 process.env.PATH_PREFIX = '/completion-worker'
-await sharedProcess.exportStatic({
+const { commitHash } = await sharedProcess.exportStatic({
   root,
   extensionPath: '',
 })
 
-// await cp(
-//   join(root, '.tmp', 'dist', 'dist', 'iframeWorkerMain.js'),
-//   join(root, 'dist', commitHash, 'packages', 'iframe-worker', 'dist', 'iframeWorkerMain.js'),
-// )
+await cp(
+  join(root, '.tmp', 'dist', 'dist', 'completionWorkerMain.js'),
+  join(root, 'dist', commitHash, 'packages', 'renderer-worker', 'node_modules', '@lvce-editor', 'completion-worker', 'dist', 'completionWorkerMain.js'),
+)
 
 await cp(join(root, 'dist'), join(root, '.tmp', 'static'), { recursive: true })
