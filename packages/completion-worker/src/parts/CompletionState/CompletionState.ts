@@ -3,6 +3,7 @@ import type { VirtualListState } from '../VirtualListState/VirtualListState.ts'
 
 export interface CompletionState extends VirtualListState<CompletionItem> {
   readonly applicationId: string | undefined
+  readonly automatic?: boolean
   readonly disposed?: boolean
   readonly editorLanguageId: string
   readonly editorUid: number

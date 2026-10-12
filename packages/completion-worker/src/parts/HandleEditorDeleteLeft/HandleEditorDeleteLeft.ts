@@ -4,8 +4,13 @@ import * as GetCompletionHorizontalBounds from '../GetCompletionHorizontalBounds
 import * as GetCompletionWord from '../GetCompletionWord/GetCompletionWord.ts'
 import * as GetListHeight from '../GetListHeight/GetListHeight.ts'
 import * as GetPositionAtCursor from '../GetPositionAtCursor/GetPositionAtCursor.ts'
+import * as LoadContent from '../LoadContent/LoadContent.ts'
 
 export const handleEditorDeleteLeft = async (state: CompletionState): Promise<CompletionState> => {
+  const { automatic } = state
+  if (automatic) {
+    return LoadContent.loadContent(state)
+  }
   const { editorLanguageId, editorUid, itemHeight, maxHeight, maxItems, unfilteredItems } = state
   const { columnIndex, editorWidth, editorX, rowIndex, x: cursorX, y } = await GetPositionAtCursor.getPositionAtCursor(editorUid)
   const wordAtOffset = await GetCompletionWord.getCompletionWord(editorUid, editorLanguageId, rowIndex, columnIndex)
