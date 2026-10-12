@@ -11,7 +11,7 @@ test('getCompletionItemsVirtualDom - empty', () => {
     },
     {
       childCount: 0,
-      text: 'No Suggestions',
+      text: 'No completions',
       type: 12,
     },
   ])

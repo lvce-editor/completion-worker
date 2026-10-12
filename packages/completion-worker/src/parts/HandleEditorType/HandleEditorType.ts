@@ -4,8 +4,13 @@ import * as GetCompletionContext from '../GetCompletionContext/GetCompletionCont
 import * as GetCompletionHorizontalBounds from '../GetCompletionHorizontalBounds/GetCompletionHorizontalBounds.ts'
 import * as GetCompletionWord from '../GetCompletionWord/GetCompletionWord.ts'
 import * as GetListHeight from '../GetListHeight/GetListHeight.ts'
+import * as LoadContent from '../LoadContent/LoadContent.ts'
 
 export const handleEditorType = async (state: CompletionState): Promise<CompletionState> => {
+  const { automatic } = state
+  if (automatic) {
+    return LoadContent.loadContent(state)
+  }
   const { editorLanguageId, editorUid, itemHeight, maxHeight, unfilteredItems } = state
   const context = await GetCompletionContext.getCompletionContext(editorUid, editorLanguageId === 'json' || editorLanguageId === 'jsonc')
   const { columnIndex, editorWidth, editorX, line, rowIndex, wordBefore, x: cursorX, y } = context

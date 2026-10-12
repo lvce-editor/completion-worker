@@ -8,7 +8,7 @@ test('noResults returns string', () => {
 
 test('noSuggestions returns string', () => {
   const result = noSuggestions()
-  expect(result).toBe('No Suggestions')
+  expect(result).toBe('No completions')
 })
 
 test('suggest returns string', () => {

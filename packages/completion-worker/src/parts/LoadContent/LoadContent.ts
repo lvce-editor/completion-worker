@@ -7,8 +7,8 @@ import * as GetFinalDeltaY from '../GetFinalDeltaY/GetFinalDeltaY.ts'
 import * as GetListHeight from '../GetListHeight/GetListHeight.ts'
 import * as GetPositionAtCursor from '../GetPositionAtCursor/GetPositionAtCursor.ts'
 
-export const loadContent = async (state: CompletionState): Promise<CompletionState> => {
-  const { applicationId, editorLanguageId, editorUid, itemHeight, maxHeight } = state
+export const loadContent = async (state: CompletionState, automatic?: boolean): Promise<CompletionState> => {
+  const { applicationId, automatic: previousAutomatic = false, editorLanguageId, editorUid, itemHeight, maxHeight, version } = state
   const unfilteredItems = await Completions.getCompletions(editorUid, editorLanguageId, applicationId)
   const { columnIndex, editorWidth, editorX, rowIndex, x: cursorX, y } = await GetPositionAtCursor.getPositionAtCursor(editorUid)
   const wordAtOffset = await GetCompletionWord.getCompletionWord(editorUid, editorLanguageId, rowIndex, columnIndex)
@@ -22,6 +22,7 @@ export const loadContent = async (state: CompletionState): Promise<CompletionSta
   const finalDeltaY = GetFinalDeltaY.getFinalDeltaY(height, itemHeight, total)
   return {
     ...state,
+    automatic: automatic ?? previousAutomatic,
     // @ts-ignore
     columnIndex,
     finalDeltaY,
@@ -32,7 +33,7 @@ export const loadContent = async (state: CompletionState): Promise<CompletionSta
     maxLineY: newMaxLineY,
     rowIndex,
     unfilteredItems,
-    version: 1,
+    version: version + 1,
     width,
     x,
     y,
