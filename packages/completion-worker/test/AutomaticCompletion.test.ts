@@ -48,6 +48,7 @@ for (const [name, update] of [
     expect(extensionRpc.invocations).toHaveLength(2)
     expect(editorRpc.invocations).toContainEqual(['Editor.getOffsetAtCursor', 0])
     CompletionStates.dispose(uid)
+    expect(hasItems(uid)).toBe(false)
   })
 }
 

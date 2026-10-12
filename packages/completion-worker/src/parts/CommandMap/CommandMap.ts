@@ -22,6 +22,7 @@ import * as HasItems from '../HasItems/HasItems.ts'
 import * as Initialize from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
 import * as Render2 from '../Render2/Render2.ts'
+import { wrapCompletionRequest } from '../WrapCompletionRequest/WrapCompletionRequest.ts'
 
 export const commandMap = {
   'Completions.close': WrapCommand.wrapCommand(Close.close),
@@ -35,13 +36,13 @@ export const commandMap = {
   'Completions.focusPrevious': WrapCommand.wrapCommand(EditorCompletionFocusPrevious.focusPrevious),
   'Completions.getCommandIds': GetCommandIds.getCommandIds,
   'Completions.getKeyBindings': GetKeyBindings.getKeyBindings,
-  'Completions.handleEditorDeleteLeft': WrapCommand.wrapCommand(HandleEditorDeleteLeft.handleEditorDeleteLeft),
-  'Completions.handleEditorType': WrapCommand.wrapCommand(HandleEditorType.handleEditorType),
+  'Completions.handleEditorDeleteLeft': wrapCompletionRequest(HandleEditorDeleteLeft.handleEditorDeleteLeft),
+  'Completions.handleEditorType': wrapCompletionRequest(HandleEditorType.handleEditorType),
   'Completions.handlePointerDown': WrapCommand.wrapCommand(handlePointerDown),
   'Completions.handleWheel': WrapCommand.wrapCommand(HandleWheel.handleWheel),
   'Completions.hasItems': HasItems.hasItems,
   'Completions.initialize': Initialize.initialize,
-  'Completions.loadContent': WrapCommand.wrapCommand(LoadContent.loadContent),
+  'Completions.loadContent': wrapCompletionRequest(LoadContent.loadContent),
   'Completions.openDetails': WrapCommand.wrapCommand(EditorCompletionOpenDetails.openDetails),
   'Completions.render2': Render2.render2,
   'Completions.selectCurrent': WrapCommand.wrapCommand(SelectCurrent.selectCurrent),
