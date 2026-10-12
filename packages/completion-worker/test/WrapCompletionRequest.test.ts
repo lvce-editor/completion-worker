@@ -11,7 +11,7 @@ test('newest completion request wins when responses arrive out of order', async 
   const second = Promise.withResolvers<void>()
   const request = wrapCompletionRequest(async (snapshot, label: string, ready: Readonly<Promise<void>>) => {
     await ready
-    return { ...snapshot, items: [{ flags: 0, kind: 1, label }] }
+    return { ...snapshot, items: [{ flags: 0, kind: 1, label, matches: [] }] }
   })
   const older = request(uid, 'older', first.promise)
   const newer = request(uid, 'newer', second.promise)

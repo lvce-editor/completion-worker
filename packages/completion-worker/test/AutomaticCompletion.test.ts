@@ -19,7 +19,7 @@ for (const [name, update] of [
       'Editor.getUri': () => 'file:///test.ts',
       'Editor.getWordAtOffset2': () => '',
     })
-    let items = [{ flags: 0, kind: 1, label: 'member' }]
+    let items = [{ flags: 0, kind: 1, label: 'member', matches: [] }]
     using extensionRpc = ExtensionManagementWorker.registerMockRpc({
       'Extensions.invokeForApplication': () => items,
     })
@@ -27,7 +27,7 @@ for (const [name, update] of [
       ...createDefaultState('test-application'),
       automatic: true,
       editorLanguageId: 'typescript',
-      unfilteredItems: [{ flags: 0, kind: 1, label: 'obsolete' }],
+      unfilteredItems: [{ flags: 0, kind: 1, label: 'obsolete', matches: [] }],
     }
     const { uid } = state
     const refreshed = await update(state)
