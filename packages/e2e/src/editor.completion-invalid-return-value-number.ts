@@ -18,5 +18,5 @@ export const test: Test = async ({ Editor, expect, Extension, FileSystem, Locato
   // assert
   const completions = Locator('.EditorCompletion')
   await expect(completions).toBeVisible()
-  await expect(completions).toHaveText('No completions')
+  await expect(completions).toHaveText('No Suggestions')
 }
