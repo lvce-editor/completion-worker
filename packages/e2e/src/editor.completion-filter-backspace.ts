@@ -29,7 +29,7 @@ export const test: Test = async ({ Editor, expect, Extension, FileSystem, KeyBoa
 
   await Editor.type('z')
   await expect(items).toHaveCount(0)
-  await expect(completions).toHaveText('No completions')
+  await expect(completions).toHaveText('No Suggestions')
   await expect(highlights).toHaveCount(0)
 
   await Editor.deleteCharacterLeft()
