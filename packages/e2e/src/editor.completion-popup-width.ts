@@ -18,7 +18,8 @@ export const test: Test = async ({ Command, Editor, expect, Extension, FileSyste
   await Editor.openCompletion()
   await expect(popup).toHaveCSS('width', '273px')
   await expect(popup).toHaveCSS('left', '100px')
-  await expect(Locator('.EditorCompletionItem')).toHaveText('window.titleBarStyle')
+  const completionItem = Locator('.EditorCompletionItem')
+  await expect(completionItem).toHaveText('window.titleBarStyle')
   await Editor.closeCompletion()
 
   await resize(180)

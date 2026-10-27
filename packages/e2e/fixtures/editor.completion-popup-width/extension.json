@@ -1,8 +1,8 @@
 {
-  "id": "test.completion-wide-label",
-  "name": "Completion Wide Label",
+  "id": "test.completion-popup-width",
+  "name": "Completion Popup Width",
   "description": "",
-  "browser": "main.js",
+  "browser": "main.ts",
   "languages": [
     {
       "id": "xyz",
