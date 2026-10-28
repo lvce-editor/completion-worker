@@ -20,7 +20,7 @@ test.each([0, 1, 2])('focusNext stays within %i completion items after repeated 
   let state: CompletionState = {
     ...createDefaultState('test-application'),
     focusedIndex: count === 0 ? -1 : 0,
-    items: Array.from({ length: count }).fill(completionItem),
+    items: Array.from({ length: count }, () => ({ ...completionItem })),
   }
   const validIndices = count === 0 ? [-1] : Array.from({ length: count }, (_, index) => index)
   for (let i = 0; i < 5; i++) {
