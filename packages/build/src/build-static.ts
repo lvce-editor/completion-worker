@@ -13,6 +13,7 @@ process.env.PATH_PREFIX = '/completion-worker'
 const { commitHash } = await sharedProcess.exportStatic({
   root,
   extensionPath: '',
+  testPath: 'packages/e2e',
 })
 
 await cp(
