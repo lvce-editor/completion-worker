@@ -1,0 +1,19 @@
+{
+  "id": "test.completion-two-results",
+  "name": "Completion Two Results",
+  "description": "",
+  "browser": "main.ts",
+  "languages": [
+    {
+      "id": "xyz",
+      "extensions": [".xyz"]
+    }
+  ],
+  "isolated": true,
+  "completionProviders": [
+    {
+      "id": "editor.completion-two-results-provider",
+      "languageId": "xyz"
+    }
+  ]
+}

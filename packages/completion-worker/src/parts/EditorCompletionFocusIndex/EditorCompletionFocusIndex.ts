@@ -19,18 +19,27 @@ const getScrolledState = (state: CompletionState, index: number, deltaY: number)
 }
 
 export const focusIndex = (state: CompletionState, index: number): CompletionState => {
+  const { items } = state
+  if (items.length === 0) {
+    return {
+      ...state,
+      focused: true,
+      focusedIndex: -1,
+    }
+  }
+  const boundedIndex = Math.max(0, Math.min(index, items.length - 1))
   const { headerHeight, height, itemHeight, maxLineY, minLineY } = state
-  if (index < minLineY) {
-    return getScrolledState(state, index, index * itemHeight)
+  if (boundedIndex < minLineY) {
+    return getScrolledState(state, boundedIndex, boundedIndex * itemHeight)
   }
   const listHeight = height - headerHeight
-  if (index >= maxLineY) {
-    return getScrolledState(state, index, (index + 1) * itemHeight - listHeight)
+  if (boundedIndex >= maxLineY) {
+    return getScrolledState(state, boundedIndex, (boundedIndex + 1) * itemHeight - listHeight)
   }
   const newState: CompletionState = {
     ...state,
     focused: true,
-    focusedIndex: index,
+    focusedIndex: boundedIndex,
   }
   return newState
 }
