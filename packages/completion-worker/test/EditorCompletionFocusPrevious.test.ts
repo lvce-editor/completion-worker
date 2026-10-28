@@ -20,15 +20,12 @@ test.each([0, 1, 2])('focusPrevious stays within %i completion items after repea
   let state: CompletionState = {
     ...createDefaultState('test-application'),
     focusedIndex: count === 0 ? -1 : 0,
-    items: Array.from({ length: count }, () => completionItem),
+    items: Array.from({ length: count }).fill(completionItem),
   }
+  const validIndices = count === 0 ? [-1] : Array.from({ length: count }, (_, index) => index)
   for (let i = 0; i < 5; i++) {
     state = focusPrevious(state)
-    if (count === 0) {
-      expect(state.focusedIndex).toBe(-1)
-    } else {
-      expect(state.focusedIndex).toBeGreaterThanOrEqual(0)
-      expect(state.focusedIndex).toBeLessThan(count)
-    }
+    const { focusedIndex } = state
+    expect(validIndices).toContain(focusedIndex)
   }
 })
