@@ -2,10 +2,32 @@ import { test, expect } from '@jest/globals'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { focusIndex } from '../src/parts/EditorCompletionFocusIndex/EditorCompletionFocusIndex.ts'
 
+const completionItem = { flags: 0, kind: 0, label: '', matches: [] }
+
 test('focusIndex', () => {
-  const state = createDefaultState('test-application')
+  const state = {
+    ...createDefaultState('test-application'),
+    items: [completionItem, completionItem, completionItem],
+  }
   const result = focusIndex(state, 5)
-  expect(result.focusedIndex).toBe(5)
+  expect(result.focusedIndex).toBe(2)
+  expect(result.focused).toBe(true)
+})
+
+test('focusIndex keeps the empty-list sentinel', () => {
+  const state = createDefaultState('test-application')
+  const result = focusIndex(state, 0)
+  expect(result.focusedIndex).toBe(-1)
+  expect(result.focused).toBe(true)
+})
+
+test('focusIndex clamps to the first item', () => {
+  const state = {
+    ...createDefaultState('test-application'),
+    items: [completionItem, completionItem],
+  }
+  const result = focusIndex(state, -1)
+  expect(result.focusedIndex).toBe(0)
   expect(result.focused).toBe(true)
 })
 
