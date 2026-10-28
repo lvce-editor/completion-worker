@@ -9,5 +9,5 @@ test('renderFocusContext', () => {
 
   const result = renderFocusContext(oldState, newState)
 
-  expect(result).toEqual(['Viewlet.setFocusContext', WhenExpression.FocusEditorRename])
+  expect(result).toEqual(['Viewlet.setFocusContext', WhenExpression.FocusEditorCompletions])
 })
