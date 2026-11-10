@@ -9,8 +9,11 @@ import * as GetPositionAtCursor from '../GetPositionAtCursor/GetPositionAtCursor
 
 export const loadContent = async (state: CompletionState, automatic?: boolean): Promise<CompletionState> => {
   const { applicationId, automatic: previousAutomatic = false, editorLanguageId, editorUid, itemHeight, maxHeight, version } = state
-  const unfilteredItems = await Completions.getCompletions(editorUid, editorLanguageId, applicationId)
-  const { columnIndex, editorWidth, editorX, rowIndex, x: cursorX, y } = await GetPositionAtCursor.getPositionAtCursor(editorUid)
+  const [unfilteredItems, position] = await Promise.all([
+    Completions.getCompletions(editorUid, editorLanguageId, applicationId),
+    GetPositionAtCursor.getPositionAtCursor(editorUid),
+  ])
+  const { columnIndex, editorWidth, editorX, rowIndex, x: cursorX, y } = position
   const wordAtOffset = await GetCompletionWord.getCompletionWord(editorUid, editorLanguageId, rowIndex, columnIndex)
   const items = FilterCompletionItems.filterCompletionItems(unfilteredItems, wordAtOffset)
   const newMaxLineY = Math.min(items.length, 8)

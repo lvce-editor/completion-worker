@@ -65,9 +65,9 @@ test('loadContent clamps completion width to a narrow editor pane', async () => 
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
+    ['Editor.getPositionAtCursor', 0],
     ['Editor.getLines2', 0],
     ['Editor.getUri', 0],
-    ['Editor.getPositionAtCursor', 0],
     ['Editor.getWordAtOffset2', 0],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.invokeForApplication', 'test-application', 'Extensions.executeCompletionProvider', textDocument, 0]])
@@ -126,12 +126,52 @@ test('loadContent with completions', async () => {
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
+    ['Editor.getPositionAtCursor', 0],
     ['Editor.getLines2', 0],
     ['Editor.getUri', 0],
-    ['Editor.getPositionAtCursor', 0],
     ['Editor.getWordAtOffset2', 0],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.invokeForApplication', 'test-application', 'Extensions.executeCompletionProvider', textDocument, 0]])
+  expect(mockExtensionHostRpc.invocations).toEqual([])
+})
+
+test('loadContent reads the cursor position while completion providers are running', async () => {
+  const { promise: providerPromise, resolve: resolveCompletions } = Promise.withResolvers<readonly unknown[]>()
+  let providerStarted = false
+  const mockEditorRpc = EditorWorker.registerMockRpc({
+    'Editor.getLines2': () => ['line1', 'line2'],
+    'Editor.getOffsetAtCursor': () => 0,
+    'Editor.getPositionAtCursor': () => ({
+      columnIndex: 2,
+      rowIndex: 1,
+      x: 100,
+      y: 200,
+    }),
+    'Editor.getUri': () => 'file:///test.txt',
+    'Editor.getWordAtOffset': () => 'test',
+    'Editor.getWordAtOffset2': () => 'test',
+  })
+  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
+    'ExtensionHostCompletion.execute': () => {
+      throw new Error('should not use extension host worker')
+    },
+  })
+  const mockExtensionManagementRpc = ExtensionManagementWorker.registerMockRpc({
+    'Extensions.invokeForApplication': () => {
+      providerStarted = true
+      return providerPromise
+    },
+  })
+  EditorWorker.set(mockEditorRpc)
+
+  const loading = loadContent(createDefaultState('test-application'))
+  await new Promise<void>((resolve) => setImmediate(resolve))
+  const positionRequestedWhileProviderRan = providerStarted && mockEditorRpc.invocations.some(([command]) => command === 'Editor.getPositionAtCursor')
+  resolveCompletions([])
+  await loading
+
+  expect(positionRequestedWhileProviderRan).toBe(true)
+  expect(mockExtensionManagementRpc.invocations).toHaveLength(1)
   expect(mockExtensionHostRpc.invocations).toEqual([])
 })
 
@@ -173,9 +213,9 @@ test('loadContent with no completions', async () => {
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
+    ['Editor.getPositionAtCursor', 0],
     ['Editor.getLines2', 0],
     ['Editor.getUri', 0],
-    ['Editor.getPositionAtCursor', 0],
     ['Editor.getWordAtOffset2', 0],
   ])
   expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.invokeForApplication', 'test-application', 'Extensions.executeCompletionProvider', textDocument, 0]])
@@ -207,11 +247,11 @@ test('loadContent with error in getPositionAtCursor', async () => {
 
   expect(mockEditorRpc.invocations).toEqual([
     ['Editor.getOffsetAtCursor', 0],
+    ['Editor.getPositionAtCursor', 0],
     ['Editor.getLines2', 0],
     ['Editor.getUri', 0],
-    ['Editor.getPositionAtCursor', 0],
   ])
-  expect(mockExtensionManagementRpc.invocations).toEqual([['Extensions.invokeForApplication', 'test-application', 'Extensions.executeCompletionProvider', textDocument, 0]])
+  expect(mockExtensionManagementRpc.invocations).toEqual([])
 
   consoleErrorSpy.mockRestore()
 })
