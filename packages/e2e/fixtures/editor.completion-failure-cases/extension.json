@@ -1,0 +1,19 @@
+{
+  "id": "test.completion-failure-cases",
+  "name": "Completion Failure Cases",
+  "description": "",
+  "browser": "main.ts",
+  "languages": [
+    {
+      "id": "xyz",
+      "extensions": [".xyz"]
+    }
+  ],
+  "isolated": true,
+  "completionProviders": [
+    {
+      "id": "editor.completion-failure-cases-provider",
+      "languageId": "xyz"
+    }
+  ]
+}
