@@ -32,5 +32,9 @@ const provider: CompletionProvider = {
   },
 }
 
-await activateExtensionApi()
-registerCompletionProvider(provider)
+const main = async (): Promise<void> => {
+  await activateExtensionApi()
+  registerCompletionProvider(provider)
+}
+
+main()
